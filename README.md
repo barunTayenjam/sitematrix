@@ -238,6 +238,7 @@ Methodology: [`docs/TDD-IMPLEMENTATION.md`](docs/TDD-IMPLEMENTATION.md)
 | `wp-version-test.sh` | 21 | pinning + compat matrix |
 | `share-test.sh` | 16 | provider detection, url extraction, cleanup |
 | `ops-test.sh` | 21 | schedules, crontab blocks, auth middleware |
+| `glossary-v2-test.sh` | 69 | Glossary V2 module, templates, blog-parity wiring, CSS contracts, PHP helpers |
 
 All stub suites run **offline** — no Docker daemon needed. Plus 62 Jest tests for the dashboard API.
 

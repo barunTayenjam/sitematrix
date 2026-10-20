@@ -49,7 +49,7 @@ wordpress-matrix/
 ├── config/presets/           # Preset files (one .sh per preset)
 ├── docker-compose.yml        # Main Docker Configuration
 ├── matrix                    # Main management script
-├── tests/bash/               # Offline stub-based test suites (10 suites)
+├── tests/bash/               # Offline stub-based test suites (11 suites)
 └── logs/                     # Application logs
 ```
 
@@ -152,7 +152,7 @@ scripts/health-check.sh  # Runtime health check for containers, DB, Redis, ports
 - PHPUnit for unit tests
 - Frontend API tests use Jest and Supertest from `frontend/`
 - Coverage reports generated in `./tests/coverage/`
-- Current verified release bar: `bash -n matrix`, `bash -n scripts/*.sh`, offline suites `tests/bash/{site-types,site-state,stubs,ssl,multisite,presets,doctor,wp-version,export-import,share,ops}-test.sh` (335 asserts), `npm --prefix frontend test` (62 tests), `./matrix * --json | python3 -m json.tool`, and `scripts/health-check.sh`
+- Current verified release bar: `bash -n matrix`, `bash -n scripts/*.sh`, offline suites `tests/bash/{site-types,site-state,stubs,ssl,multisite,presets,doctor,wp-version,export-import,share,ops,glossary-v2}-test.sh` (404 asserts), `npm --prefix frontend test` (62 tests), `./matrix * --json | python3 -m json.tool`, and `scripts/health-check.sh`
 
 ## Access URLs
 
