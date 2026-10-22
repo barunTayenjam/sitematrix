@@ -115,10 +115,16 @@ assert_grep "T4.4 single-post class on singular" \
 
 # ---- T5: single shell (blog blocks, no sidebar) ----
 SINGLE_PART="$CHILD_THEME/template-parts/glossary-v2/single.php"
+TERM_SHELL="$CHILD_THEME/template-glossary-term-v2.php"
 assert_grep "T5.1 ai-share partial" \
     "template-parts/ai-share" "$SINGLE_PART"
-assert_grep "T5.2 editorial faq partial" \
-    "template-parts/editorial-v2/faq" "$SINGLE_PART"
+assert_nogrep "T5.2 faq not inside single partial" \
+    "template-parts/glossary-v2/faq" "$SINGLE_PART"
+assert_grep "T5.2b faq on term shell after cta" \
+    "template-parts/glossary-v2/faq" "$TERM_SHELL"
+assert_file "T5.2c glossary faq partial" "$CHILD_THEME/template-parts/glossary-v2/faq.php"
+assert_grep "T5.2d asah faq markup" \
+    "asah-faq__cols" "$CHILD_THEME/template-parts/glossary-v2/faq.php"
 assert_grep "T5.3 bottom-meta partial" \
     "template-parts/bottom-meta" "$SINGLE_PART"
 assert_grep "T5.4 su-edv2-article class" \
@@ -126,7 +132,6 @@ assert_grep "T5.4 su-edv2-article class" \
 assert_nogrep "T5.5 no editorial sidebar" \
     "editorial-v2/sidebar" "$SINGLE_PART"
 
-TERM_SHELL="$CHILD_THEME/template-glossary-term-v2.php"
 assert_grep "T5.6 shared CTA" \
     "su-ai-support-agents-home/cta" "$TERM_SHELL"
 assert_grep "T5.7 page tail" \
@@ -171,7 +176,7 @@ assert_grep "T8.2 popular tags title scope" \
 assert_grep "T8.3 tag pill links" \
     "li.post-tag a" "$GCSS"
 assert_grep "T8.4 faq block styles" \
-    "su-edv2-faq" "$GCSS"
+    "asah-faq__cols" "$GCSS"
 assert_grep "T8.5 mobile table scroll" \
     "su-glosv2-single__content" "$GCSS"
 assert_grep "T8.6 ai-share glossary scope" \

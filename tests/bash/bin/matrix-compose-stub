@@ -3,13 +3,25 @@
 #   compose-ps.txt        service/container names returned by `ps --format {{.Names}}`
 #   compose-logs-<svc>    log text returned by `logs --tail=N <svc>`
 #   compose-logs-all      log text returned by `logs --tail=N`
+#   compose-run.txt       every `run` invocation, one arg per line
+#   run-output.txt        stdout echoed by `run` (simulates the tool's output)
+#   run-exit              exit code for `run` (defaults to 0)
 set -uo pipefail
 : "${STUB_DIR:?STUB_DIR must be set}"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/stub-common.sh"
 
+# Global options (--profile <name>, -f/--file <path>) precede the subcommand,
+# e.g. `--profile tools run --rm phpcs`. Skip them so `cmd` is the subcommand.
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --profile|-f|--file) shift; [[ $# -gt 0 ]] && shift ;;
+        --profile=*|--file=*) shift ;;
+        *) break ;;
+    esac
+done
+
 cmd="${1:-}"
 shift || true
-
 case "$cmd" in
     ps)
         if [[ "${1:-}" == "--format" ]]; then
@@ -44,6 +56,17 @@ case "$cmd" in
         ;;
     restart)
         stub_record_args "$STUB_DIR/restarted.txt" "$@"
+        exit 0
+        ;;
+    run)
+        # Record the full argv so suites can assert what the tool was invoked
+        # with, then optionally replay canned tool output / exit code.
+        printf '%s\n' "$@" >> "$STUB_DIR/compose-run.txt"
+        echo "---" >> "$STUB_DIR/compose-run.txt"
+        cat "$STUB_DIR/run-output.txt" 2>/dev/null
+        if [[ -f "$STUB_DIR/run-exit" ]]; then
+            exit "$(cat "$STUB_DIR/run-exit")"
+        fi
         exit 0
         ;;
     *)

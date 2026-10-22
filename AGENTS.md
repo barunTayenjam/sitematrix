@@ -49,7 +49,7 @@ wordpress-matrix/
 ├── config/presets/           # Preset files (one .sh per preset)
 ├── docker-compose.yml        # Main Docker Configuration
 ├── matrix                    # Main management script
-├── tests/bash/               # Offline stub-based test suites (11 suites)
+├── tests/bash/               # Offline stub-based test suites (13 suites)
 └── logs/                     # Application logs
 ```
 
@@ -152,7 +152,8 @@ scripts/health-check.sh  # Runtime health check for containers, DB, Redis, ports
 - PHPUnit for unit tests
 - Frontend API tests use Jest and Supertest from `frontend/`
 - Coverage reports generated in `./tests/coverage/`
-- Current verified release bar: `bash -n matrix`, `bash -n scripts/*.sh`, offline suites `tests/bash/{site-types,site-state,stubs,ssl,multisite,presets,doctor,wp-version,export-import,share,ops,glossary-v2}-test.sh` (404 asserts), `npm --prefix frontend test` (62 tests), `./matrix * --json | python3 -m json.tool`, and `scripts/health-check.sh`
+- Current verified release bar: `bash -n matrix`, `bash -n scripts/*.sh`, offline suites `tests/bash/{check,site-types,site-state,stubs,ssl,multisite,presets,doctor,wp-version,export-import,share,ops,glossary-v2}-test.sh` (469 asserts), `npm --prefix frontend test` (62 tests), `./matrix * --json | python3 -m json.tool`, and `scripts/health-check.sh`
+- Known-baseline failures (environment, not regressions): `site-types` 11, `presets` 1, `wp-version` 2, `share` 5, `ops` 1 — `share` needs cloudflared/ngrok/bore on PATH, `site-types` needs chown
 
 ## Access URLs
 
@@ -208,7 +209,27 @@ Type rules:
 
 # Specific path (faster)
 ./matrix check mysite wp-content/themes/custom-theme
+
+# Give PHPCS more (or less) headroom
+MATRIX_PHPCS_MEMORY_LIMIT=2G ./matrix check mysite
 ```
+
+`matrix check <site>` scans **one theme/plugin per PHP_CodeSniffer process**.
+PHP_CodeSniffer 3.x keeps every processed file (tokens + violations) resident
+until the process exits, so a single process over a whole site exhausts its
+memory limit on large codebases. Per-theme/plugin runs bound each process to
+its largest single theme/plugin instead of the entire site.
+
+- Memory ceiling: `MATRIX_PHPCS_MEMORY_LIMIT`, default `1G`, resolved per run.
+- Terminal output is a per-root summary (`N errors, M warnings`); the full
+  report is written to `logs/phpcs/<timestamp>-<site>.txt`.
+- Excludes (vendor, node_modules, bundled themes, known third-party plugins) are
+  passed as **one comma-separated `--ignore` value**. PHP_CodeSniffer 3.x only
+  honours the first `--ignore` flag and silently drops the rest, so repeating
+  the flag would leave every "excluded" plugin scanned anyway.
+- A tool crash (`Fatal error` / `Allowed memory size` / `Segmentation fault`) is
+  detected by scanning the output, reported as a crash with the partial report
+  path, and exits `1`. Violations alone exit `0`.
 
 ### Accessing WordPress CLI
 ```bash
@@ -273,6 +294,8 @@ docker exec wp_mysite php -v
 - Port numbers dynamically assigned
 - Database credentials in `.env` file
 - MySQL database creation/reset requires root credentials; routine WP access uses the configured WordPress DB user
+- `MATRIX_PHPCS_MEMORY_LIMIT` caps each PHP_CodeSniffer process (default `1G`)
+- `MATRIX_CRONTAB_FILE` overrides the crontab path used by `cron-install`/`cron-remove`
 
 ### Code Quality
 - PHPStan configured at Level 9 (strictest)

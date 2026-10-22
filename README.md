@@ -171,6 +171,7 @@ and `optimize` refuse non-wp sites; clone/reset/export/import adapt per type.
 ```bash
 ./matrix wp mysite plugin install query-monitor --activate
 ./matrix check [site] [path]                        # phpcs + phpstan level 9
+MATRIX_PHPCS_MEMORY_LIMIT=2G ./matrix check mysite  # raise the PHPCS ceiling (default 1G)
 ./matrix test lab --wp-versions=6.4,6.5 [--json]    # compat matrix rows
 ./matrix rest mysite                                # REST API metadata
 ```

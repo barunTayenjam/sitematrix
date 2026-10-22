@@ -29,6 +29,14 @@ NC='\033[0m'
 
 JSON_OUTPUT=false
 
+# Default memory ceiling for a single PHP_CodeSniffer process.
+#
+# PHP_CodeSniffer 3.x retains every processed file until the process exits,
+# so the ceiling has to cover the largest single theme/plugin that is scanned
+# (run_checks gives each theme/plugin its own process). Override per run with
+# MATRIX_PHPCS_MEMORY_LIMIT.
+PHPCS_DEFAULT_MEMORY_LIMIT="1G"
+
 output_json() {
     echo "$1"
 }
@@ -1598,9 +1606,30 @@ run_tool_container() {
         return 1
     fi
     shift
-    if $DOCKER_COMPOSE --profile tools run --rm "$service" "$@" 2>/dev/null; then
+
+    # A tool that exits non-zero (lint violations, or a crash) must not be
+    # mistaken for "compose could not start the container". The old `if
+    # compose ...; then` test did exactly that: a crashed tool fell through to
+    # the direct-run fallback and was executed a second time. Fall back only
+    # when compose produced no output at all, which means the container never
+    # started (missing compose file, unsupported --profile, missing service).
+    local compose_log
+    compose_log="$(mktemp "${TMPDIR:-/tmp}/matrix-tool.XXXXXX")"
+    local compose_rc=0
+    $DOCKER_COMPOSE --profile tools run --rm "$service" "$@" </dev/null 2>/dev/null \
+        | tee "$compose_log" || compose_rc=${PIPESTATUS[0]}
+
+    if [[ "$compose_rc" -eq 0 ]]; then
+        rm -f "$compose_log"
         return 0
     fi
+    if [[ -s "$compose_log" ]]; then
+        # The container ran and failed on its own terms - propagate its status.
+        rm -f "$compose_log"
+        return "$compose_rc"
+    fi
+    rm -f "$compose_log"
+
     local db_network
     db_network=$(get_db_network)
     local network_args=()
@@ -1610,15 +1639,15 @@ run_tool_container() {
     case "$service" in
         phpcs)
             $CONTAINER_RUNTIME run --rm -v "$PROJECT_ROOT":/workspace:ro -w /workspace "${network_args[@]}" \
-                wpengine/phpcs:latest "$@"
+                wpengine/phpcs:latest "$@" </dev/null
             ;;
         phpstan)
             $CONTAINER_RUNTIME run --rm -v "$PROJECT_ROOT":/project:ro -w /project "${network_args[@]}" \
-                ghcr.io/phpstan/phpstan:latest "$@"
+                ghcr.io/phpstan/phpstan:latest "$@" </dev/null
             ;;
         wp-cli)
             $CONTAINER_RUNTIME run --rm -v "$PROJECT_ROOT":/var/www/html:rw -w /var/www/html "${network_args[@]}" \
-                wordpress:cli "$@"
+                wordpress:cli "$@" </dev/null
             ;;
         *)
             log_error "Unknown tool service: $service"
@@ -1627,12 +1656,47 @@ run_tool_container() {
     esac
 }
 
+# Print the code-quality scan roots for the given site directories, one per
+# line. Every theme and every plugin is its own root so that run_checks() can
+# hand PHP_CodeSniffer a fresh process per root.
+collect_check_roots() {
+    local site_dir
+    for site_dir in "$@"; do
+        # wp_content/ is shared scaffolding content, never a site.
+        if [[ "$(basename "${site_dir%/}")" == "wp_content" ]]; then
+            continue
+        fi
+        local group base entry loose
+        for group in themes plugins; do
+            base="$site_dir/wp-content/$group"
+            if [[ ! -d "$base" ]]; then
+                continue
+            fi
+            # Loose PHP files sitting directly in the group folder. They are
+            # listed one by one: the group folder itself is not a root, or it
+            # would drag every plugin into a single process again.
+            for loose in "$base"/*.php; do
+                if [[ -f "$loose" ]]; then
+                    printf './%s\n' "$loose"
+                fi
+            done
+            for entry in "$base"/*/; do
+                if [[ -d "$entry" ]]; then
+                    printf './%s\n' "${entry%/}"
+                fi
+            done
+        done
+    done
+}
+
 # Code quality checks
 run_checks() {
     local site_name="${1:-}"
     local specific_path="${2:-}"
+    local roots=""
     local target_paths=""
-    
+    local label="all-sites"
+
     if [[ -n "$site_name" ]]; then
         validate_site_name "$site_name" || return 1
         local site_dir="wp_${site_name}"
@@ -1642,76 +1706,205 @@ run_checks() {
         fi
         # phpcs targets wp-content/{themes,plugins}; other stacks have none.
         require_site_type "$site_name" wp || return 1
-        
+
+        label="$site_name"
         if [[ -n "$specific_path" ]]; then
             target_paths="./${site_dir}/${specific_path}"
+            roots="$target_paths"
             log_info "Running code quality checks on: $site_name/$specific_path"
         else
-            target_paths="./${site_dir}/wp-content/themes/ ./${site_dir}/wp-content/plugins/"
+            roots="$(collect_check_roots "$site_dir")"
             log_info "Running code quality checks on site: $site_name"
             log_info "Excluding default WordPress themes, vendor, and common plugins"
         fi
     else
-        target_paths="./wp_*/wp-content/themes/ ./wp_*/wp-content/plugins/"
+        local site_dirs=""
+        local known_site
+        while IFS= read -r known_site; do
+            if [[ -n "$known_site" ]]; then
+                site_dirs="$site_dirs wp_${known_site}"
+            fi
+        done <<< "$(get_sites)"
+        roots="$(collect_check_roots $site_dirs)"
         log_info "Running code quality checks on all sites..."
         log_info "Excluding default WordPress themes, vendor, and common plugins"
     fi
-    
+
     # Check if code quality containers exist in $DOCKER_COMPOSE
     if ! grep -q "phpcs" "$COMPOSE_FILE" 2>/dev/null; then
         log_warning "Code quality tools not configured"
         return
     fi
     
-    # Build exclude patterns for default/third-party themes and plugins
+    # Build exclude patterns for default/third-party themes and plugins.
+    #
+    # These MUST be passed as a single comma-separated --ignore value:
+    # PHP_CodeSniffer 3.x only honours the first --ignore flag (its
+    # Config::processLongArgument() breaks out of the argument switch on the
+    # second one), so repeating --ignore silently dropped every pattern after
+    # the first and every "excluded" plugin was scanned anyway.
+    local ignore_patterns=(
+        '*/vendor/*'
+        '*/node_modules/*'
+        '*/.git/*'
+        '*/tests/*'
+        '*/twentytwenty*/*'
+        '*/twenty*/*'
+        '*/index.php'
+        '*/akismet/*'
+        '*/hello.php'
+        '*/advanced-custom-fields*/*'
+        '*/elementor/*'
+        '*/wordpress-seo/*'
+        '*/redirection/*'
+        '*/litespeed-cache/*'
+        '*/better-search-replace/*'
+        '*/defender*/*'
+        '*/sg-security/*'
+        '*/duplicate-page/*'
+        '*/really-simple-ssl/*'
+        '*/classic-elementor*/*'
+        '*/revslider/*'
+        '*/export-posts*/*'
+        '*/csv-taxonomy*/*'
+        '*/wp-file-manager/*'
+    )
     local exclude_patterns=""
-    exclude_patterns="$exclude_patterns --ignore=*/vendor/*"
-    exclude_patterns="$exclude_patterns --ignore=*/node_modules/*"
-    exclude_patterns="$exclude_patterns --ignore=*/.git/*"
-    exclude_patterns="$exclude_patterns --ignore=*/tests/*"
-    exclude_patterns="$exclude_patterns --ignore=*/twentytwenty*/*"
-    exclude_patterns="$exclude_patterns --ignore=*/twenty*/*"
-    exclude_patterns="$exclude_patterns --ignore=*/index.php"
-    exclude_patterns="$exclude_patterns --ignore=*/akismet/*"
-    exclude_patterns="$exclude_patterns --ignore=*/hello.php"
-    exclude_patterns="$exclude_patterns --ignore=*/advanced-custom-fields*/*"
-    exclude_patterns="$exclude_patterns --ignore=*/elementor/*"
-    exclude_patterns="$exclude_patterns --ignore=*/wordpress-seo/*"
-    exclude_patterns="$exclude_patterns --ignore=*/redirection/*"
-    exclude_patterns="$exclude_patterns --ignore=*/litespeed-cache/*"
-    exclude_patterns="$exclude_patterns --ignore=*/better-search-replace/*"
-    exclude_patterns="$exclude_patterns --ignore=*/defender*/*"
-    exclude_patterns="$exclude_patterns --ignore=*/sg-security/*"
-    exclude_patterns="$exclude_patterns --ignore=*/duplicate-page/*"
-    exclude_patterns="$exclude_patterns --ignore=*/really-simple-ssl/*"
-    exclude_patterns="$exclude_patterns --ignore=*/classic-elementor*/*"
-    exclude_patterns="$exclude_patterns --ignore=*/revslider/*"
-    exclude_patterns="$exclude_patterns --ignore=*/export-posts*/*"
-    exclude_patterns="$exclude_patterns --ignore=*/csv-taxonomy*/*"
-    exclude_patterns="$exclude_patterns --ignore=*/wp-file-manager/*"
+    local ignore_pattern
+    for ignore_pattern in "${ignore_patterns[@]}"; do
+        if [[ -z "$exclude_patterns" ]]; then
+            exclude_patterns="$ignore_pattern"
+        else
+            exclude_patterns="$exclude_patterns,$ignore_pattern"
+        fi
+    done
+    exclude_patterns="--ignore=$exclude_patterns"
     
-    # Run PHP CodeSniffer
-    log_info "Running PHP CodeSniffer..."
-    run_tool_container phpcs \
-        -d memory_limit=512M \
-        --standard=WordPress \
-        --extensions=php \
-        $exclude_patterns \
-        $target_paths 2>/dev/null || \
-    log_warning "PHP CodeSniffer check completed with issues"
-    
+    # Run PHP CodeSniffer.
+    #
+    # PHP_CodeSniffer 3.x keeps every processed file resident until the
+    # process exits (PHP_CodeSniffer\Files\FileList::current() caches each
+    # LocalFile with its tokens and every violation message). Memory therefore
+    # grows with (files scanned x violations found) and a single process over
+    # a whole site dies with "Allowed memory size ... exhausted" on large
+    # codebases. Scanning one theme/plugin per process keeps each run inside
+    # the limit, so the ceiling only has to cover the largest single
+    # theme/plugin rather than the whole site.
+    local report_dir="$PROJECT_ROOT/logs/phpcs"
+    if ! mkdir -p "$report_dir"; then
+        log_warning "Cannot write code quality report to $report_dir - continuing without a report file"
+        report_dir=""
+    fi
+    local report_file=""
+    if [[ -n "$report_dir" ]]; then
+        report_file="$report_dir/$(date '+%Y%m%d-%H%M%S')-${label}.txt"
+    fi
+
+    # Resolved per call so a late MATRIX_PHPCS_MEMORY_LIMIT override is honoured.
+    local phpcs_memory_limit="${MATRIX_PHPCS_MEMORY_LIMIT:-$PHPCS_DEFAULT_MEMORY_LIMIT}"
+
+    log_info "Running PHP CodeSniffer (memory limit: $phpcs_memory_limit)..."
+
+    local crash_root=""
+    local scanned=0
+    local total_errors=0
+    local total_warnings=0
+    local root root_log root_errors root_warnings
+
+    while IFS= read -r root; do
+        if [[ -z "$root" ]]; then
+            continue
+        fi
+        scanned=$((scanned + 1))
+        root_log="$(mktemp "${TMPDIR:-/tmp}/matrix-phpcs.XXXXXX")"
+        log_info "  Scanning $root"
+        # The full report goes to the log file, not the terminal: a large site
+        # produces megabytes of violation lines that are unreadable in a shell
+        # and would bloat the dashboard response.
+        run_tool_container phpcs \
+            -d memory_limit="$phpcs_memory_limit" \
+            --standard=WordPress \
+            --extensions=php \
+            $exclude_patterns \
+            "$root" </dev/null 2>&1 | tee "$root_log" >/dev/null || true
+
+        if grep -qE 'Fatal error|Allowed memory size|Segmentation fault' "$root_log" 2>/dev/null; then
+            crash_root="$root"
+            if [[ -n "$report_file" ]]; then
+                {
+                    printf '\n===== %s =====\n' "$root"
+                    cat "$root_log"
+                } >> "$report_file"
+            fi
+            rm -f "$root_log"
+            break
+        fi
+
+        # Sum the "FOUND N ERRORS AND M WARNINGS" headers of the full report.
+        read -r root_errors root_warnings < <(awk '
+            /^FOUND / {
+                errs = 0; warns = 0
+                for (i = 2; i <= NF; i++) {
+                    if ($i ~ /^ERROR/)   { errs  = $(i - 1) }
+                    if ($i ~ /^WARNING/) { warns = $(i - 1) }
+                }
+                E += errs; W += warns
+            }
+            END { printf "%d %d\n", E + 0, W + 0 }
+        ' "$root_log")
+        total_errors=$((total_errors + root_errors))
+        total_warnings=$((total_warnings + root_warnings))
+
+        if [[ "$root_errors" -eq 0 && "$root_warnings" -eq 0 ]]; then
+            log_info "    no issues reported"
+        else
+            log_info "    $root_errors errors, $root_warnings warnings"
+        fi
+
+        if [[ -n "$report_file" ]]; then
+            {
+                printf '\n===== %s =====\n' "$root"
+                cat "$root_log"
+            } >> "$report_file"
+        fi
+        rm -f "$root_log"
+    done <<< "$roots"
+
+    if [[ -n "$crash_root" ]]; then
+        log_error "PHP CodeSniffer crashed while scanning $crash_root"
+        log_error "The scan was aborted before it could finish - results are incomplete."
+        log_error "Raise the ceiling with MATRIX_PHPCS_MEMORY_LIMIT (currently $phpcs_memory_limit) and re-run."
+        if [[ -n "$report_file" ]]; then
+            log_error "Partial output: $report_file"
+        fi
+        return 1
+    fi
+
+    if [[ "$scanned" -eq 0 ]]; then
+        log_warning "No themes or plugins found to check"
+    fi
+    if [[ -n "$report_file" ]]; then
+        log_info "Full report written to $report_file"
+    fi
+    if [[ "$total_errors" -ne 0 || "$total_warnings" -ne 0 ]]; then
+        log_warning "PHP CodeSniffer found $total_errors errors and $total_warnings warnings"
+    else
+        log_success "PHP CodeSniffer found no coding standard issues"
+    fi
+
     # Run PHPStan (only on custom code to avoid timeout)
     if [[ -n "$specific_path" ]]; then
         log_info "Running PHPStan..."
         run_tool_container phpstan analyse \
             --memory-limit=512M \
-            $target_paths --level=9 2>/dev/null || \
+            $target_paths --level=9 2>&1 || \
         log_warning "PHPStan check completed with issues"
     else
         log_info "Skipping PHPStan (use specific path to run PHPStan: ./matrix check <site> <path>)"
     fi
-    
+
     log_info "Code quality checks completed"
+    return 0
 }
 
 # Access shell
