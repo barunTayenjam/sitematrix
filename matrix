@@ -29,6 +29,11 @@ NC='\033[0m'
 
 JSON_OUTPUT=false
 
+# Set to the site name while create_site is provisioning a new site. If the
+# process dies before the site is registered in docker-compose.yml, create_abort
+# removes the half-built directory so it is never advertised as a startable site.
+CREATE_IN_PROGRESS_SITE=""
+
 # Default memory ceiling for a single PHP_CodeSniffer process.
 #
 # PHP_CodeSniffer 3.x retains every processed file until the process exits,
@@ -63,6 +68,15 @@ log_info() { echo -e "${BLUE}ℹ️  $1${NC}"; }
 log_success() { echo -e "${GREEN}✅ $1${NC}"; }
 log_warning() { echo -e "${YELLOW}⚠️  $1${NC}"; }
 log_error() { echo -e "${RED}❌ $1${NC}"; }
+
+# Roll back a partially created site. Used by create_site's ERR/INT/TERM traps.
+# Clearing the marker first keeps a failure inside the rollback from recursing.
+create_abort() {
+    local site="${CREATE_IN_PROGRESS_SITE:-}"
+    [[ -n "$site" ]] || return 0
+    CREATE_IN_PROGRESS_SITE=""
+    rollback_site_create "$site"
+}
 
 json_log_override() {
     if [[ "$JSON_OUTPUT" == true ]]; then
@@ -381,6 +395,14 @@ create_site() {
     mkdir -p "$site_dir"
     mkdir -p "$PROJECT_ROOT/logs/wp_$site_name"
 
+    # An interrupted create (Ctrl-C, or the frontend killing the process on its
+    # timeout) must not leave a phantom site behind: a bare wp_<name>/ dir makes
+    # `matrix list` advertise a site with no compose entry, and `matrix start`
+    # then dies on "exists but has no exposed port".
+    CREATE_IN_PROGRESS_SITE="$site_name"
+    trap 'create_abort' ERR
+    trap 'create_abort; exit 143' INT TERM
+
     # Provision site files by type.
     #
     # Marker placement differs per type, and the reason is filesystem
@@ -403,13 +425,24 @@ create_site() {
     # Copy WordPress files using Docker/Podman
     if [[ "$skip_download" -eq 0 ]]; then
         log_info "Installing WordPress (PHP $php_version)..."
-        $CONTAINER_RUNTIME run --rm -v "$site_dir":/var/www/html wordpress:php${php_version}-fpm \
-            bash -c "cp -a /usr/src/wordpress/. /var/www/html/ && chown -R www-data:www-data /var/www/html"
+        if ! $CONTAINER_RUNTIME run --rm -v "$site_dir":/var/www/html wordpress:php${php_version}-fpm \
+            bash -c "cp -a /usr/src/wordpress/. /var/www/html/ && chown -R www-data:www-data /var/www/html"; then
+            log_error "Failed to copy WordPress core into '$site_dir'"
+            CREATE_IN_PROGRESS_SITE=""
+            rollback_site_create "$site_name"
+            return 1
+        fi
 
-        # Install WP-CLI in site directory (persists via volume)
+        # Install WP-CLI in site directory (persists via volume).
+        # Bounded and non-fatal: a blocked/slow download must never hang
+        # `create` (the frontend kills it after its timeout, leaving exactly the
+        # half-created site that broke `start`). './matrix wp' uses the on-demand
+        # wordpress:cli container anyway, so a miss here costs nothing.
         log_info "Installing WP-CLI..."
-        $CONTAINER_RUNTIME run --rm -v "$site_dir":/var/www/html wordpress:php${php_version}-fpm \
-            bash -c "curl -sO https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /var/www/html/wp && chown www-data:www-data /var/www/html/wp"
+        if ! $CONTAINER_RUNTIME run --rm -v "$site_dir":/var/www/html wordpress:php${php_version}-fpm \
+            bash -c "curl -fsS --connect-timeout 10 --max-time 60 -o wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /var/www/html/wp && chown www-data:www-data /var/www/html/wp"; then
+            log_warning "WP-CLI not installed in site dir (download failed); './matrix wp' still works via the on-demand container"
+        fi
 
         # Pin WP core to --wp-version (Phase 7): overlay pinned core over image copy
         if [[ -n "$wp_version" ]]; then
@@ -450,7 +483,7 @@ create_site() {
 
     # Apply preset if not blank (wp only — enforced above)
     if [[ "$preset" != "blank" ]]; then
-        apply_preset "$site_name" "$preset" || return 1
+        apply_preset "$site_name" "$preset" || { create_abort; return 1; }
     fi
 
     # Create site-specific nginx configuration (nginx stack only)
@@ -466,6 +499,11 @@ create_site() {
 
     port=$(get_next_port)
     compose_add_site "$site_name" "$php_version" "$port" "$nginx_conf_path" "$stack" "$type"
+
+    # The site is registered now, so a later failure leaves something startable
+    # rather than a phantom directory — stop rolling back on error.
+    CREATE_IN_PROGRESS_SITE=""
+    trap - ERR INT TERM
 
     # Create database and grant permissions (all types except grav)
     if site_type_uses_db "$type" && compose_or_container_running "wp_db"; then
@@ -916,20 +954,38 @@ list_sites() {
 
 # Start a single site: compose up when the site is known to compose,
 # otherwise start its existing containers directly (stale/missing compose).
+# A directory with no compose entry AND no containers is a half-created site
+# (interrupted create) — register it first instead of failing on a missing port.
 cmd_start_site() {
     local site_name="$1"
 
     log_info "Starting site '$site_name'..."
 
-    if [[ "$(site_state "$site_name" | sed -n 's/^present=//p')" == "1" ]]; then
+    local present
+    present=$(site_state "$site_name" | sed -n 's/^present=//p')
+
+    if [[ "$present" == "1" ]]; then
         matrix_site_up "$site_name"
-    else
+    elif $CONTAINER_RUNTIME ps -a --format "{{.Names}}" 2>/dev/null | grep -qE "^(wp|nginx)_${site_name}$"; then
         if $CONTAINER_RUNTIME ps -a --format "{{.Names}}" 2>/dev/null | grep -q "^wp_${site_name}$"; then
-            $CONTAINER_RUNTIME start "wp_${site_name}" 2>/dev/null || true
+            $CONTAINER_RUNTIME start "wp_${site_name}" >/dev/null 2>&1 || true
         fi
-        if site_has_nginx "$site_name" && $CONTAINER_RUNTIME ps -a --format "{{.Names}}" 2>/dev/null | grep -q "^nginx_${site_name}$"; then
-            $CONTAINER_RUNTIME start "nginx_${site_name}" 2>/dev/null || true
+        if $CONTAINER_RUNTIME ps -a --format "{{.Names}}" 2>/dev/null | grep -q "^nginx_${site_name}$"; then
+            $CONTAINER_RUNTIME start "nginx_${site_name}" >/dev/null 2>&1 || true
         fi
+    else
+        log_warning "Site '$site_name' is not registered in docker-compose.yml - repairing it first..."
+        repair_env "$site_name" || {
+            log_error "Could not register site '$site_name' (see messages above)"
+            return 1
+        }
+        matrix_site_up "$site_name"
+    fi
+
+    # Never report success for a site that did not actually come up.
+    if [[ "$(site_state "$site_name" | sed -n 's/^running=//p')" != "1" ]]; then
+        log_error "Site '$site_name' did not start - check './matrix logs $site_name'"
+        return 1
     fi
 
     log_success "Site '$site_name' started"
@@ -2070,7 +2126,7 @@ show_urls() {
             local port
             port=$(get_site_port "$site_name")
             if [[ -z "$port" ]]; then
-                echo "Site '$site_name' exists but has no exposed port"
+                echo "Site '$site_name' exists but is not registered (no port). Run: ./matrix repair $site_name" >&2
                 return 1
             fi
             echo "Access: http://$HOST_IP:$port"

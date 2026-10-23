@@ -60,7 +60,7 @@ const SITE_ACTIONS_REQUIRING_NAME = new Set(['create', 'start', 'stop', 'restart
 const ALLOWED_SITE_ACTIONS = new Set([...SITE_ACTIONS_REQUIRING_NAME]);
 const ALLOWED_ENV_ACTIONS = new Set(['start', 'stop', 'restart', 'status', 'logs', 'clean', 'check', 'health', 'cache', 'cache-clear', 'search-replace', 'update', 'update-core', 'install', 'scaffold', 'preset', 'watch', 'optimize', 'mail', 'fix', 'test', 'doctor']);
 const ALLOWED_FRONTEND_ACTIONS = new Set(['start', 'stop', 'restart', 'status']);
-const MUTATING_SITE_ACTIONS = new Set(['create', 'start', 'stop', 'restart', 'remove', 'delete', 'rm', 'backup', 'restore', 'edit', 'clone', 'reset', 'export-db', 'import-db', 'check', 'scaffold', 'optimize', 'ssl', 'domain', 'share', 'share-stop', 'export-bundle', 'import-bundle', 'cron']);
+const MUTATING_SITE_ACTIONS = new Set(['create', 'start', 'stop', 'restart', 'remove', 'delete', 'rm', 'backup', 'restore', 'edit', 'clone', 'reset', 'export-db', 'import-db', 'check', 'repair', 'scaffold', 'optimize', 'ssl', 'domain', 'share', 'share-stop', 'export-bundle', 'import-bundle', 'cron']);
 const SUPPORTED_WP_VERSIONS = new Set(['6.4', '6.5', '6.6', 'latest']);
 const SUPPORTED_MULTISITE_MODES = new Set(['subdirectory', 'subdomain']);
 const SUPPORTED_BACKUP_SCHEDULES = new Set(['hourly', 'daily', 'weekly', 'monthly']);
@@ -358,7 +358,10 @@ app.set('views', path.join(__dirname, 'views'));
 const executeMatrix = async (command, args = [], options = {}) => {
   return new Promise((resolve, reject) => {
     const isLongRunning = ['check', 'start', 'stop', 'restart', 'create', 'logs', 'import-db', 'export-db', 'restore', 'clone', 'reset', 'install', 'edit', 'remove', 'backup'].includes(command);
-    const timeout = isLongRunning ? 300000 : 30000;
+    // create pulls images + WordPress core and may provision composer stacks,
+    // so it can legitimately outrun the generic 5-minute action budget. Killing
+    // it mid-provision is what used to leave a phantom site behind.
+    const timeout = command === 'create' ? 600000 : (isLongRunning ? 300000 : 30000);
     const matrixArgs = [command, ...args];
 
     if (options.json && !matrixArgs.includes('--json')) {

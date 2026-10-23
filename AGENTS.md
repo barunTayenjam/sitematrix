@@ -283,6 +283,11 @@ docker exec wp_mysite php -v
 - Sites cannot be named "frontend", "matrix", or other reserved words
 - Site directories follow pattern `wp_<sitename>`
 - `wp_content/` is shared scaffolding content and must not be treated as a site
+- A `wp_<name>/` directory alone is not a usable site: `create` also registers it
+  in `docker-compose.yml`, writes `config/nginx/<name>.conf`, and creates
+  `<name>_db`. If create fails or is interrupted before registration it rolls the
+  directory back; if such a directory already exists, `./matrix start <site>`
+  repairs the registration first instead of failing with "no exposed port"
 - Database names follow pattern `<sitename>_db`
 - Removing a site deletes all files and database
 - **IMPORTANT**: `./matrix start` only starts core services (db, redis, phpmyadmin, frontend)
