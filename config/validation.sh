@@ -3,7 +3,7 @@
 # Single source of truth for site naming, PHP versions, and reserved names.
 
 RESERVED_NAMES=" frontend matrix db redis phpmyadmin nginx content mailpit mail "
-SUPPORTED_PHP_VERSIONS="7.4 8.0 8.1 8.2 8.3"
+SUPPORTED_PHP_VERSIONS="8.0 8.1 8.2 8.3"
 DEFAULT_PHP_VERSION="8.3"
 SITE_NAME_REGEX='^[a-zA-Z][a-zA-Z0-9_-]*$'
 
@@ -37,7 +37,7 @@ validate_site_name() {
 validate_php_version() {
     local version="${1:-}"
     case "$version" in
-        7.4|8.0|8.1|8.2|8.3) return 0 ;;
+        8.0|8.1|8.2|8.3) return 0 ;;
         *)
             _error "Invalid PHP version: $version. Supported: $SUPPORTED_PHP_VERSIONS"
             return 1

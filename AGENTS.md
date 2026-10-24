@@ -69,8 +69,8 @@ scripts/health-check.sh  # Runtime health check for containers, DB, Redis, ports
 ```bash
 ./matrix list                                    # List all WordPress sites
 ./matrix create <site-name>                      # Create new WordPress site (PHP 8.3)
-./matrix create <site-name> --php-version=7.4    # Create site with PHP 7.4
 ./matrix create <site-name> --php-version=8.1    # Create site with PHP 8.1
+./matrix create <site-name> --php-version=8.2    # Create site with PHP 8.2
 ./matrix create <site-name> --wp-version=6.4     # Pin WP core version (6.4/6.5/6.6/latest)
 ./matrix create <site-name> --multisite=subdir   # Multisite at creation (subdirectory|subdomain)
 ./matrix start <site-name>                       # Start specific site
@@ -134,12 +134,11 @@ scripts/health-check.sh  # Runtime health check for containers, DB, Redis, ports
 - Port allocation checks Compose config, live container port bindings, and local listeners where available
 
 ### PHP Version Support
-- **Supported versions**: PHP 7.4, 8.0, 8.1, 8.2, 8.3
+- **Supported versions**: PHP 8.0, 8.1, 8.2, 8.3 (PHP 7.4 removed 2026-10-24 — EOL since 2022, unpatched for CVE-2026-109618/109619 "php2shell"; `wp_pix4` migrated 7.4 → 8.3 same day)
 - **Default version**: PHP 8.3
 - Each site can run a different PHP version
 - Specify PHP version at site creation with `--php-version=X.X` flag
 - Useful for testing compatibility across PHP versions
-- Migrate legacy sites gradually by testing side-by-side
 
 ## Code Quality Standards
 
@@ -172,7 +171,7 @@ scripts/health-check.sh  # Runtime health check for containers, DB, Redis, ports
 ```bash
 # WordPress (default type) — everything below still applies
 ./matrix create mysite
-./matrix create legacy-site --php-version=7.4
+./matrix create legacy-site --php-version=8.1
 
 # Other stacks
 ./matrix create shop      --type=laravel    # PHP >= 8.2, webroot public/, composer-provisioned
@@ -324,7 +323,7 @@ docker exec wp_mysite php -v
 - Site's PHP version is stored in docker-compose.yml
 - Check PHP version: `grep "wp_sitename:" -A 3 docker-compose.yml`
 - Change PHP version: Edit docker-compose.yml and `./matrix restart <sitename>`
-- Supported: wordpress:php7.4-fpm, wordpress:php8.0-fpm, wordpress:php8.1-fpm, wordpress:php8.2-fpm, wordpress:php8.3-fpm
+- Supported: wordpress:php8.0-fpm, wordpress:php8.1-fpm, wordpress:php8.2-fpm, wordpress:php8.3-fpm
 - If Compose state is stale or missing, status/log/info/shell paths should fall back to live container inspection rather than reporting false stopped states
 
 ## Docker Architecture

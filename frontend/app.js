@@ -50,7 +50,7 @@ const RESERVED_SITE_NAMES = new Set(
   (VALIDATION_CONFIG && VALIDATION_CONFIG.reservedNames) || ['frontend', 'matrix', 'db', 'redis', 'phpmyadmin', 'nginx', 'content']
 );
 const SUPPORTED_PHP_VERSIONS = new Set(
-  (VALIDATION_CONFIG && VALIDATION_CONFIG.supportedPhpVersions) || ['7.4', '8.0', '8.1', '8.2', '8.3']
+  (VALIDATION_CONFIG && VALIDATION_CONFIG.supportedPhpVersions) || ['8.0', '8.1', '8.2', '8.3']
 );
 // Kept in sync with SITE_TYPES in scripts/site-types-lib.sh. 'wp' is the
 // default; omitting type from the create body means wp.

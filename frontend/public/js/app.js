@@ -770,7 +770,7 @@ function getWorkflowConfig(action, siteName) {
     },
     'edit': {
       title: `Edit ${siteName}`,
-      fields: [{ id: 'phpVersion', label: 'PHP version', type: 'select', options: ['8.3', '8.2', '8.1', '8.0', '7.4'] }],
+      fields: [{ id: 'phpVersion', label: 'PHP version', type: 'select', options: ['8.3', '8.2', '8.1', '8.0'] }],
       endpoint: '/api/sites/edit',
       buildBody: (v) => ({ siteName, phpVersion: v.phpVersion })
     },
