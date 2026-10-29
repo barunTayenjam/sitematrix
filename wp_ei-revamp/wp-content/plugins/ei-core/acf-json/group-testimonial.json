@@ -1,0 +1,67 @@
+{
+    "key": "group_testimonial",
+    "title": "Testimonial details",
+    "fields": [
+        {
+            "key": "field_testimonial_person_name",
+            "label": "Name",
+            "name": "person_name",
+            "type": "text",
+            "instructions": "The person quoted, as they are published.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": { "width": "50", "class": "", "id": "" },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_testimonial_role_company",
+            "label": "Role / company",
+            "name": "role_company",
+            "type": "text",
+            "instructions": "Shown under the name.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": { "width": "50", "class": "", "id": "" },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_testimonial_rating",
+            "label": "Rating",
+            "name": "rating",
+            "type": "number",
+            "instructions": "1 to 5 stars. Optional.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": { "width": "50", "class": "", "id": "" },
+            "default_value": "",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "location": [
+        [
+            { "param": "post_type", "operator": "==", "value": "testimonial" }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1761724800
+}

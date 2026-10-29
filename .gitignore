@@ -154,3 +154,28 @@ su-static/
 .playwright-mcp/
 .qwen/
 .cursor/
+
+# ---------------------------------------------------------------------------
+# Site-owned source code that IS versioned: the Electronics India revamp theme
+# and its core plugin. WordPress site directories are otherwise ignored (see the
+# top of this file), so each path segment has to be re-included explicitly —
+# git cannot re-include a file while any parent directory is still excluded.
+# ---------------------------------------------------------------------------
+!wp_ei-revamp/
+wp_ei-revamp/*
+!wp_ei-revamp/wp-content/
+wp_ei-revamp/wp-content/*
+!wp_ei-revamp/wp-content/themes/
+wp_ei-revamp/wp-content/themes/*
+!wp_ei-revamp/wp-content/themes/ei/
+!wp_ei-revamp/wp-content/plugins/
+wp_ei-revamp/wp-content/plugins/*
+!wp_ei-revamp/wp-content/plugins/ei-core/
+
+# Theme assets are hand-maintained source, not uploaded media. The blanket
+# image/pdf rules above exist to keep wp-content/uploads out of git.
+!wp_ei-revamp/wp-content/themes/ei/assets/**/*.svg
+!wp_ei-revamp/wp-content/themes/ei/assets/**/*.png
+!wp_ei-revamp/wp-content/themes/ei/assets/**/*.jpg
+!wp_ei-revamp/wp-content/themes/ei/assets/**/*.webp
+!wp_ei-revamp/wp-content/themes/ei/assets/**/*.woff2

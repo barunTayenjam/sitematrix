@@ -1,0 +1,34 @@
+{
+    "key": "group_client",
+    "title": "Client details",
+    "fields": [
+        {
+            "key": "field_client_website_url",
+            "label": "Website",
+            "name": "website_url",
+            "type": "url",
+            "instructions": "Optional. Leave empty if the logo should not link anywhere.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": { "width": "", "class": "", "id": "" },
+            "default_value": "",
+            "placeholder": "https://",
+            "maxlength": ""
+        }
+    ],
+    "location": [
+        [
+            { "param": "post_type", "operator": "==", "value": "client" }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "side",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "The logo itself is the featured image.",
+    "show_in_rest": 0,
+    "modified": 1761724800
+}

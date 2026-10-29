@@ -1,0 +1,86 @@
+{
+    "key": "group_product_category",
+    "title": "Category presentation",
+    "fields": [
+        {
+            "key": "field_category_image",
+            "label": "Image",
+            "name": "category_image",
+            "type": "image",
+            "instructions": "Used on the home page category grid and the catalogue tiles.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": { "width": "", "class": "", "id": "" },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp,svg"
+        },
+        {
+            "key": "field_category_intro",
+            "label": "Intro",
+            "name": "intro",
+            "type": "wysiwyg",
+            "instructions": "Shown above the model list on the category page. Optional.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": { "width": "", "class": "", "id": "" },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0,
+            "delay": 0
+        },
+        {
+            "key": "field_category_icon",
+            "label": "Icon",
+            "name": "icon",
+            "type": "image",
+            "instructions": "Monochrome SVG or PNG shown beside the category name. Optional.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": { "width": "50", "class": "", "id": "" },
+            "return_format": "array",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "mime_types": "svg,png"
+        },
+        {
+            "key": "field_category_order",
+            "label": "Order",
+            "name": "order",
+            "type": "number",
+            "instructions": "Lower numbers appear first. Replaces the old taxonomy-terms-order plugin.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": { "width": "50", "class": "", "id": "" },
+            "default_value": 0,
+            "min": 0,
+            "max": "",
+            "step": 1,
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "location": [
+        [
+            { "param": "taxonomy", "operator": "==", "value": "products" }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Presentation fields for a product category term.",
+    "show_in_rest": 0,
+    "modified": 1761724800
+}
