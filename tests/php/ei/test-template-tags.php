@@ -8,12 +8,6 @@
  * page call. Keeping them as the only data path means the fallback rules live
  * in one place — and are testable without a database.
  */
-
-/** Load the theme's template tags. */
-function ei_tags() {
-	require_once EI_THEME_DIR . '/inc/template-tags.php';
-}
-
 ei_test( 'the feature list is a list of strings in published order', function () {
 	ei_tags();
 	$GLOBALS['ei']['fields'][42]['features'] = array(

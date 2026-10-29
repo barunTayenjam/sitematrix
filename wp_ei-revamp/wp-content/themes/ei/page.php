@@ -15,7 +15,7 @@
 
 <section class="ei-section">
 	<div class="container entry-content">
-		<?php the_content(); ?>
+		<?php echo ei_clean_content( get_the_content() ); ?>
 	</div>
 </section>
 

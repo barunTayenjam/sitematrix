@@ -67,8 +67,8 @@ function ei_featured_products( $number = 4 ) {
 		'post_status'    => 'publish',
 		'meta_query'     => array(
 			array(
-				'key'   => 'show_on_home',
-				'value' => 1,
+				'key'     => 'show_on_home',
+				'value'   => 1,
 				'compare' => '=',
 			),
 		),
@@ -85,19 +85,18 @@ function ei_specifications_table( $post_id ) {
 		return '';
 	}
 
-	// Strip anything that is not pure table structure.
 	$allowed = array(
-		'table'  => array(),
-		'tbody'  => array(),
-		'tr'     => array(),
-		'td'     => array(),
-		'th'     => array(),
-		'thead'  => array(),
-		'tfoot'  => array(),
-		'caption' => array(),
-		'col'    => array(),
-		'colgroup' => array(),
-		'br'     => array(),
+		'table'     => array(),
+		'tbody'     => array(),
+		'tr'        => array(),
+		'td'        => array(),
+		'th'        => array(),
+		'thead'     => array(),
+		'tfoot'     => array(),
+		'caption'   => array(),
+		'col'       => array(),
+		'colgroup'  => array(),
+		'br'        => array(),
 	);
 
 	return wp_kses( $table, $allowed );
@@ -112,4 +111,122 @@ function ei_product_model( $post_id ) {
 	}
 
 	return (string) $model;
+}
+
+/** Strip VC/widget shortcodes; wrappers keep their inner content. */
+function ei_clean_content( $html ) {
+	// Strip VC/widget shortcodes: widget-style tags drop entirely (with bodies),
+	// wrapper tags lose their brackets but keep the inner content.
+	$out = preg_replace( '/\[vc_raw_html\][^\[]*\[\/vc_raw_html\]/s', '', $html );
+	$out = preg_replace( '/\[(heading|contactboxphone|rev_slider|vc_gmaps|contact-form-7)[^\]]*\]/s', '', $out );
+	$out = preg_replace( '/\[\/?(vc_row|vc_column|vc_column_text|vc_column_inner|vc_row_inner|vc_separator|heading|rev_slider|vc_gmaps)[^\]]*\]/', '', $out );
+
+	// Strip any remaining shortcode markup.
+	$out = strip_shortcodes( $out );
+
+	// Remove empty / nbsp-only paragraphs left behind.
+	$out = preg_replace( '/<p>[\s\xa0]*<\/p>/', '', $out );
+
+	return trim( preg_replace( '/&nbsp;/', ' ', $out ) );
+}
+
+/** Build a mega‑menu panel from term groups (name, url, children[]). */
+function ei_mega_menu( $anchor_text, $anchor_url, $groups ) {
+	$out = sprintf(
+		'<li class="menu-item-has-children ei-mega"><a href="%s">%s</a>',
+		esc_url( $anchor_url ),
+		esc_html( $anchor_text )
+	);
+
+	if ( empty( $groups ) ) {
+		return $out . '</li>';
+	}
+
+	$out .= '<ul class="ei-mega-panel">';
+
+	foreach ( $groups as $group ) {
+		$group_name = isset( $group['name'] ) ? $group['name'] : '';
+		$group_url  = isset( $group['url'] )  ? $group['url']  : '#';
+
+		$out .= sprintf(
+			'<li class="ei-mega-col-list"><h3 class="ei-mega-col-head"><a href="%s">%s</a></h3><ul>',
+			esc_url( $group_url ),
+			esc_html( $group_name )
+		);
+
+		if ( ! empty( $group['children'] ) ) {
+			foreach ( $group['children'] as $child ) {
+				$child_name = isset( $child['name'] ) ? $child['name'] : '';
+				$child_url  = isset( $child['url'] )  ? $child['url']  : '#';
+				$out .= sprintf(
+					'<li><a href="%s">%s</a></li>',
+					esc_url( $child_url ),
+					esc_html( $child_name )
+				);
+			}
+		}
+
+		$out .= '</ul></li>';
+	}
+
+	return $out . '</ul></li>';
+}
+
+/** Primary navigation: Products mega menu from taxonomy, then static pages. */
+function ei_primary_nav() {
+	$groups = array();
+
+	$top_terms = get_terms( array(
+		'taxonomy'   => 'products',
+		'parent'     => 0,
+		'hide_empty' => false,
+		'orderby'    => 'name',
+	) );
+
+	if ( ! is_wp_error( $top_terms ) && $top_terms ) {
+		foreach ( $top_terms as $term ) {
+			$children = get_terms( array(
+				'taxonomy'   => 'products',
+				'parent'     => $term->term_id,
+				'hide_empty' => false,
+				'orderby'    => 'name',
+			) );
+
+			if ( ! is_wp_error( $children ) && $children ) {
+				$groups[] = array(
+					'name'     => $term->name,
+					'url'      => get_term_link( $term ),
+					'children' => array_map( function ( $c ) {
+						return array( 'name' => $c->name, 'url' => get_term_link( $c ) );
+					}, $children ),
+				);
+			}
+		}
+	}
+
+	if ( empty( $groups ) ) {
+		$groups = array( array( 'name' => 'Products', 'url' => home_url( '/products/' ), 'children' => array() ) );
+	}
+
+	$items = array( ei_mega_menu( 'Products', home_url( '/products/' ), $groups ) );
+
+	$static_pages = array(
+		'Home'             => home_url( '/' ),
+		'About Us'         => home_url( '/about-us/' ),
+		'Quality Control'  => home_url( '/quality-control/' ),
+		'R & D'            => home_url( '/research-and-development/' ),
+		'Clients'          => home_url( '/clients/' ),
+		'Contact Us'       => home_url( '/contact/' ),
+		'Sitemap'          => home_url( '/sitemap/' ),
+	);
+
+	foreach ( $static_pages as $label => $url ) {
+		$items[] = sprintf(
+			'<li class="menu-item"><a href="%s">%s</a></li>',
+			esc_url( $url ),
+			esc_html( $label )
+		);
+	}
+
+	return '<ul class="ei-menu">' . implode( '', $items ) . '</ul>';
 }

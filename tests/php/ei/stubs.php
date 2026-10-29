@@ -245,6 +245,10 @@ function esc_url( $url ) {
 	return (string) $url;
 }
 
+function strip_shortcodes( $content ) {
+	return preg_replace( '/\[\/?[a-zA-Z0-9_-]+([^\[\]]*)?\]/', '', (string) $content );
+}
+
 function wp_strip_all_tags( $text ) {
 	return trim( preg_replace( '/<[^>]*>/', ' ', (string) $text ) );
 }
@@ -261,6 +265,10 @@ function is_admin() {
 
 function wp_parse_args( $args, $defaults = array() ) {
 	return array_merge( $defaults, (array) $args );
+}
+
+function ei_tags() {
+	require_once EI_THEME_DIR . '/inc/template-tags.php';
 }
 
 /** Reset the recorded WordPress calls between tests. */

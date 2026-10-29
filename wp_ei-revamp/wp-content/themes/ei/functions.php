@@ -31,57 +31,6 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'ei-style', get_stylesheet_uri(), array(), $version );
 } );
 
-/**
- * Product categories drive the primary navigation: seven top-level terms, each
- * with its sub-categories as a dropdown. Building it from the taxonomy instead
- * of a menu keeps a new category from needing two edits.
- */
-function ei_primary_nav() {
-	$terms = get_terms( array(
-		'taxonomy'   => 'products',
-		'parent'     => 0,
-		'hide_empty' => false,
-		'orderby'    => 'name',
-	) );
-
-	if ( is_wp_error( $terms ) || empty( $terms ) ) {
-		return '';
-	}
-
-	$items = array();
-	foreach ( $terms as $term ) {
-		$children = get_terms( array(
-			'taxonomy'   => 'products',
-			'parent'     => $term->term_id,
-			'hide_empty' => false,
-			'orderby'    => 'name',
-		) );
-
-		$submenu = '';
-		if ( ! is_wp_error( $children ) && $children ) {
-			$links = array();
-			foreach ( $children as $child ) {
-				$links[] = sprintf(
-					'<li><a href="%s">%s</a></li>',
-					esc_url( get_term_link( $child ) ),
-					esc_html( $child->name )
-				);
-			}
-			$submenu = '<ul class="sub-menu">' . implode( '', $links ) . '</ul>';
-		}
-
-		$items[] = sprintf(
-			'<li class="%s"><a href="%s">%s</a>%s</li>',
-			$submenu ? 'menu-item-has-children' : '',
-			esc_url( get_term_link( $term ) ),
-			esc_html( $term->name ),
-			$submenu
-		);
-	}
-
-	return '<ul class="ei-menu">' . implode( '', $items ) . '</ul>';
-}
-
 /** A product card, used by the home page, category pages and search. */
 function ei_product_card( $post_id ) {
 	$title   = get_the_title( $post_id );
