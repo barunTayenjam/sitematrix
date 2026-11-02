@@ -5,9 +5,6 @@
 (() => {
 	const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-	// Enable motion-aware reveals (CSS hides .reveal only when .js present).
-	document.documentElement.classList.add('js');
-
 	// --- Scroll reveals
 	if ('IntersectionObserver' in window && !reduced) {
 		const ro = new IntersectionObserver(
