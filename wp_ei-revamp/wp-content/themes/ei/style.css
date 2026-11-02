@@ -654,7 +654,10 @@ p { margin: 0 0 20px 0; }
 	padding: 0;
 	align-items: center;
 }
-.nav-menu a {
+.nav-menu > li {
+	position: relative;
+}
+.nav-menu > li > a {
 	font-family: 'IBM Plex Mono', ui-monospace, monospace;
 	font-size: 0.7rem;
 	letter-spacing: 0.15em;
@@ -662,11 +665,24 @@ p { margin: 0 0 20px 0; }
 	color: rgba(255, 255, 255, 0.7);
 	text-decoration: none;
 	transition: color 180ms var(--ease);
+	display: block;
+	padding: 8px 0;
 }
-.nav-menu a:hover { color: #fff; }
+.nav-menu > li > a:hover { color: #fff; }
+
+/* Hide submenus by default - we only want top-level in header */
+.nav-menu ul {
+	display: none;
+}
+
+/* Mobile toggle styles - we don't use .nav-toggle so hide it */
+.nav-toggle {
+	display: none;
+}
+
 @media (max-width: 767px) {
 	.header-inner { padding: 14px 20px; gap: 16px; }
 	.nav-menu { gap: 16px; }
-	.nav-menu a { font-size: 0.6rem; }
+	.nav-menu > li > a { font-size: 0.6rem; }
 	.nav-brand { font-size: 1.2rem; }
 }
