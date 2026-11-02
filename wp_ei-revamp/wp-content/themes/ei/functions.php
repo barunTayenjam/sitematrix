@@ -46,7 +46,6 @@ if ( ! function_exists( 'ei_specimen_panel' ) ) {
 		<?php
 	}
 }
-?>
 
 add_action(
 	'after_setup_theme',
