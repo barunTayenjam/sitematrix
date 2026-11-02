@@ -182,14 +182,8 @@ p { margin: 0 0 var(--space-s) 0; }
 	transform: none;
 }
 @media (prefers-reduced-motion: no-preference) {
-	.js .reveal:not(.in) {
-		opacity: 0;
-		transform: translateY(20px);
-	}
 	.js .reveal.in {
-		opacity: 1;
-		transform: none;
-		transition: opacity var(--reveal-dur) var(--ease-out), transform var(--reveal-dur) var(--ease-out);
+		transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
 	}
 }
 
