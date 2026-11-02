@@ -579,6 +579,7 @@ p { margin: 0 0 20px 0; }
 	transition: color 180ms var(--ease);
 }
 .footer-nav .footer-menu a:hover { color: #fff; }
+.footer-menu ul { display: none !important; }
 .footer-contact {
 	display: flex;
 	flex-direction: column;
@@ -670,9 +671,9 @@ p { margin: 0 0 20px 0; }
 }
 .nav-menu > li > a:hover { color: #fff; }
 
-/* Hide submenus by default - we only want top-level in header */
+/* HIDE SUBMENUS — only top-level links visible */
 .nav-menu ul {
-	display: none;
+	display: none !important;
 }
 
 /* Mobile toggle styles - we don't use .nav-toggle so hide it */
