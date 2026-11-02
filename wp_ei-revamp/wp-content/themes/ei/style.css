@@ -187,8 +187,8 @@ p { margin: 0 0 20px 0; }
 .marquee {
 	position: relative;
 	overflow: hidden;
-	padding: 16px 0;
-	background: rgba(255, 255, 255, 0.03);
+	padding: 24px 0;
+	background: var(--bg-dark);
 	border-top: 1px solid rgba(255, 255, 255, 0.08);
 	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -203,13 +203,14 @@ p { margin: 0 0 20px 0; }
 .marquee-lane span {
 	display: inline-block;
 	font-family: 'Anton', sans-serif;
-	font-size: clamp(1.2rem, 0.9rem + 2vw, 2rem);
+	font-size: clamp(1.4rem, 1rem + 2.5vw, 2.4rem);
 	font-weight: 400;
 	text-transform: uppercase;
-	color: rgba(255, 255, 255, 0.25);
-	letter-spacing: 0.1em;
+	color: rgba(255, 255, 255, 0.35);
+	letter-spacing: 0.08em;
 	will-change: transform;
 }
+.marquee-lane span:hover { color: #fff; }
 .marquee-duplicate { animation-play-state: running; }
 @keyframes marquee-slow { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @keyframes marquee-fast { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -563,13 +564,12 @@ p { margin: 0 0 20px 0; }
 .footer-dek {
 	max-width: 260px;
 }
-.footer-nav .footer-menu {
+.footer-nav {
 	display: flex;
 	flex-direction: column;
-	gap: 14px;
-	list-style: none;
+	gap: 12px;
 }
-.footer-nav .footer-menu a {
+.footer-nav a {
 	color: rgba(255, 255, 255, 0.7);
 	font-family: 'IBM Plex Mono', ui-monospace, monospace;
 	font-size: 0.75rem;
@@ -578,8 +578,7 @@ p { margin: 0 0 20px 0; }
 	text-decoration: none;
 	transition: color 180ms var(--ease);
 }
-.footer-nav .footer-menu a:hover { color: #fff; }
-.footer-menu ul { display: none !important; }
+.footer-nav a:hover { color: #fff; }
 .footer-contact {
 	display: flex;
 	flex-direction: column;

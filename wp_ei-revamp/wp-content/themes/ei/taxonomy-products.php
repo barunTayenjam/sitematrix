@@ -41,7 +41,7 @@ $products = new WP_Query(
 		<span class="sheet-index mono">FAMILY</span>
 		<h1 class="sheet-title"><?php echo esc_html( $term->name ); ?></h1>
 		<?php if ( $term->description ) : ?>
-			<p class="ei-term-desc mono" style="color:var(--stone);font-size:0.85rem;max-width:55ch;margin-top:8px;"><?php echo esc_html( $term->description ); ?></p>
+			<p class="ei-term-desc mono" style="color:var(--stone);font-size:0.85rem;max-width:55ch;margin-top:8px;"><?php echo wp_kses_post( $term->description ); ?></p>
 		<?php endif; ?>
 	</header>
 
