@@ -520,8 +520,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 	position: relative;
 }
 .specimen-panel.featured-hero .panel-media {
-	min-height: 420px;
-	padding: 48px;
+	min-height: 300px;
+	padding: 32px;
 }
 .panel-media img {
 	max-height: 320px;
