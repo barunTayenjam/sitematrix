@@ -72,15 +72,15 @@ Text Domain: ei
    Tokens — Warm Editorial Light (DESIGN.md §3)
    ===================================================================== */
 :root {
-	--paper: #F9F8F6;
+	--paper: #F8F6F1;
 	--sheet: #FFFFFF;
 	--ink: #111215;
-	--ink-soft: #4A4A46;
-	--ink-mute: #8A887F;
-	--rule: #E2DFD8;
+	--ink-soft: #38393D;
+	--ink-mute: #6E6D66;
+	--rule: #DCD8CF;
 	--rule-strong: #111215;
 	--vermilion: #E53E3E;
-	--vermilion-ink: #B72727;
+	--vermilion-ink: #C52222;
 	--max-w: 1360px;
 	--ease: cubic-bezier(0.22, 1, 0.36, 1);
 	--reveal-dur: 600ms;
@@ -500,10 +500,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 	border-radius: 2px;
 	display: flex;
 	flex-direction: column;
-	transition: border-color 240ms var(--ease);
+	transition: border-color 240ms var(--ease), box-shadow 240ms var(--ease);
 }
 .specimen-panel:hover {
 	border-color: var(--ink);
+	box-shadow: 0 12px 40px rgba(17, 18, 21, 0.08);
 }
 .specimen-panel.featured-hero {
 	grid-row: span 2;
@@ -519,23 +520,23 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 	position: relative;
 }
 .specimen-panel.featured-hero .panel-media {
-	min-height: 440px;
-	padding: 56px;
+	min-height: 420px;
+	padding: 48px;
 }
 .panel-media img {
-	max-height: 360px;
+	max-height: 320px;
 	width: auto;
 	object-fit: contain;
 	transition: transform 500ms var(--ease);
 }
 .specimen-panel:hover .panel-media img {
-	transform: scale(1.02);
+	transform: scale(1.015);
 }
 .panel-body {
 	padding: 28px 32px 32px;
 	display: flex;
 	flex-direction: column;
-	gap: 12px;
+	gap: 10px;
 	flex-grow: 1;
 }
 .panel-model-row {
@@ -546,16 +547,16 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .panel-model {
 	font-family: 'IBM Plex Mono', monospace;
-	font-size: 0.65rem;
+	font-size: 0.7rem;
 	font-weight: 500;
-	letter-spacing: 0.2em;
+	letter-spacing: 0.18em;
 	color: var(--vermilion-ink);
 	text-transform: uppercase;
 }
 .panel-title {
 	font-family: 'Archivo', sans-serif;
 	font-weight: 600;
-	font-size: 1.35rem;
+	font-size: 1.5rem;
 	line-height: 1.25;
 	letter-spacing: -0.02em;
 	color: var(--ink);
@@ -563,10 +564,23 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .panel-title a:hover { color: var(--vermilion-ink); }
 .panel-excerpt {
 	font-size: 0.9rem;
-	line-height: 1.6;
+	line-height: 1.65;
 	color: var(--ink-soft);
 	margin-top: 4px;
 	flex-grow: 1;
+}
+.panel-category {
+	font-family: 'IBM Plex Mono', monospace;
+	font-size: 0.6rem;
+	font-weight: 500;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	color: var(--ink-mute);
+	background: var(--paper);
+	padding: 6px 12px;
+	border-radius: 2px;
+	width: fit-content;
+	border: 1px solid var(--rule);
 }
 .panel-actions {
 	margin-top: 16px;
@@ -580,12 +594,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .specimen-stack {
 	display: flex;
 	flex-direction: column;
-	gap: 28px;
+	gap: 24px;
 }
-.specimen-stack .panel-media { min-height: 200px; padding: 24px; }
+.specimen-stack .panel-media { min-height: 220px; padding: 24px; }
 .specimen-stack .panel-media img { max-height: 180px; }
-.specimen-stack .panel-body { padding: 20px 24px 24px; }
-.specimen-stack .panel-title { font-size: 1.15rem; }
+.specimen-stack .panel-body { padding: 24px 28px 28px; }
+.specimen-stack .panel-title { font-size: 1.2rem; }
+.specimen-stack .panel-model { font-size: 0.62rem; }
 
 @media (max-width: 900px) {
 	.specimen-layout { grid-template-columns: 1fr; }
@@ -607,13 +622,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .catalog-table thead th {
 	padding: 16px 20px;
 	text-align: left;
-	border-bottom: 1px solid var(--rule-strong);
+	border-bottom: 2px solid var(--rule-strong);
 	font-family: 'IBM Plex Mono', monospace;
-	font-size: 0.6rem;
+	font-size: 0.65rem;
 	font-weight: 500;
 	letter-spacing: 0.22em;
 	text-transform: uppercase;
-	color: var(--ink-mute);
+	color: var(--ink);
 }
 .catalog-table thead th:last-child { text-align: right; }
 .catalog-table tbody tr {
@@ -631,16 +646,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .catalog-table .col-num {
 	width: 60px;
 	font-family: 'IBM Plex Mono', monospace;
-	font-size: 0.7rem;
+	font-size: 0.72rem;
+	font-weight: 500;
 	color: var(--ink-mute);
 }
 .catalog-table .col-model {
-	width: 160px;
+	width: 170px;
 	font-family: 'IBM Plex Mono', monospace;
-	font-size: 0.72rem;
+	font-size: 0.75rem;
 	font-weight: 500;
 	letter-spacing: 0.15em;
-	color: var(--ink-soft);
+	color: var(--ink);
 	transition: color 180ms var(--ease);
 }
 .catalog-table tbody tr:hover .col-model { color: var(--vermilion-ink); }
@@ -648,15 +664,16 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 	font-family: 'Archivo', sans-serif;
 	font-weight: 600;
 	color: var(--ink);
+	font-size: 1rem;
 }
 .catalog-table .col-name a { color: inherit; }
 .catalog-table .col-name a:hover { color: var(--vermilion-ink); }
 .catalog-table .col-family {
 	font-family: 'IBM Plex Mono', monospace;
-	font-size: 0.62rem;
+	font-size: 0.65rem;
 	letter-spacing: 0.18em;
 	text-transform: uppercase;
-	color: var(--ink-mute);
+	color: var(--ink-soft);
 }
 .catalog-table .col-action {
 	text-align: right;
@@ -1118,22 +1135,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* =====================================================================
    Scroll Reveals (DESIGN.md §9)
-   Visible by default; motion enabled via .js class
+   Visible by default. Never block opacity.
    ===================================================================== */
 .reveal {
 	opacity: 1;
 	transform: none;
 }
 @media (prefers-reduced-motion: no-preference) {
-	.js .reveal:not(.in) {
-		opacity: 0;
-		transform: translateY(20px);
+	.reveal.in {
+		animation: reveal-fade 500ms var(--ease) forwards;
 	}
-	.js .reveal.in {
-		opacity: 1;
-		transform: none;
-		transition: opacity var(--reveal-dur) var(--ease), transform var(--reveal-dur) var(--ease);
-	}
+}
+@keyframes reveal-fade {
+	from { opacity: 0.4; transform: translateY(12px); }
+	to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Focus visible */
