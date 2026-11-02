@@ -8,21 +8,22 @@
  *
  * @package Ei
  */
+
 ?>
+
 <?php get_header(); ?>
 
 <?php
-$term = get_queried_object();
+$list_term = get_queried_object();
 
-/* Which term drives the product list: the current one. */
-$list_term = $term;
-
-$children = get_terms( array(
-	'taxonomy'   => 'products',
-	'parent'     => $term->term_id,
-	'hide_empty' => false,
-	'orderby'    => 'name',
-) );
+$children = get_terms(
+	array(
+		'taxonomy'   => 'products',
+		'parent'     => $list_term->term_id,
+		'hide_empty' => false,
+		'orderby'    => 'name',
+	)
+);
 ?>
 
 <section class="ei-page-head">
@@ -32,11 +33,11 @@ $children = get_terms( array(
 			<span>/</span>
 			<a href="<?php echo esc_url( home_url( '/products/' ) ); ?>"><?php esc_html_e( 'Products', 'ei' ); ?></a>
 			<span>/</span>
-			<span aria-current="page"><?php echo esc_html( $term->name ); ?></span>
+			<span aria-current="page"><?php echo esc_html( $list_term->name ); ?></span>
 		</nav>
-		<h1><?php echo esc_html( $term->name ); ?></h1>
-		<?php if ( $term->description ) : ?>
-			<p style="max-width: 60ch; color: var(--color-muted-foreground); margin-top: var(--space-2);"><?php echo esc_html( $term->description ); ?></p>
+		<h1><?php echo esc_html( $list_term->name ); ?></h1>
+		<?php if ( $list_term->description ) : ?>
+			<p class="ei-term-desc"><?php echo esc_html( $term->description ); ?></p>
 		<?php endif; ?>
 	</div>
 </section>
@@ -49,7 +50,13 @@ $children = get_terms( array(
 			<?php foreach ( $children as $child ) : ?>
 				<a class="ei-cat-card reveal" href="<?php echo esc_url( get_term_link( $child ) ); ?>">
 					<h3><?php echo esc_html( $child->name ); ?></h3>
-					<p><?php echo esc_html( sprintf( _n( '%d instrument', '%d instruments', $child->count, 'ei' ), $child->count ) ); ?></p>
+					// translators: %d instrument|%d instruments.
+				<p>
+				<?php
+				// translators: %d instrument|%d instruments.
+				echo esc_html( sprintf( _n( '%d instrument', '%d instruments', $child->count, 'ei' ), $child->count ) );
+				?>
+				</p>
 				</a>
 			<?php endforeach; ?>
 		</div>
@@ -63,20 +70,23 @@ $children = get_terms( array(
 		<h2 class="ei-section-title reveal"><?php echo esc_html( $list_term->name ); ?></h2>
 		<div class="ei-grid">
 			<?php
-			$query = new WP_Query( array(
-				'post_type'      => 'product',
-				'posts_per_page' => 12,
-				'paged'          => max( 1, get_query_var( 'paged' ) ),
-				'tax_query'      => array(
-					array(
-						'taxonomy' => 'products',
-						'field'    => 'term_id',
-						'terms'    => $list_term->term_id,
+			$query = new WP_Query(
+				array(
+					'post_type'      => 'product',
+					'posts_per_page' => 12,
+					'paged'          => max( 1, get_query_var( 'paged' ) ),
+					'tax_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery -- single-term product query
+						array(
+							'taxonomy' => 'products',
+							'field'    => 'term_id',
+							'terms'    => $list_term->term_id,
+						),
 					),
-				),
-			) );
+				)
+			);
 			if ( $query->have_posts() ) :
-				while ( $query->have_posts() ) : $query->the_post();
+				while ( $query->have_posts() ) :
+					$query->the_post();
 					ei_product_card( get_the_ID() );
 				endwhile;
 				wp_reset_postdata();
@@ -89,12 +99,14 @@ $children = get_terms( array(
 		<?php if ( $query->max_num_pages > 1 ) : ?>
 		<nav class="ei-pagination" aria-label="Product pagination">
 			<?php
-			echo paginate_links( array( // phpcs:ignore WordPress.Security.EscapeOutput -- paginate_links returns safe HTML.
-				'total'     => $query->max_num_pages,
-				'current'   => max( 1, get_query_var( 'paged' ) ),
-				'prev_text' => '&laquo;',
-				'next_text' => '&raquo;',
-			) );
+			echo paginate_links( // phpcs:ignore WordPress.Security.EscapeOutput -- paginate_links returns safe HTML.
+				array(
+					'total'     => $query->max_num_pages,
+					'current'   => max( 1, get_query_var( 'paged' ) ),
+					'prev_text' => '&laquo;',
+					'next_text' => '&raquo;',
+				)
+			);
 			?>
 		</nav>
 		<?php endif; ?>

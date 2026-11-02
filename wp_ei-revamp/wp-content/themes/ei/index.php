@@ -4,6 +4,7 @@
  *
  * @package Ei
  */
+
 ?>
 <?php get_header(); ?>
 
@@ -28,7 +29,8 @@
 		<?php if ( have_posts() ) : ?>
 			<div class="ei-grid">
 				<?php
-				while ( have_posts() ) : the_post();
+				while ( have_posts() ) :
+					the_post();
 					if ( 'product' === get_post_type() ) {
 						ei_product_card( get_the_ID() );
 					} else {

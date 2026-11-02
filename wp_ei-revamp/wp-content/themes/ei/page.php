@@ -6,15 +6,17 @@
  *
  * @package Ei
  */
+
 ?>
 <?php get_header(); ?>
 
 <?php
-while ( have_posts() ) : the_post();
-	$has_hero = '' !== trim( get_post_meta( get_the_ID(), '_ei_show_hero', true ) ) || in_array( get_the_ID(), array( 1551, 3288, 1544, 3299, 1536, 1546, 1542, 1536 ) );
-?>
+while ( have_posts() ) :
+	the_post();
+	$has_hero = '' !== trim( get_post_meta( get_the_ID(), '_ei_show_hero', true ) ) || in_array( get_the_ID(), array( 1551, 3288, 1544, 3299, 1536, 1546, 1542, 1536 ), true );
+	?>
 
-<?php if ( $has_hero ) : ?>
+	<?php if ( $has_hero ) : ?>
 <section class="ei-page-head">
 	<div class="container">
 		<h1><?php the_title(); ?></h1>

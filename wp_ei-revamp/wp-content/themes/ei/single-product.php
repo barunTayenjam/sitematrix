@@ -5,10 +5,14 @@
  *
  * @package Ei
  */
+
 ?>
+
 <?php get_header(); ?>
 
-<?php while ( have_posts() ) : the_post();
+<?php
+while ( have_posts() ) :
+	the_post();
 	$model       = ei_product_model( get_the_ID() );
 	$features    = ei_product_features( get_the_ID() );
 	$description = get_field( 'description', get_the_ID() );
@@ -17,7 +21,7 @@
 	$brochure    = ei_brochure_url( get_the_ID() );
 	$terms       = wp_get_post_terms( get_the_ID(), 'products' );
 	$primary_cat = $terms && ! is_wp_error( $terms ) ? $terms[0] : null;
-?>
+	?>
 
 <article class="ei-product" id="post-<?php the_ID(); ?>">
 	<div class="container">
@@ -36,12 +40,26 @@
 
 		<div class="ei-product-hero">
 			<div class="ei-product-media">
-				<?php the_post_thumbnail( 'ei-product', array( 'alt' => esc_attr( get_the_title() ), 'loading' => 'eager' ) ); ?>
+				<?php
+				the_post_thumbnail(
+					'ei-product',
+					array(
+						'alt'     => esc_attr( get_the_title() ),
+						'loading' => 'eager',
+					)
+				);
+				?>
 				<?php if ( $gallery && is_array( $gallery ) ) : ?>
 					<div class="ei-thumbs">
-						<?php foreach ( $gallery as $img ) : if ( ! empty( $img['url'] ) ) : ?>
+						<?php
+						foreach ( $gallery as $img ) :
+							if ( ! empty( $img['url'] ) ) :
+								?>
 							<img src="<?php echo esc_url( $img['url'] ); ?>" alt="<?php echo esc_attr( $img['alt'] ?? get_the_title() ); ?>" data-full="<?php echo esc_url( $img['url'] ); ?>">
-						<?php endif; endforeach; ?>
+													<?php
+						endif;
+endforeach;
+						?>
 					</div>
 				<?php endif; ?>
 			</div>
@@ -82,7 +100,7 @@
 			<section class="ei-section">
 				<div class="container">
 					<h2><?php esc_html_e( 'Description', 'ei' ); ?></h2>
-					<div class="entry-content"><?php echo $description; ?></div>
+					<div class="entry-content"><?php echo wp_kses_post( $description ); ?></div>
 				</div>
 			</section>
 			<?php endif; ?>
@@ -91,7 +109,7 @@
 			<section class="ei-section">
 				<div class="container">
 					<h2><?php esc_html_e( 'Specifications', 'ei' ); ?></h2>
-					<div class="ei-spec-table"><?php echo $spec_table; ?></div>
+					<div class="ei-spec-table"><?php echo wp_kses( $spec_table, wp_kses_allowed_html( 'post' ) ); ?></div>
 				</div>
 			</section>
 			<?php endif; ?>
@@ -99,21 +117,29 @@
 		<?php endif; ?>
 
 		<?php
-		$related = new WP_Query( array(
-			'post_type'      => 'product',
-			'post__not_in'   => array( get_the_ID() ),
-			'taxonomy'       => 'products',
-			'terms'          => $primary_cat ? $primary_cat->term_id : '',
-			'posts_per_page' => 4,
-			'orderby'        => 'rand',
-		) );
+		$related = new WP_Query(
+			array(
+				'post_type'      => 'product',
+				'post__not_in'   => array( get_the_ID() ),
+				'taxonomy'       => 'products',
+				'terms'          => $primary_cat ? $primary_cat->term_id : '',
+				'posts_per_page' => 4,
+				'orderby'        => 'rand',
+			)
+		);
 		if ( $related->have_posts() ) :
-		?>
+			?>
 		<section class="ei-section ei-section--alt">
 			<div class="container">
 				<h2><?php esc_html_e( 'Related Instruments', 'ei' ); ?></h2>
 				<div class="ei-grid">
-					<?php while ( $related->have_posts() ) : $related->the_post(); ei_product_card( get_the_ID() ); endwhile; wp_reset_postdata(); ?>
+					<?php
+					while ( $related->have_posts() ) :
+						$related->the_post();
+						ei_product_card( get_the_ID() );
+endwhile;
+					wp_reset_postdata();
+					?>
 				</div>
 			</div>
 		</section>

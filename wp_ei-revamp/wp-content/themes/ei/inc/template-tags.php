@@ -10,10 +10,14 @@
  */
 
 if ( ! defined( 'EI_THEME_DIR' ) ) {
-	define( 'EI_THEME_DIR', dirname( __FILE__ ) );
+	define( 'EI_THEME_DIR', __DIR__ );
 }
 
-/** Collect the feature list as plain strings, in the order the editor set. */
+/**
+ * Collect the feature list as plain strings, in the order the editor set.
+ *
+ * @param int $post_id Product post ID.
+ */
 function ei_product_features( $post_id ) {
 	$fields = get_field( 'features', (int) $post_id );
 
@@ -21,16 +25,23 @@ function ei_product_features( $post_id ) {
 		return array();
 	}
 
-	return array_map( function ( $row ) {
-		if ( is_array( $row ) ) {
-			return $row['feature'] ?? '';
-		}
+	return array_map(
+		function ( $row ) {
+			if ( is_array( $row ) ) {
+					return $row['feature'] ?? '';
+			}
 
-		return (string) $row;
-	}, $fields );
+			return (string) $row;
+		},
+		$fields
+	);
 }
 
-/** Return a card summary: short description first, then a short feature list. */
+/**
+ * Return a card summary: short description first, then a short feature list.
+ *
+ * @param int $post_id Product post ID.
+ */
 function ei_product_summary( $post_id ) {
 	$short = get_field( 'short_description', (int) $post_id );
 
@@ -46,7 +57,11 @@ function ei_product_summary( $post_id ) {
 	return '';
 }
 
-/** The brochure URL: prefer the ACF file field, fall back to the legacy URL. */
+/**
+ * The brochure URL: prefer the ACF file field, fall back to the legacy URL.
+ *
+ * @param int $post_id Product post ID.
+ */
 function ei_brochure_url( $post_id ) {
 	$pdf = get_field( 'brochure_pdf', (int) $post_id );
 
@@ -56,28 +71,37 @@ function ei_brochure_url( $post_id ) {
 
 	$legacy = get_post_meta( (int) $post_id, '_ei_brochure_url', true );
 
-	return $legacy ?: '';
+	return $legacy ? $legacy : '';
 }
 
-/** Query featured products — those flagged for the home page, in order. */
+/** Query featured products — those flagged for the home page, in order.
+ *
+ * @param int $number Number of featured products to return.
+ */
 function ei_featured_products( $number = 4 ) {
-	return get_posts( array(
-		'post_type'      => 'product',
-		'numberposts'    => (int) $number,
-		'post_status'    => 'publish',
-		'meta_query'     => array(
-			array(
-				'key'     => 'show_on_home',
-				'value'   => 1,
-				'compare' => '=',
+	return get_posts(
+		array(
+			'post_type'   => 'product',
+			'numberposts' => (int) $number,
+			'post_status' => 'publish',
+			'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery -- show_on_home flag lookup
+				array(
+					'key'     => 'show_on_home',
+					'value'   => 1,
+					'compare' => '=',
+				),
 			),
-		),
-		'orderby'        => 'meta_value_num',
-		'order'          => 'ASC',
-	) );
+			'orderby'     => 'meta_value_num',
+			'order'       => 'ASC',
+		)
+	);
 }
 
-/** The specification table: table markup with all scripts removed. */
+/**
+ * The specification table: table markup with all scripts removed.
+ *
+ * @param int $post_id Product post ID.
+ */
 function ei_specifications_table( $post_id ) {
 	$table = get_field( 'specifications_table', (int) $post_id );
 
@@ -86,23 +110,27 @@ function ei_specifications_table( $post_id ) {
 	}
 
 	$allowed = array(
-		'table'     => array(),
-		'tbody'     => array(),
-		'tr'        => array(),
-		'td'        => array(),
-		'th'        => array(),
-		'thead'     => array(),
-		'tfoot'     => array(),
-		'caption'   => array(),
-		'col'       => array(),
-		'colgroup'  => array(),
-		'br'        => array(),
+		'table'    => array(),
+		'tbody'    => array(),
+		'tr'       => array(),
+		'td'       => array(),
+		'th'       => array(),
+		'thead'    => array(),
+		'tfoot'    => array(),
+		'caption'  => array(),
+		'col'      => array(),
+		'colgroup' => array(),
+		'br'       => array(),
 	);
 
 	return wp_kses( $table, $allowed );
 }
 
-/** The model number that was parsed from the product title. */
+/**
+ * The model number that was parsed from the product title.
+ *
+ * @param int $post_id Product post ID.
+ */
 function ei_product_model( $post_id ) {
 	$model = get_field( 'model_number', (int) $post_id );
 
@@ -113,7 +141,11 @@ function ei_product_model( $post_id ) {
 	return (string) $model;
 }
 
-/** Strip VC/widget shortcodes; wrappers keep their inner content. */
+/**
+ * Strip VC/widget shortcodes; wrappers keep their inner content.
+ *
+ * @param string $html HTML content to clean.
+ */
 function ei_clean_content( $html ) {
 	// Strip VC/widget shortcodes: widget-style tags drop entirely (with bodies),
 	// wrapper tags lose their brackets but keep the inner content.
@@ -130,7 +162,13 @@ function ei_clean_content( $html ) {
 	return trim( preg_replace( '/&nbsp;/', ' ', $out ) );
 }
 
-/** Build a mega‑menu panel from term groups (name, url, children[]). */
+/**
+ * Build a mega‑menu panel from term groups (name, url, children[]).
+ *
+ * @param string $anchor_text Anchor text for the menu item.
+ * @param string $anchor_url  Anchor URL for the menu item.
+ * @param array  $groups      Term groups for the mega menu.
+ */
 function ei_mega_menu( $anchor_text, $anchor_url, $groups ) {
 	$out = sprintf(
 		'<li class="menu-item-has-children ei-mega"><a href="%s">%s</a>',
@@ -146,7 +184,7 @@ function ei_mega_menu( $anchor_text, $anchor_url, $groups ) {
 
 	foreach ( $groups as $group ) {
 		$group_name = isset( $group['name'] ) ? $group['name'] : '';
-		$group_url  = isset( $group['url'] )  ? $group['url']  : '#';
+		$group_url  = isset( $group['url'] ) ? $group['url'] : '#';
 
 		$out .= sprintf(
 			'<li class="ei-mega-col-list"><h3 class="ei-mega-col-head"><a href="%s">%s</a></h3><ul>',
@@ -157,8 +195,8 @@ function ei_mega_menu( $anchor_text, $anchor_url, $groups ) {
 		if ( ! empty( $group['children'] ) ) {
 			foreach ( $group['children'] as $child ) {
 				$child_name = isset( $child['name'] ) ? $child['name'] : '';
-				$child_url  = isset( $child['url'] )  ? $child['url']  : '#';
-				$out .= sprintf(
+				$child_url  = isset( $child['url'] ) ? $child['url'] : '#';
+				$out       .= sprintf(
 					'<li><a href="%s">%s</a></li>',
 					esc_url( $child_url ),
 					esc_html( $child_name )
@@ -176,48 +214,62 @@ function ei_mega_menu( $anchor_text, $anchor_url, $groups ) {
 function ei_primary_nav() {
 	$groups = array();
 
-	$top_terms = get_terms( array(
-		'taxonomy'   => 'products',
-		'parent'     => 0,
-		'hide_empty' => false,
-		'orderby'    => 'name',
-	) );
+	$top_terms = get_terms(
+		array(
+			'taxonomy'   => 'products',
+			'parent'     => 0,
+			'hide_empty' => false,
+			'orderby'    => 'name',
+		)
+	);
 
 	if ( ! is_wp_error( $top_terms ) && $top_terms ) {
 		foreach ( $top_terms as $term ) {
-			$children = get_terms( array(
-				'taxonomy'   => 'products',
-				'parent'     => $term->term_id,
-				'hide_empty' => false,
-				'orderby'    => 'name',
-			) );
+			$children = get_terms(
+				array(
+					'taxonomy'   => 'products',
+					'parent'     => $term->term_id,
+					'hide_empty' => false,
+					'orderby'    => 'name',
+				)
+			);
 
 			if ( ! is_wp_error( $children ) && $children ) {
 				$groups[] = array(
 					'name'     => $term->name,
 					'url'      => get_term_link( $term ),
-					'children' => array_map( function ( $c ) {
-						return array( 'name' => $c->name, 'url' => get_term_link( $c ) );
-					}, $children ),
+					'children' => array_map(
+						function ( $c ) {
+							return array(
+								'name' => $c->name,
+								'url'  => get_term_link( $c ),
+							);
+						},
+						$children
+					),
 				);
 			}
 		}
 	}
 
 	if ( empty( $groups ) ) {
-		$groups = array( array( 'name' => 'Products', 'url' => home_url( '/products/' ), 'children' => array() ) );
+		$groups = array(
+			array(
+				'name'     => 'Products',
+				'url'      => home_url( '/products/' ),
+				'children' => array(),
+			),
+		);
 	}
 
-	$items = array( ei_mega_menu( 'Products', home_url( '/products/' ), $groups ) );
+	$items = array();
 
 	$static_pages = array(
-		'Home'             => home_url( '/' ),
-		'About Us'         => home_url( '/about-us/' ),
-		'Quality Control'  => home_url( '/quality-control/' ),
-		'R & D'            => home_url( '/research-and-development/' ),
-		'Clients'          => home_url( '/clients/' ),
-		'Contact Us'       => home_url( '/contact/' ),
-		'Sitemap'          => home_url( '/sitemap/' ),
+		'Home'            => home_url( '/' ),
+		'About Us'        => home_url( '/about-us/' ),
+		'Quality Control' => home_url( '/quality-control/' ),
+		'R & D'           => home_url( '/research-and-development/' ),
+		'Contact Us'      => home_url( '/contact/' ),
 	);
 
 	foreach ( $static_pages as $label => $url ) {
@@ -227,6 +279,8 @@ function ei_primary_nav() {
 			esc_html( $label )
 		);
 	}
+
+	$items[] = ei_mega_menu( 'Products', home_url( '/products/' ), $groups );
 
 	return '<ul class="ei-menu">' . implode( '', $items ) . '</ul>';
 }

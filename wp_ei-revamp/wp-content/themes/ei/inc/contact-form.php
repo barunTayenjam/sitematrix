@@ -5,6 +5,7 @@
  *
  * @package Ei
  */
+
 ?>
 <form id="ei-contact-form" action="<?php echo esc_url( rest_url( 'ei/v1/contact' ) ); ?>" class="ei-form" novalidate>
 	<div class="ei-form-row ei-form-row--2">
