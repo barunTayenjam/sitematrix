@@ -428,20 +428,23 @@ p { margin: 0 0 var(--space-s) 0; }
 	position: relative;
 	height: 280px;
 	overflow: hidden;
-	background: #ffffff;
+	background: radial-gradient(circle at 50% 45%, #252830 0%, #16181D 70%, #0F1014 100%);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: var(--space-m);
+	padding: var(--space-l);
+	border-bottom: 1px solid var(--chamber-border);
 }
 .chamber-media img {
-	max-width: 85%;
-	max-height: 85%;
+	max-width: 90%;
+	max-height: 90%;
 	width: auto;
 	height: auto;
 	object-fit: contain;
 	transition: transform 500ms var(--ease-out);
-	filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.15));
+	filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.6));
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+	border-radius: 2px;
 }
 .chamber:hover .chamber-media img { transform: scale(1.05); }
 .chamber-specs {

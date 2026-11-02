@@ -76,10 +76,7 @@ if ( empty( $featured ) ) {
 								$thumb,
 								'ei-chamber',
 								false,
-								array(
-									'loading'  => 'lazy',
-									'decoding' => 'async',
-								)
+								array( 'decoding' => 'async' )
 							);
 							?>
 						<?php else : ?>
