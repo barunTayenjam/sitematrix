@@ -18,17 +18,24 @@
 			</p>
 		</div>
 		<nav class="footer-nav" aria-label="Footer">
-			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'primary',
-					'container'      => false,
-					'menu_class'     => 'footer-menu',
-					'echo'           => true,
-					'items_wrap'     => '%3$s',
-				)
-			);
+		<?php
+		$footer_nav_items = array(
+			array( 'label' => __( 'Home', 'ei' ), 'url' => home_url( '/' ) ),
+			array( 'label' => __( 'Products', 'ei' ), 'url' => home_url( '/products/' ) ),
+			array( 'label' => __( 'R&D', 'ei' ), 'url' => home_url( '/research-and-development/' ) ),
+			array( 'label' => __( 'Quality Control', 'ei' ), 'url' => home_url( '/quality-control/' ) ),
+			array( 'label' => __( 'Clients', 'ei' ), 'url' => home_url( '/clients/' ) ),
+			array( 'label' => __( 'About Us', 'ei' ), 'url' => home_url( '/about-us/' ) ),
+			array( 'label' => __( 'Contact us', 'ei' ), 'url' => home_url( '/contact/' ) ),
+		);
+		foreach ( $footer_nav_items as $item ) :
+			$current = is_front_page() && $item['url'] === home_url( '/' )
+				|| ( ! is_front_page() && $item['url'] === home_url( $_SERVER['REQUEST_URI'] ?? '' ) );
 			?>
+			<a href="<?php echo esc_url( $item['url'] ); ?>" <?php echo $current ? 'aria-current="page"' : ''; ?>>
+				<?php echo esc_html( $item['label'] ); ?>
+			</a>
+		<?php endforeach; ?>
 		</nav>
 		<div class="footer-contact">
 			<div class="footer-contact-item">
