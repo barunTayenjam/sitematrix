@@ -37,5 +37,10 @@
 		</div>
 	</div>
 	<button type="submit" class="btn btn--primary"><?php esc_html_e( 'Send Message', 'ei' ); ?></button>
-	<div class="ei-form-status"></div>
+	<div class="ei-form-status" role="status" aria-live="polite"></div>
+	<!-- Honeypot: invisible to humans, bots may fill it -->
+	<div class="ei-honeypot">
+		<label for="ei-contact-website"><?php esc_html_e( 'Website', 'ei' ); ?></label>
+		<input type="text" id="ei-contact-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+	</div>
 </form>

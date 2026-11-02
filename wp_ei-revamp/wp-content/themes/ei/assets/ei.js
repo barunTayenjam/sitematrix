@@ -222,3 +222,91 @@
 	});
 	if (bands.length) bands[0].click();
 })();
+
+/* --- contact form: native REST submit, no page navigation --- */
+(function () {
+	const form = document.getElementById('ei-contact-form');
+	if (!form) return;
+
+	const status = form.querySelector('.ei-form-status');
+	const btn = form.querySelector('button[type="submit"]');
+	const endpoint = form.action || (window.eiContact && window.eiContact.endpoint);
+
+	if (!endpoint) {
+		status.textContent = 'Form misconfigured — contact us directly.';
+		return;
+	}
+
+	const validate = () => {
+		let ok = true;
+		form.querySelectorAll('[required]').forEach((field) => {
+			const email = field.type === 'email';
+			const value = field.value.trim();
+			const isEmail = email ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) : value !== '';
+			if (!isEmail) {
+				ok = false;
+				field.setAttribute('aria-invalid', 'true');
+			} else {
+				field.removeAttribute('aria-invalid');
+			}
+		});
+		return ok;
+	};
+
+	const show = (kind, text) => {
+		status.className = 'ei-form-status ' + kind;
+		status.textContent = text;
+	};
+
+	form.addEventListener('submit', async (ev) => {
+		ev.preventDefault();
+		if (!validate()) {
+			show('error', 'Please fill in the required fields.');
+			const first = form.querySelector('[aria-invalid="true"]');
+			if (first) first.focus();
+			return;
+		}
+
+		btn.disabled = true;
+		btn.textContent = 'Sending…';
+		show('', '');
+
+		const data = {
+			name: form.elements.name.value.trim(),
+			email: form.elements.email.value.trim(),
+			phone: form.elements.phone.value.trim(),
+			subject: form.elements.subject.value.trim(),
+			message: form.elements.message.value.trim(),
+			website: '', // honeypot — never filled by humans
+		};
+
+		const nonce = (window.eiContact && window.eiContact.nonce) || '';
+		const headers = { 'Content-Type': 'application/json' };
+		if (nonce) headers['X-EI-Nonce'] = nonce;
+		data._ei_nonce = nonce;
+
+		try {
+			const res = await fetch(endpoint, {
+				method: 'POST',
+				headers,
+				body: JSON.stringify(data),
+			});
+			const payload = await res.json().catch(() => ({}));
+
+			if (res.ok && payload.success) {
+				btn.textContent = 'Sent';
+				btn.disabled = false;
+				show('success', payload.message || 'Message sent. We will reply shortly.');
+				form.reset();
+			} else {
+				btn.textContent = 'Send Message';
+				btn.disabled = false;
+				show('error', payload.message || 'Could not send — please try again.');
+			}
+		} catch (err) {
+			btn.textContent = 'Send Message';
+			btn.disabled = false;
+			show('error', 'Network error — please email us directly.');
+		}
+	});
+})();

@@ -421,6 +421,43 @@ p { margin: 0 0 24px 0; }
 
 *:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
 
+/* =====================================================================
+   Contact form
+   ===================================================================== */
+.ei-honeypot {
+	position: absolute;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.ei-form-status {
+	margin-top: 16px;
+	padding: 10px 14px;
+	border: 1px solid var(--line);
+	border-radius: 4px;
+	font-size: 0.92rem;
+	background: var(--paper);
+}
+
+.ei-form-status.success {
+	color: #1e6b34;
+	background: #eef6f0;
+	border-color: #cde4d9;
+}
+
+.ei-form-status.error {
+	color: var(--red);
+	background: #fdeeee;
+	border-color: #e7c4c4;
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+	border-color: var(--red);
+}
+
 .screen-reader-text { clip: rect(1px, 1px, 1px, 1px); height: 1px; overflow: hidden; position: absolute !important; width: 1px; word-wrap: normal !important; }
 .skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; z-index: 999999999; }
 .skip-link:focus { left: 20px; top: 20px; width: auto; height: auto; padding: 12px 16px; background: var(--ink); color: var(--paper); }
