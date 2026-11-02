@@ -1019,13 +1019,77 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 	color: var(--ink);
 }
 .family-toc-row:hover .toc-name { color: var(--vermilion-ink); }
-.family-toc-row .toc-meta {
-	display: flex;
-	align-items: center;
-	gap: 16px;
-	font-family: 'IBM Plex Mono', monospace;
-	font-size: 0.7rem;
+.family-toc-row .toc-desc {
+	color: var(--ink-soft);
+	font-family: 'Inter', sans-serif;
+	font-size: 0.85rem;
+	text-transform: none;
+	letter-spacing: normal;
+	max-width: 48ch;
+	text-align: right;
+}
+@media (max-width: 900px) {
+	.family-toc-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+	.family-toc-row .toc-desc { text-align: left; }
+}
+
+/* Pull quote */
+.pull-quote {
+	margin: clamp(48px, 8vh, 80px) 0 0;
+	padding: clamp(32px, 5vh, 48px);
+	background: var(--sheet);
+	border: 1px solid var(--rule);
+	border-left: 3px solid var(--vermilion);
+	border-radius: 2px;
+}
+.pull-quote blockquote p {
+	font-family: 'Playfair Display', Georgia, serif;
+	font-style: italic;
+	font-weight: 400;
+	font-size: clamp(1.2rem, 2vw, 1.6rem);
+	line-height: 1.5;
+	color: var(--ink);
+	margin-bottom: 16px;
+}
+.pull-quote figcaption {
 	color: var(--ink-mute);
+}
+
+/* Clients roster strip */
+.clients-strip {
+	margin-top: clamp(48px, 8vh, 80px);
+	padding-top: 32px;
+	border-top: 1px solid var(--rule);
+}
+.clients-label {
+	display: block;
+	margin-bottom: 20px;
+}
+.clients-list {
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px clamp(16px, 3vw, 36px);
+	padding: 0;
+	margin: 0;
+}
+.clients-list li {
+	font-family: 'Archivo', sans-serif;
+	font-weight: 600;
+	font-size: clamp(0.95rem, 1.4vw, 1.25rem);
+	letter-spacing: -0.02em;
+	color: var(--ink);
+	position: relative;
+}
+.clients-list li::after {
+	content: '·';
+	margin-left: clamp(16px, 3vw, 36px);
+	color: var(--rule);
+	font-family: sans-serif;
+}
+.clients-list li:last-child::after {
+	content: '';
+	margin: 0;
 }
 
 /* =====================================================================
