@@ -2,10 +2,11 @@
 /**
  * Front page — 10K Agency.
  * Dark obsidian hero: massive type, dual-lane marquee, 4–6 featured products.
- * Light sheets below: index, specimen, trace, colophon.
+ * Light sheets below: catalogue, specimen, trace, colophon.
  *
  * @package Ei
  */
+
 get_header(); ?>
 
 <?php
@@ -46,7 +47,6 @@ $marquee_words = array(
 	'PARWANOO',
 	'SINCE 1983',
 );
-$marquee_dupe  = array_merge( $marquee_words, $marquee_words );
 ?>
 
 <!-- HERO — obsidian -->
@@ -83,11 +83,11 @@ $marquee_dupe  = array_merge( $marquee_words, $marquee_words );
 	</div>
 </div>
 
-<!-- INDEX — product families -->
+<!-- CATALOGUE — product grid -->
 <section class="sheet sheet-index reveal" id="s2">
 	<header class="sheet-head">
-		<span class="sheet-index mono">02 · INDEX</span>
-		<h2 class="sheet-title">Catalogue</h2>
+		<span class="sheet-index mono">02 · CATALOGUE</span>
+		<h2 class="sheet-title">Instruments</h2>
 	</header>
 	<div class="product-grid">
 		<?php foreach ( $featured as $product ) : ?>
@@ -127,6 +127,40 @@ $marquee_dupe  = array_merge( $marquee_words, $marquee_words );
 				</div>
 			</article>
 		<?php endforeach; ?>
+	</div>
+</section>
+
+<!-- TRACE — live canvas -->
+<section class="sheet sheet-trace reveal" id="s4">
+	<header class="sheet-head">
+		<span class="sheet-index mono">03 · TRACE</span>
+		<h2 class="sheet-title">Live Trace</h2>
+	</header>
+	<div class="trace-panel">
+		<canvas id="scopeCanvas" width="1200" height="300" aria-hidden="true"></canvas>
+		<div class="trace-readouts mono">
+			<span>CH1 · ±0.02 %</span>
+			<span>RANGE · FULL SCALE</span>
+			<span>TRACE · STABLE</span>
+			<span class="led-wrap"><span class="led" aria-hidden="true"></span>READY</span>
+		</div>
+	</div>
+	<p class="trace-facts mono">EST. 1983 · ISO 9001 CERTIFIED · 90+ INSTRUMENTS IN PRODUCTION · 150+ COUNTRIES SERVED</p>
+</section>
+
+<!-- COLOPHON -->
+<section class="sheet sheet-colophon reveal" id="s5">
+	<div class="colophon-inner">
+		<p class="colophon-eyebrow mono">04 · COLOPHON</p>
+		<h2 class="colophon-title">Instrument up<span class="accent">.</span></h2>
+		<div class="colophon-row">
+			<div class="colophon-contact mono">
+				<span>+91 172 5033251</span>
+				<span>enquiry@electronicsindia.co.in</span>
+				<span>PARWANOO, HIMACHAL PRADESH, INDIA</span>
+			</div>
+			<a class="btn btn-primary" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">REQUEST QUOTATION</a>
+		</div>
 	</div>
 </section>
 

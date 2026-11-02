@@ -113,12 +113,12 @@ $products = new WP_Query(
 	<?php if ( $products->max_num_pages > 1 ) : ?>
 		<nav class="ei-pagination" style="margin-top:var(--space-l);display:flex;justify-content:center;gap:8px;">
 			<?php
-			echo paginate_links(
-				array( // phpcs:ignore WordPress.Security.EscapeOutput -- paginate_links returns safe HTML.
-				'total'     => $products->max_num_pages,
-				'current'   => max( 1, get_query_var( 'paged' ) ),
-				'prev_text' => 'PREV',
-				'next_text' => 'NEXT',
+			echo paginate_links( // phpcs:ignore WordPress.Security.EscapeOutput -- paginate_links returns safe HTML.
+				array(
+					'total'     => $products->max_num_pages,
+					'current'   => max( 1, get_query_var( 'paged' ) ),
+					'prev_text' => 'PREV',
+					'next_text' => 'NEXT',
 				)
 			);
 			?>
