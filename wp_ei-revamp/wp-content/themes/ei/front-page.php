@@ -1,193 +1,145 @@
 <?php
 /**
- * Front page — Electronics India Double Beam.
- *
- * Direction: Awwwards-tier analytical instrument metaphor.
- * Light-only surfaces, locked brand tokens, IBM Plex self-hosted.
- * Sections, in order:
- * 1. Hero — "Precision, measured." with product photo + spectrum bar.
- * 2. Proof strip — detector rail: EST.1983 / ISO / 90+ / 150+ / 7 families.
- * 3. Families — wavelength selector (7 bands). Active band toggles specimen readout.
- * 4. Flagship — reference vs sample comparison per family.
- * 5. CTA — "Your application, specified."
- * 6. Contact — form + source block.
+ * Front page — 10K Agency datasheet layout.
+ * Five sheets: manifesto, index, specimen, trace, colophon.
+ * No WordPress loop — targeted queries only.
  *
  * @package Ei
  */
+get_header(); ?>
 
-get_header();
+<?php
+/* --- Manifesto data --- */
+$hero_product  = get_posts( array( 'post_type' => 'product', 'posts_per_page' => 1, 'post_status' => 'publish', 'meta_key' => 'show_on_home', 'meta_value' => 1, 'orderby' => 'meta_value_num', 'order' => 'ASC' ) );
+$hero          = $hero_product ? $hero_product[0] : null;
+$hero_model    = $hero ? get_post_meta( $hero->ID, 'model_number', true ) : '';
+$hero_desc     = $hero ? get_post_meta( $hero->ID, 'description', true ) : '';
+$hero_thumb    = $hero ? get_post_thumbnail_id( $hero->ID ) : 0;
 
-/* Newest product becomes the hero artefact — a real instrument, not stock art. */
-$hero_product = get_posts(
-	array(
-		'post_type'      => 'product',
-		'post_status'    => 'publish',
-		'posts_per_page' => 1,
-		'orderby'        => 'date',
-		'order'          => 'DESC',
-	)
-);
-$hero         = $hero_product ? $hero_product[0] : null;
-$hero_model   = $hero ? ei_product_model( $hero->ID ) : '';
-$hero_img     = $hero ? wp_get_attachment_image(
-	get_post_thumbnail_id( $hero->ID ),
-	'full',
-	false,
-	array(
-		'loading'       => 'eager',
-		'fetchpriority' => 'high',
-		'alt'           => esc_attr( get_the_title( $hero->ID ) ),
-	)
-) : '';
+/* --- Index: product families --- */
+$families = get_terms( array( 'taxonomy' => 'products', 'parent' => 0, 'hide_empty' => false, 'orderby' => 'name', 'order' => 'ASC', 'number' => 7 ) );
 
-/* Real product photography per family — map taxonomy terms to published product thumbnails. */
-$ei_family_images = array();
-$ei_terms         = get_terms(
-	array(
-		'taxonomy'   => 'products',
-		'hide_empty' => false,
-		'fields'     => 'all',
-	)
-);
-if ( ! is_wp_error( $ei_terms ) && $ei_terms ) {
-	foreach ( $ei_terms as $ei_term ) {
-		$ei_products = get_posts(
-			array(
-				'post_type'      => 'product',
-				'post_status'    => 'publish',
-				'posts_per_page' => 1,
-				'tax_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery -- single-term featured query
-					array(
-						'taxonomy' => 'products',
-						'terms'    => array( $ei_term->term_id ),
-					),
-				),
-			)
-		);
-		if ( $ei_products && $ei_products[0] ) {
-			$ei_thumb = get_post_thumbnail_id( $ei_products[0]->ID );
-			if ( $ei_thumb ) {
-				$ei_family_images[ strtolower( $ei_term->name ) ] = wp_get_attachment_image_url( $ei_thumb, 'full' );
-			}
-		}
-	}
-}
-
-wp_add_inline_script(
-	'ei-script',
-	'window.eiFamilyImages = ' . wp_json_encode( $ei_family_images ) . ';',
-	'before'
-);
-
+/* --- Specimen: featured home products --- */
+$featured = get_posts( array( 'post_type' => 'product', 'posts_per_page' => 4, 'post_status' => 'publish', 'meta_key' => 'show_on_home', 'meta_value' => 1, 'orderby' => 'meta_value_num', 'order' => 'ASC' ) );
 ?>
-<!-- [1] HERO -->
-<section class="hero" id="s1">
-	<div class="hero-inner">
-		<p class="eyebrow">ANALYTICAL · SCIENTIFIC · LABORATORY · PHARMACEUTICAL INSTRUMENTS</p>
-		<h1 class="hero-title"><span>Precision,</span> <em>measured.</em></h1>
 
-		<div class="hero-grid">
+<!-- [1] MANIFESTO -->
+<section class="sheet sheet-manifesto reveal" id="s1">
+	<div class="corner tl" aria-hidden="true"></div>
+	<div class="corner tr" aria-hidden="true"></div>
+	<div class="corner bl" aria-hidden="true"></div>
+	<div class="corner br" aria-hidden="true"></div>
+	<div class="manifesto-grid">
+		<h1 class="display">
+			<span class="line-a mono"><?php bloginfo( 'name' ); ?></span>
+			<span class="line-b"><?php bloginfo( 'description' ); ?><span class="ei-red">.</span></span>
+			<span class="underline" aria-hidden="true"></span>
+		</h1>
+		<div class="lede-cols">
+			<?php if ( $hero_desc ) : ?>
+				<p><?php echo wp_kses_post( $hero_desc ); ?></p>
+			<?php else : ?>
+				<p><?php esc_html_e( 'Precision instruments, built and documented in-house. One standard: precision, measured.', 'ei' ); ?></p>
+			<?php endif; ?>
+			<p class="mono"><?php echo esc_html( $hero_model ? $hero_model : 'EI · Standard Series' ); ?></p>
+		</div>
+		<?php if ( $hero_thumb ) : ?>
 			<figure class="hero-art" aria-hidden="true">
 				<div class="art-frame">
-					<?php echo wp_kses_post( $hero_img ); ?>
-					<div class="art-overlay">
-						<span class="art-model">EI-UV-2000</span>
-						<span class="art-badge">NEW</span>
-					</div>
+					<?php echo wp_get_attachment_image( $hero_thumb, 'full', false, array( 'loading' => 'eager', 'fetchpriority' => 'high', 'width' => 800, 'height' => 600 ) ); ?>
 				</div>
-				<figcaption class="mono">UV-VISIBLE SPECTROPHOTOMETER</figcaption>
+				<figcaption class="mono"><?php echo esc_html( $hero ? get_the_title( $hero->ID ) : 'Featured Instrument' ); ?></figcaption>
 			</figure>
+		<?php endif; ?>
+	</div>
+</section>
 
-			<div class="hero-copy">
-				<p class="hero-lede">Electronics India designs, manufactures and exports analytical, scientific, laboratory and pharmaceutical instruments — spectrophotometers, pH meters, conductivity meters, flame photometers, dissolution apparatus and moisture titrators — from Parwanoo, Himachal Pradesh, since 1983.</p>
+<!-- [2] INDEX — product families as table of contents -->
+<section class="sheet sheet-index reveal" id="s2">
+	<header class="sheet-head">
+		<span class="sheet-index mono">02</span>
+		<h2 class="sheet-title">Index of families</h2>
+	</header>
+	<nav class="toc" aria-label="Product families">
+		<?php foreach ( $families as $i => $family ) : ?>
+			<a class="toc-row" href="<?php echo esc_url( get_term_link( $family ) ); ?>">
+				<span class="toc-num mono"><?php echo esc_html( sprintf( '%02d', $i + 1 ) ); ?></span>
+				<span class="toc-name"><?php echo esc_html( $family->name ); ?></span>
+				<span class="toc-dots" aria-hidden="true"></span>
+				<span class="toc-note mono"><?php echo esc_html( $family->count . ' instrument' . ( $family->count !== 1 ? 's' : '' ) ); ?></span>
+				<span class="toc-arrow" aria-hidden="true">▸</span>
+			</a>
+		<?php endforeach; ?>
+	</nav>
+</section>
 
-				<div class="hero-actions">
-					<a class="btn-solid" href="#s4">BROWSE THE CATALOGUE</a>
-					<a class="ei-textlink" href="#s7">GET A QUOTE</a>
+<!-- [3] SPECIMEN — featured products -->
+<section class="sheet sheet-specimen reveal" id="s3">
+	<header class="sheet-head">
+		<span class="sheet-index mono">03</span>
+		<h2 class="sheet-title">Selected specimens</h2>
+	</header>
+	<?php if ( $featured ) : ?>
+		<?php foreach ( $featured as $product ) : ?>
+			<div class="specimen">
+				<div class="specimen-model">
+					<span class="reg-cross rx1" aria-hidden="true"></span>
+					<span class="reg-cross rx2" aria-hidden="true"></span>
+					<span class="model-no mono"><?php echo esc_html( get_post_meta( $product->ID, 'model_number', true ) ?: 'EI-' . strtoupper( substr( $product->post_name, 0, 6 ) ) ); ?></span>
+					<span class="model-badge mono">NEW</span>
+				</div>
+				<div class="specimen-data">
+					<h3 class="specimen-name"><?php echo esc_html( $product->post_title ); ?></h3>
+					<?php
+					$specs = get_post_meta( $product->ID, 'specifications_table', true );
+					if ( $specs ) : ?>
+						<dl class="spec-table">
+							<?php echo wp_kses( $specs, array( 'table' => array(), 'tbody' => array(), 'tr' => array(), 'td' => array(), 'th' => array(), 'thead' => array() ) ); ?>
+						</dl>
+					<?php endif; ?>
+					<?php if ( $product->post_excerpt ) : ?>
+						<p class="specimen-note"><?php echo wp_kses_post( $product->post_excerpt ); ?></p>
+					<?php endif; ?>
+					<a class="btn" href="<?php echo esc_url( get_permalink( $product ) ); ?>">VIEW SPECIFICATIONS</a>
 				</div>
 			</div>
+		<?php endforeach; ?>
+	<?php endif; ?>
+</section>
+
+<!-- [4] TRACE — canvas + facts -->
+<section class="sheet sheet-trace reveal" id="s4">
+	<header class="sheet-head">
+		<span class="sheet-index mono">04</span>
+		<h2 class="sheet-title">Live trace</h2>
+	</header>
+	<div class="trace-panel">
+		<canvas id="scopeCanvas" width="1200" height="300"></canvas>
+		<div class="trace-readouts mono">
+			<span>CH1 · ±0.02 %</span>
+			<span>RANGE · FULL SCALE</span>
+			<span>TRACE · STABLE</span>
+			<span class="led-wrap"><span class="led" aria-hidden="true"></span>READY</span>
+		</div>
+	</div>
+	<p class="trace-facts mono">
+		<?php echo esc_html( bloginfo( 'name' ) ); ?> · EST. 1983 · ISO 9001 CERTIFIED · <?php echo esc_html( count( $featured ) . '+' ); ?> INSTRUMENTS IN PRODUCTION · 150+ COUNTRIES SERVED
+	</p>
+</section>
+
+<!-- [5] COLOPHON -->
+<section class="sheet sheet-colophon reveal" id="s5">
+	<div class="colophon-inner">
+		<p class="colophon-eyebrow mono">05 · COLOPHON</p>
+		<h2 class="colophon-title">Instrument up<span class="ei-red">.</span></h2>
+		<div class="colophon-row">
+			<div class="colophon-contact mono">
+				<span><?php echo esc_html( get_option( 'admin_email' ) ?: 'info@example.com' ); ?></span>
+				<span>PARWANOO, HIMACHAL PRADESH, INDIA</span>
+			</div>
+			<a class="btn btn-primary" href="#contact">REQUEST QUOTATION</a>
 		</div>
 	</div>
 </section>
 
-<!-- [2] PROOF -->
-<section class="proof" id="s2">
-	<div class="proof-rail">
-		<div class="proof-cell"><span class="count mono" data-count="1983">1983</span><span class="proof-label mono">ESTABLISHED</span></div>
-		<div class="proof-cell"><span class="proof-word mono">ISO</span><span class="proof-label mono">9001 CERTIFIED</span></div>
-		<div class="proof-cell"><span class="count mono" data-count="90" data-suffix="+">90+</span><span class="proof-label mono">INSTRUMENTS IN PRODUCTION</span></div>
-		<div class="proof-cell"><span class="count mono" data-count="150" data-suffix="+">150+</span><span class="proof-label mono">COUNTRIES SERVED</span></div>
-		<div class="proof-cell"><span class="count mono" data-count="7">7</span><span class="proof-label mono">FAMILIES</span></div>
-	</div>
-</section>
-
-<!-- [3] FAMILIES -->
-<section class="mono-section" id="s4">
-	<header class="sec-head">
-		<span class="sec-no mono">01 — CATALOGUE</span>
-		<h2 class="sec-title">Seven families. One standard.</h2>
-		<p class="sec-dek">Every instrument is built on the same bench discipline. Select a family to view its flagship.</p>
-	</header>
-	<div class="wavestrip" role="tablist" aria-label="Product families">
-		<button class="band mono" role="tab" aria-selected="true"  data-band="0"><span class="band-nm">UV-VIS</span><span class="band-name">SPECTROPHOTOMETERS</span></button>
-		<button class="band mono" role="tab" aria-selected="false" data-band="1"><span class="band-nm">pH</span><span class="band-name">ELECTROCHEMISTRY</span></button>
-		<button class="band mono" role="tab" aria-selected="false" data-band="2"><span class="band-nm">USP</span><span class="band-name">PHARMACEUTICAL</span></button>
-		<button class="band mono" role="tab" aria-selected="false" data-band="3"><span class="band-nm">CFU</span><span class="band-name">BLOOD TESTING</span></button>
-		<button class="band mono" role="tab" aria-selected="false" data-band="4"><span class="band-nm">Na/K</span><span class="band-name">FLAME PHOTOMETERS</span></button>
-		<button class="band mono" role="tab" aria-selected="false" data-band="5"><span class="band-nm">°C</span><span class="band-name">MELTING POINT</span></button>
-		<button class="band mono" role="tab" aria-selected="false" data-band="6"><span class="band-nm">ppm</span><span class="band-name">MOISTURE TITRATORS</span></button>
-	</div>
-	<div class="band-readout mono" aria-live="polite"><span class="led" aria-hidden="true"></span><span id="bandReadout">SPECTROPHOTOMETERS · SINGLE & DOUBLE BEAM · 190–1100 NM</span></div>
-</section>
-
-<!-- [4] FLAGSHIPS -->
-<section class="specimens" id="s5">
-	<header class="sec-head">
-		<span class="sec-no mono">02 — FLAGSHIP</span>
-		<h2 class="sec-title">Reference versus instrument.</h2>
-		<p class="sec-dek">The reference column holds the accepted standard. The EI column holds the flagship.</p>
-	</header>
-	<div id="specimenHost"></div>
-	<div class="spec-actions">
-		<a class="btn-solid" href="#s7">REQUEST QUOTATION</a>
-		<a class="btn-ghost" href="#s4">BACK TO FAMILIES</a>
-	</div>
-</section>
-
-<!-- [5] CTA -->
-<section class="cta" id="s6">
-	<div class="cta-inner">
-		<h2 class="cta-title">Your application,<br><em>specified.</em></h2>
-		<p class="cta-dek">Send us your sample — application, volume, compliance scope — and our engineers will spec the instrument, accessories and calibration chain.</p>
-		<div class="hero-actions">
-			<a class="btn-solid" href="#s7">START A CONVERSATION</a>
-		</div>
-	</div>
-</section>
-
-<!-- [6] CONTACT -->
-<section class="contact" id="s7">
-	<header class="sec-head">
-		<span class="sec-no mono">03 — CONTACT</span>
-		<h2 class="sec-title">Talk to the source.</h2>
-	</header>
-	<div class="contact-grid">
-		<form class="c-form" novalidate>
-			<div class="c-row"><label class="mono" for="cn">NAME</label><input id="cn" type="text" required></div>
-			<div class="c-row"><label class="mono" for="ce">EMAIL</label><input id="ce" type="email" required></div>
-			<div class="c-row"><label class="mono" for="cp">APPLICATION</label><input id="cp" type="text" placeholder="e.g. pharma QC, water testing"></div>
-			<div class="c-row"><label class="mono" for="cm">SAMPLE BRIEF</label><textarea id="cm" rows="4"></textarea></div>
-			<button class="btn-solid" type="submit">SEND ▸</button>
-		</form>
-		<div class="c-block mono">
-			<span class="c-label">DIRECT</span>
-			<a href="tel:+911725033251">+91 172 5033251</a>
-			<a href="mailto:info@electronicsindia.co.in">INFO@ELECTRONICSINDIA.CO.IN</a>
-			<span class="c-label">WORKS</span>
-			<span>PARWANOO, DIST. SOLAN</span>
-			<span>HIMACHAL PRADESH 173220, INDIA</span>
-		</div>
-	</div>
-</section>
-
-<?php get_footer(); ?>
+<?php get_footer();

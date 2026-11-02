@@ -1,152 +1,79 @@
 <?php
 /**
- * Single product — two-column sticky gallery + info panel,
- * then accordion-style sections for specs/features/description.
+ * Single product — specimen datasheet page.
+ * Mono model number, spec table, CTA buttons. No WordPress loop.
  *
  * @package Ei
  */
+get_header(); ?>
 
-?>
-
-<?php get_header(); ?>
-
-<?php
-while ( have_posts() ) :
-	the_post();
-	$model       = ei_product_model( get_the_ID() );
-	$features    = ei_product_features( get_the_ID() );
-	$description = get_field( 'description', get_the_ID() );
-	$spec_table  = ei_specifications_table( get_the_ID() );
-	$gallery     = get_field( 'gallery', get_the_ID() );
-	$brochure    = ei_brochure_url( get_the_ID() );
-	$terms       = wp_get_post_terms( get_the_ID(), 'products' );
-	$primary_cat = $terms && ! is_wp_error( $terms ) ? $terms[0] : null;
-	?>
-
-<article class="ei-product" id="post-<?php the_ID(); ?>">
-	<div class="container">
-
-		<nav class="ei-breadcrumbs" aria-label="Breadcrumb">
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'ei' ); ?></a>
-			<span>/</span>
-			<a href="<?php echo esc_url( home_url( '/products/' ) ); ?>"><?php esc_html_e( 'Products', 'ei' ); ?></a>
-			<?php if ( $primary_cat ) : ?>
-				<span>/</span>
-				<a href="<?php echo esc_url( get_term_link( $primary_cat ) ); ?>"><?php echo esc_html( $primary_cat->name ); ?></a>
+<article class="ei-product-sheet">
+	<header class="product-head">
+		<div class="product-meta">
+			<span class="product-eyebrow mono">01 · SPECIMEN</span>
+			<h1 class="product-title mono">
+				<span class="product-model"><?php echo esc_html( get_post_meta( get_the_ID(), 'model_number', true ) ?: '' ); ?></span>
+				<?php echo esc_html( get_the_title() ); ?>
+			</h1>
+			<?php
+			$terms = wp_get_post_terms( get_the_ID(), 'products', array( 'fields' => 'names' ) );
+			if ( $terms ) : ?>
+				<p class="product-family mono" style="font-size:0.7rem;letter-spacing:0.14em;color:var(--stone);text-transform:uppercase;">
+					<?php echo esc_html( implode( ' · ', $terms ) ); ?>
+				</p>
 			<?php endif; ?>
-			<span>/</span>
-			<span><?php the_title(); ?></span>
-		</nav>
-
-		<div class="ei-product-hero">
-			<div class="ei-product-media">
-				<?php
-				the_post_thumbnail(
-					'ei-product',
-					array(
-						'alt'     => esc_attr( get_the_title() ),
-						'loading' => 'eager',
-					)
-				);
-				?>
-				<?php if ( $gallery && is_array( $gallery ) ) : ?>
-					<div class="ei-thumbs">
-						<?php
-						foreach ( $gallery as $img ) :
-							if ( ! empty( $img['url'] ) ) :
-								?>
-							<img src="<?php echo esc_url( $img['url'] ); ?>" alt="<?php echo esc_attr( $img['alt'] ?? get_the_title() ); ?>" data-full="<?php echo esc_url( $img['url'] ); ?>">
-													<?php
-						endif;
-endforeach;
-						?>
-					</div>
-				<?php endif; ?>
-			</div>
-
-			<div class="ei-product-meta">
-				<?php if ( $model ) : ?>
-					<p class="ei-badge"><?php echo esc_html( $model ); ?></p>
-				<?php endif; ?>
-				<h1><?php the_title(); ?></h1>
-
-				<div class="entry-content reveal"><?php the_content(); ?></div>
-
-				<div class="ei-product-actions reveal">
-					<?php if ( $brochure ) : ?>
-						<a class="btn btn--outline" href="<?php echo esc_url( $brochure ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Download brochure', 'ei' ); ?></a>
-					<?php endif; ?>
-					<a class="btn btn--primary" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php esc_html_e( 'Request a quote', 'ei' ); ?></a>
-				</div>
-			</div>
 		</div>
+		<div class="product-actions" style="display:flex;gap:12px;">
+			<?php
+			$brochure = get_post_meta( get_the_ID(), 'brochure_pdf', true );
+			if ( $brochure ) : ?>
+				<a class="btn" href="<?php echo esc_url( $brochure ); ?>" target="_blank" rel="noopener">DOWNLOAD BROCHURE</a>
+			<?php endif; ?>
+			<a class="btn btn-primary" href="#contact">REQUEST QUOTATION</a>
+		</div>
+	</header>
 
-		<?php if ( $features || $description || $spec_table ) : ?>
-		<div class="ei-product-sections reveal">
-			<?php if ( $features ) : ?>
-			<section class="ei-section">
-				<div class="container">
-					<h2><?php esc_html_e( 'Features', 'ei' ); ?></h2>
-					<ul class="ei-features">
-						<?php foreach ( $features as $feat ) : ?>
-							<li><?php echo esc_html( $feat ); ?></li>
+	<div class="product-body">
+		<div class="product-media">
+			<?php if ( has_post_thumbnail() ) : ?>
+				<?php echo wp_get_attachment_image( get_post_thumbnail_id(), 'ei-product', false, array( 'loading' => 'lazy' ) ); ?>
+			<?php else : ?>
+				<div class="product-placeholder" style="border:1px solid var(--line);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;color:var(--stone);font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;">No image available</div>
+			<?php endif; ?>
+		</div>
+		<div class="product-info">
+			<?php
+			$features = get_post_meta( get_the_ID(), 'features', true );
+			if ( $features && is_array( $features ) ) : ?>
+				<section class="product-section">
+					<h2 class="product-section-title">Features</h2>
+					<ul class="product-feature-list" style="list-style:none;padding:0;">
+						<?php foreach ( $features as $feature ) : ?>
+							<li style="padding:6px 0;border-bottom:1px solid var(--line);font-size:0.9rem;color:var(--ink);"><?php echo esc_html( $feature ); ?></li>
 						<?php endforeach; ?>
 					</ul>
-				</div>
-			</section>
+				</section>
 			<?php endif; ?>
 
-			<?php if ( $description ) : ?>
-			<section class="ei-section">
-				<div class="container">
-					<h2><?php esc_html_e( 'Description', 'ei' ); ?></h2>
-					<div class="entry-content"><?php echo wp_kses_post( $description ); ?></div>
-				</div>
-			</section>
+			<?php
+			$specs = get_post_meta( get_the_ID(), 'specifications_table', true );
+			if ( $specs ) : ?>
+				<section class="product-section">
+					<h2 class="product-section-title">Specifications</h2>
+					<table class="spec-table">
+						<?php echo wp_kses( $specs, array( 'table' => array(), 'tbody' => array(), 'tr' => array(), 'td' => array(), 'th' => array(), 'thead' => array() ) ); ?>
+					</table>
+				</section>
 			<?php endif; ?>
 
-			<?php if ( $spec_table ) : ?>
-			<section class="ei-section">
-				<div class="container">
-					<h2><?php esc_html_e( 'Specifications', 'ei' ); ?></h2>
-					<div class="ei-spec-table"><?php echo wp_kses( $spec_table, wp_kses_allowed_html( 'post' ) ); ?></div>
-				</div>
-			</section>
+			<?php if ( get_the_content() ) : ?>
+				<section class="product-section">
+					<h2 class="product-section-title">Description</h2>
+					<div class="product-description"><?php echo wp_kses_post( get_the_content() ); ?></div>
+				</section>
 			<?php endif; ?>
 		</div>
-		<?php endif; ?>
-
-		<?php
-		$related = new WP_Query(
-			array(
-				'post_type'      => 'product',
-				'post__not_in'   => array( get_the_ID() ),
-				'taxonomy'       => 'products',
-				'terms'          => $primary_cat ? $primary_cat->term_id : '',
-				'posts_per_page' => 4,
-				'orderby'        => 'rand',
-			)
-		);
-		if ( $related->have_posts() ) :
-			?>
-		<section class="ei-section ei-section--alt">
-			<div class="container">
-				<h2><?php esc_html_e( 'Related Instruments', 'ei' ); ?></h2>
-				<div class="ei-grid">
-					<?php
-					while ( $related->have_posts() ) :
-						$related->the_post();
-						ei_product_card( get_the_ID() );
-endwhile;
-					wp_reset_postdata();
-					?>
-				</div>
-			</div>
-		</section>
-		<?php endif; ?>
 	</div>
 </article>
 
-<?php endwhile; ?>
-
-<?php get_footer(); ?>
+<?php get_footer();

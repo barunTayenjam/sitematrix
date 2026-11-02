@@ -1,116 +1,89 @@
 <?php
 /**
- * Taxonomy archive — /products/{term}/.
- *
- * Current term hero, its children (if any), and its products.
- * Top-level term with children shows a family grid; a leaf term
- * goes straight to the product list.
+ * Product family archive — /products/{term}/.
+ * Term hero, children (sub-families) as TOC rows, product grid.
  *
  * @package Ei
  */
-
-?>
-
-<?php get_header(); ?>
+get_header(); ?>
 
 <?php
-$list_term = get_queried_object();
+$term = get_queried_object();
 
-$children = get_terms(
-	array(
-		'taxonomy'   => 'products',
-		'parent'     => $list_term->term_id,
-		'hide_empty' => false,
-		'orderby'    => 'name',
-	)
-);
+/* Child families */
+$children = get_terms( array(
+	'taxonomy'   => 'products',
+	'parent'     => $term->term_id,
+	'hide_empty' => false,
+	'orderby'    => 'name',
+	'order'      => 'ASC',
+) );
+
+/* Products in this family */
+$products = new WP_Query( array(
+	'post_type'      => 'product',
+	'posts_per_page' => 12,
+	'paged'          => max( 1, get_query_var( 'paged' ) ),
+	'tax_query'      => array( array( 'taxonomy' => 'products', 'field' => 'term_id', 'terms' => $term->term_id ) ),
+) );
 ?>
 
-<section class="ei-page-head">
-	<div class="container">
-		<nav class="ei-breadcrumbs" aria-label="Breadcrumb">
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'ei' ); ?></a>
-			<span>/</span>
-			<a href="<?php echo esc_url( home_url( '/products/' ) ); ?>"><?php esc_html_e( 'Products', 'ei' ); ?></a>
-			<span>/</span>
-			<span aria-current="page"><?php echo esc_html( $list_term->name ); ?></span>
-		</nav>
-		<h1><?php echo esc_html( $list_term->name ); ?></h1>
-		<?php if ( $list_term->description ) : ?>
-			<p class="ei-term-desc"><?php echo esc_html( $term->description ); ?></p>
+<section class="sheet sheet-index reveal" id="family-<?php echo esc_attr( $term->slug ); ?>">
+	<header class="sheet-head">
+		<span class="sheet-index mono">FAMILY</span>
+		<h1 class="sheet-title"><?php echo esc_html( $term->name ); ?></h1>
+		<?php if ( $term->description ) : ?>
+			<p class="ei-term-desc mono" style="color:var(--stone);font-size:0.85rem;max-width:55ch;"><?php echo esc_html( $term->description ); ?></p>
 		<?php endif; ?>
-	</div>
-</section>
+	</header>
 
-<?php if ( ! empty( $children ) && ! is_wp_error( $children ) ) : ?>
-<section class="ei-section">
-	<div class="container">
-		<p class="ei-eyebrow reveal"><?php esc_html_e( 'Product lines', 'ei' ); ?></p>
-		<div class="ei-cats">
+	<?php if ( ! empty( $children ) && ! is_wp_error( $children ) ) : ?>
+		<h2 class="sheet-index" style="font-size:0.7rem;margin-top:var(--space-l);margin-bottom:8px;">Product lines</h2>
+		<nav class="toc" aria-label="Product lines">
 			<?php foreach ( $children as $child ) : ?>
-				<a class="ei-cat-card reveal" href="<?php echo esc_url( get_term_link( $child ) ); ?>">
-					<h3><?php echo esc_html( $child->name ); ?></h3>
-					// translators: %d instrument|%d instruments.
-				<p>
-				<?php
-				// translators: %d instrument|%d instruments.
-				echo esc_html( sprintf( _n( '%d instrument', '%d instruments', $child->count, 'ei' ), $child->count ) );
-				?>
-				</p>
+				<a class="toc-row" href="<?php echo esc_url( get_term_link( $child ) ); ?>">
+					<span class="toc-num mono"><?php echo esc_html( $child->count ); ?></span>
+					<span class="toc-name"><?php echo esc_html( $child->name ); ?></span>
+					<span class="toc-dots" aria-hidden="true"></span>
+					<span class="toc-arrow" aria-hidden="true">▸</span>
 				</a>
 			<?php endforeach; ?>
-		</div>
-	</div>
-</section>
-<?php endif; ?>
-
-<section class="ei-section<?php echo empty( $children ) ? '' : ' ei-section--alt'; ?>">
-	<div class="container">
-		<p class="ei-eyebrow reveal"><?php esc_html_e( 'Instruments', 'ei' ); ?></p>
-		<h2 class="ei-section-title reveal"><?php echo esc_html( $list_term->name ); ?></h2>
-		<div class="ei-grid">
-			<?php
-			$query = new WP_Query(
-				array(
-					'post_type'      => 'product',
-					'posts_per_page' => 12,
-					'paged'          => max( 1, get_query_var( 'paged' ) ),
-					'tax_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery -- single-term product query
-						array(
-							'taxonomy' => 'products',
-							'field'    => 'term_id',
-							'terms'    => $list_term->term_id,
-						),
-					),
-				)
-			);
-			if ( $query->have_posts() ) :
-				while ( $query->have_posts() ) :
-					$query->the_post();
-					ei_product_card( get_the_ID() );
-				endwhile;
-				wp_reset_postdata();
-			else :
-				?>
-				<p><?php esc_html_e( 'No instruments listed under this category yet.', 'ei' ); ?></p>
-			<?php endif; ?>
-		</div>
-
-		<?php if ( $query->max_num_pages > 1 ) : ?>
-		<nav class="ei-pagination" aria-label="Product pagination">
-			<?php
-			echo paginate_links( // phpcs:ignore WordPress.Security.EscapeOutput -- paginate_links returns safe HTML.
-				array(
-					'total'     => $query->max_num_pages,
-					'current'   => max( 1, get_query_var( 'paged' ) ),
-					'prev_text' => '&laquo;',
-					'next_text' => '&raquo;',
-				)
-			);
-			?>
 		</nav>
+	<?php endif; ?>
+
+	<h2 class="sheet-index" style="font-size:0.7rem;margin-top:var(--space-l);margin-bottom:8px;">Instruments</h2>
+	<div class="specimen-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">
+		<?php if ( $products->have_posts() ) : ?>
+			<?php while ( $products->have_posts() ) : $products->the_post(); ?>
+				<article class="product-card">
+					<div class="model mono" style="font-size:0.65rem;letter-spacing:0.1em;color:var(--stone);text-transform:uppercase;">
+						<?php echo esc_html( get_post_meta( get_the_ID(), 'model_number', true ) ?: '' ); ?>
+					</div>
+					<h3 style="font-size:1rem;margin-bottom:6px;"><a href="<?php echo esc_url( get_permalink() ); ?>" style="color:var(--ink);"><?php echo esc_html( get_the_title() ); ?></a></h3>
+					<?php if ( get_the_excerpt() ) : ?>
+						<p style="font-size:0.8rem;color:var(--stone);line-height:1.5;"><?php echo wp_kses_post( get_the_excerpt() ); ?></p>
+					<?php endif; ?>
+					<a class="btn" href="<?php echo esc_url( get_permalink() ); ?>" style="font-size:0.7rem;padding:8px 16px;">VIEW SPECIFICATIONS</a>
+				</article>
+			<?php endwhile;
+			wp_reset_postdata();
+		else : ?>
+			<p style="color:var(--stone);font-size:0.9rem;"><?php esc_html_e( 'No instruments listed under this family yet.', 'ei' ); ?></p>
 		<?php endif; ?>
 	</div>
+
+	<?php if ( $products->max_num_pages > 1 ) : ?>
+		<nav class="ei-pagination" style="margin-top:var(--space-l);display:flex;justify-content:center;gap:8px;">
+			<?php
+			echo paginate_links( array( // phpcs:ignore WordPress.Security.EscapeOutput -- paginate_links returns safe HTML.
+				'total'     => $products->max_num_pages,
+				'current'   => max( 1, get_query_var( 'paged' ) ),
+				'prev_text' => 'PREV',
+				'next_text' => 'NEXT',
+			) );
+			?>
+		</nav>
+	<?php endif; ?>
 </section>
 
-<?php get_footer(); ?>
+<?php get_footer();
