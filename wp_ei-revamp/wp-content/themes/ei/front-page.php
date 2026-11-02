@@ -101,19 +101,9 @@ wp_add_inline_script(
 			<div class="hero-copy">
 				<p class="hero-lede">Electronics India designs, manufactures and exports analytical, scientific, laboratory and pharmaceutical instruments — spectrophotometers, pH meters, conductivity meters, flame photometers, dissolution apparatus and moisture titrators — from Parwanoo, Himachal Pradesh, since 1983.</p>
 
-				<div class="hero-path">
-					<span class="path-label">SOURCE</span>
-					<span class="path-seg"></span>
-					<span class="path-label path-split">SPLITTER</span>
-					<span class="path-seg"></span>
-					<span class="path-label">SAMPLE</span>
-					<span class="path-seg path-seg-hot"></span>
-					<span class="path-label path-det">DETECTOR</span>
-				</div>
-
 				<div class="hero-actions">
 					<a class="btn-solid" href="#s4">BROWSE THE CATALOGUE</a>
-					<a class="btn-ghost" href="#s7">GET A QUOTE</a>
+					<a class="ei-textlink" href="#s7">GET A QUOTE</a>
 				</div>
 			</div>
 		</div>
