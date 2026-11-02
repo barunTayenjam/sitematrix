@@ -360,8 +360,7 @@ p { margin: 0 0 20px 0; }
 	padding: clamp(64px, 8vh, 140px) 40px;
 	overflow: hidden;
 }
-.sheet.reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--reveal) var(--ease), transform var(--reveal) var(--ease); }
-.sheet.reveal.in { opacity: 1; transform: none; }
+.sheet.reveal { opacity: 1; transform: none; }
 .sheet-head { margin-bottom: var(--space-m); }
 .sheet-index {
 	font-family: 'IBM Plex Mono', ui-monospace, monospace;
