@@ -1,10 +1,11 @@
 <?php
 /**
  * Product family archive — /products/{term}/.
- * Term hero, children as TOC rows, product grid with images.
+ * Technical Luxury: product-line TOC rows, Framed Specimen Chambers grid.
  *
  * @package Ei
  */
+
 get_header(); ?>
 
 <?php
@@ -36,95 +37,102 @@ $products = new WP_Query(
 );
 ?>
 
-<section class="sheet sheet-index reveal" id="family-<?php echo esc_attr( $term->slug ); ?>">
-	<header class="sheet-head">
-		<span class="sheet-index mono">FAMILY</span>
-		<h1 class="sheet-title"><?php echo esc_html( $term->name ); ?></h1>
-		<?php if ( $term->description ) : ?>
-			<p class="ei-term-desc mono" style="color:var(--stone);font-size:0.85rem;max-width:55ch;margin-top:8px;"><?php echo wp_kses_post( $term->description ); ?></p>
+<section class="sheet family-archive reveal" id="family-<?php echo esc_attr( $term->slug ); ?>" style="background: var(--obsidian-elevated); border-top: 1px solid var(--glass-border);">
+	<div class="container">
+		<header class="family-head">
+			<span class="eyebrow">Family</span>
+			<h1 class="sheet-title"><?php echo esc_html( $term->name ); ?></h1>
+			<?php if ( $term->description ) : ?>
+				<p class="mono" style="color:var(--titanium-dim);font-size:0.85rem;max-width:55ch;margin-top:var(--space-xs);"><?php echo wp_kses_post( $term->description ); ?></p>
+			<?php endif; ?>
+		</header>
+
+		<?php if ( ! empty( $children ) && ! is_wp_error( $children ) ) : ?>
+			<h2 class="sheet-index" style="font-size:0.62rem;margin-top:var(--space-xl);margin-bottom:var(--space-s);">Product lines</h2>
+			<nav class="family-toc" aria-label="Product lines">
+				<?php foreach ( $children as $child ) : ?>
+					<a class="toc-row" href="<?php echo esc_url( get_term_link( $child ) ); ?>">
+						<span class="toc-num mono"><?php echo esc_html( $child->count ); ?></span>
+						<span class="toc-name"><?php echo esc_html( $child->name ); ?></span>
+						<span class="toc-arrow mono">▸</span>
+					</a>
+				<?php endforeach; ?>
+			</nav>
 		<?php endif; ?>
-	</header>
 
-	<?php if ( ! empty( $children ) && ! is_wp_error( $children ) ) : ?>
-		<h2 class="sheet-index" style="font-size:0.7rem;margin-top:var(--space-l);margin-bottom:8px;">Product lines</h2>
-		<nav class="toc" aria-label="Product lines">
-			<?php foreach ( $children as $child ) : ?>
-				<a class="toc-row" href="<?php echo esc_url( get_term_link( $child ) ); ?>">
-					<span class="toc-num mono"><?php echo esc_html( $child->count ); ?></span>
-					<span class="toc-name"><?php echo esc_html( $child->name ); ?></span>
-					<span class="toc-dots" aria-hidden="true"></span>
-					<span class="toc-arrow" aria-hidden="true">▸</span>
-				</a>
-			<?php endforeach; ?>
-		</nav>
-	<?php endif; ?>
+		<h2 class="sheet-index" style="font-size:0.62rem;margin-top:var(--space-xl);margin-bottom:var(--space-s);">Instruments</h2>
+		<div class="specimen-grid">
+			<?php if ( $products->have_posts() ) : ?>
+				<?php
+				while ( $products->have_posts() ) :
+					$products->the_post();
+					?>
+					<?php
+					$model   = get_post_meta( get_the_ID(), 'model_number', true );
+					$thumb   = get_post_thumbnail_id( get_the_ID() );
+					$excerpt = get_the_excerpt();
+					?>
+					<article class="chamber reveal">
+						<div class="chamber-media">
+							<?php if ( $thumb ) : ?>
+								<?php
+								echo wp_get_attachment_image(
+									$thumb,
+									'ei-card',
+									false,
+									array(
+										'loading'  => 'lazy',
+										'decoding' => 'async',
+									)
+								);
+								?>
+							<?php else : ?>
+								<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--titanium-dim);font-family:'IBM Plex Mono',monospace;font-size:0.6rem;">No image</div>
+							<?php endif; ?>
+							<div class="chamber-specs">
+								<span class="chamber-model">EI-<?php echo esc_html( $model ?: '—' ); ?></span>
+								<div class="chamber-tags">
+									<?php
+									$tags = wp_get_post_terms( get_the_ID(), 'products', array( 'fields' => 'names' ) );
+									foreach ( (array) $tags as $term_name ) :
+										?>
+										<span class="chamber-tag"><?php echo esc_html( $term_name ); ?></span>
+									<?php endforeach; ?>
+								</div>
+							</div>
+						</div>
+						<div class="chamber-body">
+							<h3 class="chamber-title"><a href="<?php echo esc_url( get_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h3>
+							<?php if ( $excerpt ) : ?>
+								<p class="chamber-desc"><?php echo esc_html( wp_trim_words( $excerpt, 20 ) ); ?></p>
+							<?php endif; ?>
+							<a class="btn btn-glass" href="<?php echo esc_url( get_permalink() ); ?>">View Specifications</a>
+						</div>
+					</article>
+					<?php
+				endwhile;
+				wp_reset_postdata();
+			else :
+				?>
+				<p style="color:var(--titanium-dim);font-size:0.9rem;"><?php esc_html_e( 'No instruments listed under this family yet.', 'ei' ); ?></p>
+			<?php endif; ?>
+		</div>
 
-	<h2 class="sheet-index" style="font-size:0.7rem;margin-top:var(--space-l);margin-bottom:8px;">Instruments</h2>
-	<div class="product-grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;">
-		<?php if ( $products->have_posts() ) : ?>
-			<?php
-			while ( $products->have_posts() ) :
-				$products->the_post();
-				?>
+		<?php if ( $products->max_num_pages > 1 ) : ?>
+			<nav class="ei-pagination" style="margin-top:var(--space-xl);display:flex;justify-content:center;gap:8px;">
 				<?php
-				$model   = get_post_meta( get_the_ID(), 'model_number', true );
-				$thumb   = get_post_thumbnail_id( get_the_ID() );
-				$excerpt = get_the_excerpt();
+				echo paginate_links( // phpcs:ignore WordPress.Security.EscapeOutput -- paginate_links returns safe HTML.
+					array(
+						'total'     => $products->max_num_pages,
+						'current'   => max( 1, get_query_var( 'paged' ) ),
+						'prev_text' => 'PREV',
+						'next_text' => 'NEXT',
+					)
+				);
 				?>
-				<article class="product-card">
-					<div class="product-media">
-						<?php if ( $thumb ) : ?>
-							<?php
-							echo wp_get_attachment_image(
-								$thumb,
-								'ei-card',
-								false,
-								array(
-									'loading'  => 'lazy',
-									'decoding' => 'async',
-								)
-							);
-							?>
-						<?php else : ?>
-							<div class="product-placeholder" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--stone);font-family:'IBM Plex Mono',monospace;font-size:0.65rem;">No image</div>
-						<?php endif; ?>
-						<?php if ( $model ) : ?>
-							<span class="product-badge"><?php echo esc_html( $model ); ?></span>
-						<?php endif; ?>
-					</div>
-					<div class="product-body">
-						<span class="product-model"><?php echo esc_html( $model ? 'EI-' . $model : '' ); ?></span>
-						<h3 style="font-size:1rem;margin-bottom:6px;"><a href="<?php echo esc_url( get_permalink() ); ?>" style="color:var(--ink);"><?php echo esc_html( get_the_title() ); ?></a></h3>
-						<?php if ( $excerpt ) : ?>
-							<p style="font-size:0.8rem;color:var(--stone);line-height:1.5;margin:0;"><?php echo esc_html( wp_trim_words( $excerpt, 14 ) ); ?></p>
-						<?php endif; ?>
-						<a class="btn btn-light" href="<?php echo esc_url( get_permalink() ); ?>" style="font-size:0.65rem;padding:10px 18px;">VIEW SPECIFICATIONS</a>
-					</div>
-				</article>
-				<?php
-			endwhile;
-			wp_reset_postdata();
-		else :
-			?>
-			<p style="color:var(--stone);font-size:0.9rem;"><?php esc_html_e( 'No instruments listed under this family yet.', 'ei' ); ?></p>
+			</nav>
 		<?php endif; ?>
 	</div>
-
-	<?php if ( $products->max_num_pages > 1 ) : ?>
-		<nav class="ei-pagination" style="margin-top:var(--space-l);display:flex;justify-content:center;gap:8px;">
-			<?php
-			echo paginate_links( // phpcs:ignore WordPress.Security.EscapeOutput -- paginate_links returns safe HTML.
-				array(
-					'total'     => $products->max_num_pages,
-					'current'   => max( 1, get_query_var( 'paged' ) ),
-					'prev_text' => 'PREV',
-					'next_text' => 'NEXT',
-				)
-			);
-			?>
-		</nav>
-	<?php endif; ?>
 </section>
 
-<?php
-get_footer();
+<?php get_footer(); ?>
