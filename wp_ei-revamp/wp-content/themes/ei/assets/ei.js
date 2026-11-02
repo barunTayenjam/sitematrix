@@ -5,8 +5,11 @@
 (() => {
 	const reduced = window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 
+	// Enable motion-aware reveals
+	document.documentElement.classList.add( 'js' );
+
 	// --- IntersectionObserver reveals
-	if ( 'IntersectionObserver' in window ) {
+	if ( 'IntersectionObserver' in window && ! reduced ) {
 		const ro = new IntersectionObserver(
 			( entries ) => {
 				entries.forEach( ( e ) => {
@@ -20,11 +23,6 @@
 		);
 		document.querySelectorAll( '.reveal' ).forEach( ( r ) => ro.observe( r ) );
 	} else {
-		document.querySelectorAll( '.reveal' ).forEach( ( r ) => r.classList.add( 'in' ) );
-	}
-
-	// Reduced motion: reveal everything immediately
-	if ( reduced ) {
 		document.querySelectorAll( '.reveal' ).forEach( ( r ) => r.classList.add( 'in' ) );
 	}
 

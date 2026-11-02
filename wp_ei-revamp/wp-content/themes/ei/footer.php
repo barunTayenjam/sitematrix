@@ -68,7 +68,7 @@
 			</div>
 			<div class="footer-contact-item">
 				<span class="footer-contact-label"><?php esc_html_e( 'Address', 'ei' ); ?></span>
-				<span><?php esc_html_e( '111, Industrial Area, Phase - 2<br>Panchkula-134113<br>Haryana, India', 'ei' ); ?></span>
+				<span>111, Industrial Area, Phase - 2<br>Panchkula-134113<br>Haryana, India</span>
 			</div>
 		</div>
 	</div>
