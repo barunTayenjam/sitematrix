@@ -1,50 +1,47 @@
 <?php
 /**
  * Product family archive — /products/{term}/.
- * Term hero, children (sub-families) as TOC rows, product grid.
+ * Term hero, children as TOC rows, product grid with images.
  *
  * @package Ei
  */
-
 get_header(); ?>
 
 <?php
-$list_term = get_queried_object();
+$term = get_queried_object();
 
-/* Child families */
 $children = get_terms(
 	array(
 		'taxonomy'   => 'products',
-		'parent'     => $list_term->term_id,
+		'parent'     => $term->term_id,
 		'hide_empty' => false,
 		'orderby'    => 'name',
 		'order'      => 'ASC',
 	)
 );
 
-/* Products in this family */
 $products = new WP_Query(
 	array(
 		'post_type'      => 'product',
 		'posts_per_page' => 12,
 		'paged'          => max( 1, get_query_var( 'paged' ) ),
-		'tax_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery -- single-term product query
+		'tax_query'      => array(
 			array(
 				'taxonomy' => 'products',
 				'field'    => 'term_id',
-				'terms'    => $list_term->term_id,
+				'terms'    => $term->term_id,
 			),
 		),
 	)
 );
 ?>
 
-<section class="sheet sheet-index reveal" id="family-<?php echo esc_attr( $list_term->slug ); ?>">
+<section class="sheet sheet-index reveal" id="family-<?php echo esc_attr( $term->slug ); ?>">
 	<header class="sheet-head">
 		<span class="sheet-index mono">FAMILY</span>
-		<h1 class="sheet-title"><?php echo esc_html( $list_term->name ); ?></h1>
-		<?php if ( $list_term->description ) : ?>
-			<p class="ei-term-desc mono" style="color:var(--stone);font-size:0.85rem;max-width:55ch;"><?php echo esc_html( $list_term->description ); ?></p>
+		<h1 class="sheet-title"><?php echo esc_html( $term->name ); ?></h1>
+		<?php if ( $term->description ) : ?>
+			<p class="ei-term-desc mono" style="color:var(--stone);font-size:0.85rem;max-width:55ch;margin-top:8px;"><?php echo esc_html( $term->description ); ?></p>
 		<?php endif; ?>
 	</header>
 
@@ -63,24 +60,46 @@ $products = new WP_Query(
 	<?php endif; ?>
 
 	<h2 class="sheet-index" style="font-size:0.7rem;margin-top:var(--space-l);margin-bottom:8px;">Instruments</h2>
-	<div class="specimen-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">
+	<div class="product-grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;">
 		<?php if ( $products->have_posts() ) : ?>
 			<?php
 			while ( $products->have_posts() ) :
 				$products->the_post();
 				?>
+				<?php
+				$model   = get_post_meta( get_the_ID(), 'model_number', true );
+				$thumb   = get_post_thumbnail_id( get_the_ID() );
+				$excerpt = get_the_excerpt();
+				?>
 				<article class="product-card">
-					<?php if ( has_post_thumbnail() ) : ?>
-						<a class="card-media" href="<?php echo esc_url( get_permalink() ); ?>"><?php the_post_thumbnail( 'ei-card', array( 'loading' => 'lazy' ) ); ?></a>
-					<?php endif; ?>
-					<div class="model mono" style="font-size:0.65rem;letter-spacing:0.1em;color:var(--stone);text-transform:uppercase;">
-						<?php echo esc_html( get_post_meta( get_the_ID(), 'model_number', true ) ?: '' ); ?>
+					<div class="product-media">
+						<?php if ( $thumb ) : ?>
+							<?php
+							echo wp_get_attachment_image(
+								$thumb,
+								'ei-card',
+								false,
+								array(
+									'loading'  => 'lazy',
+									'decoding' => 'async',
+								)
+							);
+							?>
+						<?php else : ?>
+							<div class="product-placeholder" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--stone);font-family:'IBM Plex Mono',monospace;font-size:0.65rem;">No image</div>
+						<?php endif; ?>
+						<?php if ( $model ) : ?>
+							<span class="product-badge"><?php echo esc_html( $model ); ?></span>
+						<?php endif; ?>
 					</div>
-					<h3 style="font-size:1rem;margin-bottom:6px;"><a href="<?php echo esc_url( get_permalink() ); ?>" style="color:var(--ink);"><?php echo esc_html( get_the_title() ); ?></a></h3>
-					<?php if ( get_the_excerpt() ) : ?>
-						<p style="font-size:0.8rem;color:var(--stone);line-height:1.5;"><?php echo wp_kses_post( get_the_excerpt() ); ?></p>
-					<?php endif; ?>
-					<a class="btn" href="<?php echo esc_url( get_permalink() ); ?>" style="font-size:0.7rem;padding:8px 16px;">VIEW SPECIFICATIONS</a>
+					<div class="product-body">
+						<span class="product-model"><?php echo esc_html( $model ? 'EI-' . $model : '' ); ?></span>
+						<h3 style="font-size:1rem;margin-bottom:6px;"><a href="<?php echo esc_url( get_permalink() ); ?>" style="color:var(--ink);"><?php echo esc_html( get_the_title() ); ?></a></h3>
+						<?php if ( $excerpt ) : ?>
+							<p style="font-size:0.8rem;color:var(--stone);line-height:1.5;margin:0;"><?php echo esc_html( wp_trim_words( $excerpt, 14 ) ); ?></p>
+						<?php endif; ?>
+						<a class="btn btn-light" href="<?php echo esc_url( get_permalink() ); ?>" style="font-size:0.65rem;padding:10px 18px;">VIEW SPECIFICATIONS</a>
+					</div>
 				</article>
 				<?php
 			endwhile;
@@ -94,12 +113,12 @@ $products = new WP_Query(
 	<?php if ( $products->max_num_pages > 1 ) : ?>
 		<nav class="ei-pagination" style="margin-top:var(--space-l);display:flex;justify-content:center;gap:8px;">
 			<?php
-			echo paginate_links( // phpcs:ignore WordPress.Security.EscapeOutput -- paginate_links returns safe HTML.
-				array(
-					'total'     => $products->max_num_pages,
-					'current'   => max( 1, get_query_var( 'paged' ) ),
-					'prev_text' => 'PREV',
-					'next_text' => 'NEXT',
+			echo paginate_links(
+				array( // phpcs:ignore WordPress.Security.EscapeOutput -- paginate_links returns safe HTML.
+				'total'     => $products->max_num_pages,
+				'current'   => max( 1, get_query_var( 'paged' ) ),
+				'prev_text' => 'PREV',
+				'next_text' => 'NEXT',
 				)
 			);
 			?>

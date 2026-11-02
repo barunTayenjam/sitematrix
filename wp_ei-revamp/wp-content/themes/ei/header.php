@@ -1,11 +1,10 @@
 <?php
 /**
- * Header: 10K Agency running head, sticky across sheets.
- * Brand logo with EI red, sheet-number mono rail, ISO/est info.
+ * Header — 10K Agency.
+ * Glass pill nav: transparent on dark hero, white on light sheets.
  *
  * @package Ei
  */
-
 ?><!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -16,16 +15,25 @@
 <body <?php body_class(); ?>>
 <a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'ei' ); ?></a>
 
-<!-- running head -->
-<div class="running-head">
-	<div class="rh-left"><a class="brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">E<span class="ei-red">I</span></a></div>
-	<nav class="rh-nav" aria-label="Primary">
-		<a href="<?php echo esc_url( home_url( '/products/' ) ); ?>"><?php esc_html_e( 'Products', 'ei' ); ?></a>
-		<a href="<?php echo esc_url( home_url( '/about-us/' ) ); ?>"><?php esc_html_e( 'About', 'ei' ); ?></a>
-		<a href="<?php echo esc_url( home_url( '/clients/' ) ); ?>"><?php esc_html_e( 'Clients', 'ei' ); ?></a>
-		<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php esc_html_e( 'Contact', 'ei' ); ?></a>
-	</nav>
-	<div class="rh-meta mono" aria-hidden="true">EST. 1983 · PARWANOO, HP · ISO 9001</div>
-</div>
+<header class="site-header">
+	<div class="container header-inner">
+		<a class="nav-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">10<span class="accent">K</span> Agency</a>
+		<nav class="nav-pill" aria-label="Primary">
+			<?php
+			wp_nav_menu(
+				array(
+					'theme_location' => 'primary',
+					'container'      => false,
+					'menu_class'     => 'nav-menu',
+					'echo'           => true,
+					'items_wrap'     => '%3$s',
+					'link_before'    => '',
+					'link_after'     => '',
+				)
+			);
+			?>
+		</nav>
+	</div>
+</header>
 
-<main id="content" class="ei-main">
+<main id="content">
