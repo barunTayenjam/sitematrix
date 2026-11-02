@@ -7,6 +7,7 @@
  *
  * @package Ei
  */
+
 get_header(); ?>
 
 <section class="ei-section">
@@ -31,11 +32,13 @@ get_header(); ?>
 					ei_product_card( $product->ID );
 				endforeach;
 				wp_reset_postdata();
-			else : ?>
+			else :
+				?>
 				<p><?php esc_html_e( 'No products listed.', 'ei' ); ?></p>
 			<?php endif; ?>
 		</div>
 	</div>
 </section>
 
-<?php get_footer();
+<?php
+get_footer();

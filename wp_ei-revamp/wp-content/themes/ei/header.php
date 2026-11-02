@@ -19,8 +19,13 @@
 <!-- running head -->
 <div class="running-head">
 	<div class="rh-left"><a class="brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">E<span class="ei-red">I</span></a></div>
-	<div class="rh-meta mono" aria-hidden="true"><?php echo esc_html( get_option( 'admin_email' ) ?: 'info@electronicsindia.co.in' ); ?> · EST. 1983 · PARWANOO, HP · 31.09°N 76.97°E</div>
-	<div class="rh-sheet mono">SHEET <span id="sheet-no">01</span>/05</div>
+	<nav class="rh-nav" aria-label="Primary">
+		<a href="<?php echo esc_url( home_url( '/products/' ) ); ?>"><?php esc_html_e( 'Products', 'ei' ); ?></a>
+		<a href="<?php echo esc_url( home_url( '/about-us/' ) ); ?>"><?php esc_html_e( 'About', 'ei' ); ?></a>
+		<a href="<?php echo esc_url( home_url( '/clients/' ) ); ?>"><?php esc_html_e( 'Clients', 'ei' ); ?></a>
+		<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php esc_html_e( 'Contact', 'ei' ); ?></a>
+	</nav>
+	<div class="rh-meta mono" aria-hidden="true">EST. 1983 · PARWANOO, HP · ISO 9001</div>
 </div>
 
 <main id="content" class="ei-main">

@@ -5,6 +5,7 @@
  *
  * @package Ei
  */
+
 get_header(); ?>
 
 <article class="ei-product-sheet">
@@ -17,7 +18,8 @@ get_header(); ?>
 			</h1>
 			<?php
 			$terms = wp_get_post_terms( get_the_ID(), 'products', array( 'fields' => 'names' ) );
-			if ( $terms ) : ?>
+			if ( $terms ) :
+				?>
 				<p class="product-family mono" style="font-size:0.7rem;letter-spacing:0.14em;color:var(--stone);text-transform:uppercase;">
 					<?php echo esc_html( implode( ' · ', $terms ) ); ?>
 				</p>
@@ -26,7 +28,8 @@ get_header(); ?>
 		<div class="product-actions" style="display:flex;gap:12px;">
 			<?php
 			$brochure = get_post_meta( get_the_ID(), 'brochure_pdf', true );
-			if ( $brochure ) : ?>
+			if ( $brochure ) :
+				?>
 				<a class="btn" href="<?php echo esc_url( $brochure ); ?>" target="_blank" rel="noopener">DOWNLOAD BROCHURE</a>
 			<?php endif; ?>
 			<a class="btn btn-primary" href="#contact">REQUEST QUOTATION</a>
@@ -44,7 +47,8 @@ get_header(); ?>
 		<div class="product-info">
 			<?php
 			$features = get_post_meta( get_the_ID(), 'features', true );
-			if ( $features && is_array( $features ) ) : ?>
+			if ( $features && is_array( $features ) ) :
+				?>
 				<section class="product-section">
 					<h2 class="product-section-title">Features</h2>
 					<ul class="product-feature-list" style="list-style:none;padding:0;">
@@ -57,11 +61,24 @@ get_header(); ?>
 
 			<?php
 			$specs = get_post_meta( get_the_ID(), 'specifications_table', true );
-			if ( $specs ) : ?>
+			if ( $specs ) :
+				?>
 				<section class="product-section">
 					<h2 class="product-section-title">Specifications</h2>
 					<table class="spec-table">
-						<?php echo wp_kses( $specs, array( 'table' => array(), 'tbody' => array(), 'tr' => array(), 'td' => array(), 'th' => array(), 'thead' => array() ) ); ?>
+						<?php
+						echo wp_kses(
+							$specs,
+							array(
+								'table' => array(),
+								'tbody' => array(),
+								'tr'    => array(),
+								'td'    => array(),
+								'th'    => array(),
+								'thead' => array(),
+							)
+						);
+						?>
 					</table>
 				</section>
 			<?php endif; ?>
@@ -76,4 +93,5 @@ get_header(); ?>
 	</div>
 </article>
 
-<?php get_footer();
+<?php
+get_footer();

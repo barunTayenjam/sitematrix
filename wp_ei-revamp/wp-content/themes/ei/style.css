@@ -3,7 +3,7 @@ Theme Name: EI
 Theme URI: https://electronicsindia.co.in
 Author: Electronics India
 Description: 10K Agency — Datasheet Brutalism. Printed laboratory datasheet made visible on screen. Visible grid, mono display type, red in exactly five roles. IBM Plex self-hosted woff2 only. Zero third-party requests.
-Version: 4.0.0
+Version: 4.1.0
 License: GPL-2.0-or-later
 Text Domain: ei
 */
@@ -87,6 +87,21 @@ p { margin: 0 0 var(--space-m) 0; }
 	align-items: center;
 }
 .brand .ei-red { color: var(--red); }
+.rh-nav {
+	display: flex;
+	gap: 28px;
+	flex-wrap: wrap;
+}
+.rh-nav a {
+	font-size: 0.85rem;
+	font-weight: 500;
+	color: var(--stone);
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
+	transition: color 180ms var(--ease);
+}
+.rh-nav a:hover { color: var(--ink); }
 .rh-meta {
 	font-family: 'IBM Plex Mono', monospace;
 	color: var(--stone);
@@ -111,7 +126,7 @@ p { margin: 0 0 var(--space-m) 0; }
 	transition: opacity var(--reveal) var(--ease), transform var(--reveal) var(--ease);
 }
 .sheet.reveal { opacity: 0; transform: translateY(16px); }
-.sheet.reveal.is-visible { opacity: 1; transform: none; }
+.sheet.reveal.in, .sheet.reveal.is-visible { opacity: 1; transform: none; }
 
 .sheet-head { margin-bottom: var(--space-m); }
 .sheet-index {
@@ -151,11 +166,12 @@ p { margin: 0 0 var(--space-m) 0; }
 	gap: 48px;
 }
 .display {
-	font-family: 'IBM Plex Mono', monospace;
+	font-family: 'IBM Plex Sans', system-ui, sans-serif;
 	font-weight: 600;
-	font-size: clamp(3rem, 1rem + 6vw, 9rem);
+	font-size: clamp(3rem, 1rem + 6vw, 8rem);
 	line-height: 0.98;
-	letter-spacing: -0.035em;
+	letter-spacing: -0.04em;
+	text-transform: uppercase;
 	margin-bottom: 2px;
 }
 .display .line-a { color: var(--ink); }
@@ -179,6 +195,13 @@ p { margin: 0 0 var(--space-m) 0; }
 }
 @media (min-width: 768px) { .lede-cols { column-count: 2; } }
 .lede-cols p { margin-bottom: 1.6em; }
+
+.manifesto-actions {
+	display: flex;
+	gap: 14px;
+	flex-wrap: wrap;
+	margin-top: 8px;
+}
 
 /* =====================================================================
    [2] INDEX — families as table of contents with dot leaders
@@ -244,10 +267,10 @@ p { margin: 0 0 var(--space-m) 0; }
 }
 .model-no {
 	font-family: 'IBM Plex Mono', monospace;
-	font-weight: 600;
-	font-size: clamp(2.5rem, 1.5rem + 4vw, 5rem);
-	line-height: 0.98;
-	letter-spacing: -0.03em;
+	font-weight: 500;
+	font-size: clamp(2rem, 1.2rem + 3vw, 3.5rem);
+	line-height: 1;
+	letter-spacing: -0.02em;
 	color: var(--stone);
 }
 .model-badge {
@@ -467,7 +490,7 @@ p { margin: 0 0 var(--space-m) 0; }
    Reveals & accessibility
    ===================================================================== */
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity var(--reveal) var(--ease), transform var(--reveal) var(--ease); }
-.reveal.is-visible { opacity: 1; transform: none; }
+.reveal.in, .reveal.is-visible { opacity: 1; transform: none; }
 
 *:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
 

@@ -4,6 +4,7 @@
  *
  * @package Ei
  */
+
 ?>
 
 </main>
@@ -25,12 +26,21 @@
 				<h5 style="font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--stone);margin-bottom:10px;">Instruments</h5>
 				<ul style="list-style:none;">
 					<?php
-					$foot_terms = get_terms( array( 'taxonomy' => 'products', 'parent' => 0, 'hide_empty' => false, 'orderby' => 'name', 'number' => 8 ) );
+					$foot_terms = get_terms(
+						array(
+							'taxonomy'   => 'products',
+							'parent'     => 0,
+							'hide_empty' => false,
+							'orderby'    => 'name',
+							'number'     => 8,
+						)
+					);
 					if ( ! is_wp_error( $foot_terms ) ) :
 						foreach ( $foot_terms as $foot_term ) :
 							?>
 							<li style="margin-bottom:6px;"><a href="<?php echo esc_url( get_term_link( $foot_term ) ); ?>" style="color:var(--ink);font-size:0.85rem;"><?php echo esc_html( $foot_term->name ); ?></a></li>
-						<?php endforeach;
+							<?php
+						endforeach;
 					endif;
 					?>
 				</ul>
