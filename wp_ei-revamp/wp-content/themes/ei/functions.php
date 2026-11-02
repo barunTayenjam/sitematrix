@@ -8,6 +8,46 @@
 
 define( 'EI_THEME_DIR', get_template_directory() );
 
+/**
+ * Render a specimen panel (featured or stacked).
+ * Accepts either a single post ID or the output of a WP_Query loop.
+ *
+ * @param WP_Post|int $product Post ID or object.
+ * @param string      $size    Image size registered via add_image_size().
+ * @param bool        $featured Whether this is the large feature panel.
+ */
+if ( ! function_exists( 'ei_specimen_panel' ) ) {
+	function ei_specimen_panel( $product, $size, $featured = false ) {
+		$model   = is_object( $product ) ? get_post_meta( $product->ID, 'model_number', true ) : get_post_meta( (int) $product, 'model_number', true );
+		$thumb   = is_object( $product ) ? get_post_thumbnail_id( $product->ID ) : false;
+		$excerpt = is_object( $product ) ? get_the_excerpt( $product ) : '';
+		?>
+		<article class="specimen-panel reveal<?php echo $featured ? ' featured-hero' : ''; ?>">
+			<div class="panel-media">
+				<?php if ( $thumb ) : ?>
+					<?php echo wp_get_attachment_image( $thumb, $size, false, array( 'decoding' => 'async' ) ); ?>
+				<?php else : ?>
+					<span class="mono-micro">10K — No specimen image</span>
+				<?php endif; ?>
+			</div>
+			<div class="panel-body">
+				<div class="panel-model-row">
+					<span class="panel-model">Model EI-<?php echo esc_html( $model ? $model : '—' ); ?></span>
+				</div>
+				<h3 class="panel-title"><a href="<?php echo esc_url( is_object( $product ) ? get_permalink( $product ) : get_permalink( (int) $product ) ); ?>"><?php echo esc_html( is_object( $product ) ? get_the_title( $product ) : apply_filters( 'the_title', '', (int) $product ) ); ?></a></h3>
+				<?php if ( $excerpt ) : ?>
+					<p class="panel-excerpt"><?php echo esc_html( wp_trim_words( $excerpt, $featured ? 24 : 14 ) ); ?></p>
+				<?php endif; ?>
+				<div class="panel-actions">
+					<a class="btn-text" href="<?php echo esc_url( is_object( $product ) ? get_permalink( $product ) : get_permalink( (int) $product ) ); ?>">View datasheet &rarr;</a>
+				</div>
+			</div>
+		</article>
+		<?php
+	}
+}
+?>
+
 add_action(
 	'after_setup_theme',
 	function () {

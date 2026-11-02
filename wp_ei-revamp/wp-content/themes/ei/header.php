@@ -1,7 +1,7 @@
 <?php
 /**
- * Header — 10K Agency.
- * Technical Luxury: minimal glass header with top-level links only.
+ * Header — 10K Agency · Warm Editorial Light.
+ * Paper ground, hairline bottom rule, mono nav, live clock.
  *
  * @package Ei
  */
@@ -18,7 +18,9 @@
 
 <header class="site-header">
 	<div class="container header-inner">
-		<a class="nav-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">10<span class="accent">K</span> Agency</a>
+		<a class="nav-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+			<span class="brand-bold">10K</span><span class="brand-serif">Agency</span>
+		</a>
 		<nav class="nav-menu" aria-label="Primary">
 			<?php
 			$nav_items = array(
@@ -31,7 +33,7 @@
 					'url'   => home_url( '/#s2' ),
 				),
 				array(
-					'label' => __( 'Catalogue', 'ei' ),
+					'label' => __( 'Index', 'ei' ),
 					'url'   => home_url( '/products/' ),
 				),
 				array(
@@ -52,14 +54,18 @@
 				),
 			);
 			foreach ( $nav_items as $item ) :
-				$current = is_front_page() && '#s1' === substr( $item['url'], -3 );
+				$is_anchor = (int) ( strpos( $item['url'], '#s1' ) !== false && is_front_page() );
 				?>
-				<a href="<?php echo esc_url( $item['url'] ); ?>" <?php echo $current ? 'aria-current="page"' : ''; ?>>
+				<a href="<?php echo esc_url( $item['url'] ); ?>"<?php echo $is_anchor ? ' aria-current="page"' : ''; ?>>
 					<?php echo esc_html( $item['label'] ); ?>
 				</a>
 			<?php endforeach; ?>
 		</nav>
-		<button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+		<div class="header-clock" aria-hidden="true">
+			<span class="clock-time" id="headerClockTime">--:--:--</span>
+			<span>IST</span>
+		</div>
+		<button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="siteNav">
 			<span></span>
 			<span></span>
 			<span></span>

@@ -1,22 +1,20 @@
 <?php
 /**
- * Front page — 10K Agency.
- * Technical Luxury: obsidian hero, massive Anton type, Framed Specimen Chambers, Trace oscilloscope, Colophon.
+ * Front page — 10K Agency · Warm Editorial Light.
+ * Sheets: 01 Manifesto · 02 Specimens (asymmetric) · 03 Index table · 04 Method · 05 Colophon.
  *
  * @package Ei
  */
 
-get_header(); ?>
+get_header();
 
-<?php
-/* --- Featured products (show_on_home = 1), limit 6 --- */
 $featured = get_posts(
 	array(
 		'post_type'      => 'product',
 		'posts_per_page' => 6,
 		'post_status'    => 'publish',
-		'meta_key'       => 'show_on_home',
-		'meta_value'     => 1,
+		'meta_key'       => 'show_on_home', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+		'meta_value'     => '1', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 		'orderby'        => 'meta_value_num',
 		'order'          => 'ASC',
 	)
@@ -32,111 +30,150 @@ if ( empty( $featured ) ) {
 		)
 	);
 }
+$index_products = get_posts(
+	array(
+		'post_type'      => 'product',
+		'posts_per_page' => 12,
+		'post_status'    => 'publish',
+		'orderby'        => 'date',
+		'order'          => 'ASC',
+	)
+);
+
 ?>
 
-<!-- HERO — obsidian full viewport -->
-<section class="hero sheet reveal" id="s1">
-	<div class="container">
-		<span class="eyebrow">01 · Manifesto</span>
-		<h1>
-			<span class="word">Precision</span>
-			<span class="word"><span class="accent">Measured.</span></span>
-		</h1>
-		<p class="hero-lede">
-			10K Agency designs, manufactures and exports analytical, scientific, laboratory and pharmaceutical instruments — built, tested and documented in-house.
-			One standard: precision, measured.
-		</p>
-		<div class="hero-actions">
-			<a class="btn btn-primary" href="#s2">Explore Specimens</a>
-			<a class="btn btn-ghost" href="#s5">Request Quotation</a>
+<!-- Sheet 01 — Manifesto -->
+<section class="sheet hero reveal" id="s1">
+	<div class="container hero-content">
+		<div>
+			<span class="mono-micro" style="display:block;margin-bottom:24px;">Est. 1983 — Precision Instrument Works</span>
+			<h1 class="hero-headline">
+				<span class="display-xl">Precision,</span>
+				<span class="serif-accent">measured.</span>
+			</h1>
+			<p class="body-l hero-lede">10K Agency designs, manufactures and exports analytical, scientific, laboratory and pharmaceutical instruments — built, tested and documented in-house. One standard: precision, measured.</p>
+			<div class="hero-actions">
+				<a class="btn btn-solid" href="#s2">Explore specimens</a>
+				<a class="btn btn-ghost" href="#s5">Request quotation</a>
+			</div>
+		</div>
+	</div>
+	<div class="hero-stats">
+		<div class="container" style="display:contents;">
+			<div class="stat-cell"><span class="stat-value">ISO 9001</span><span class="stat-label">Certified quality system</span></div>
+			<div class="stat-cell"><span class="stat-value">90+</span><span class="stat-label">Instruments in production</span></div>
+			<div class="stat-cell"><span class="stat-value">150+</span><span class="stat-label">Countries served</span></div>
+			<div class="stat-cell"><span class="stat-value">41</span><span class="stat-label">Years of manufacture</span></div>
 		</div>
 	</div>
 </section>
 
-<!-- SPECIMEN CHAMBERS — Framed product showcase -->
-<section class="sheet reveal" id="s2" style="background: var(--obsidian-elevated); border-top: 1px solid var(--glass-border);">
+<!-- Sheet 02 — Specimens -->
+<section class="sheet" id="s2">
 	<div class="container">
-		<header class="sheet-head">
-			<span class="sheet-index">02 · Specimens</span>
-			<h2 class="sheet-title">Featured Instruments</h2>
-		</header>
-		<div class="specimen-grid">
+		<div class="sheet-meta">
+			<span class="sheet-index">02 — Specimens</span>
+			<span class="sheet-tag">Featured instruments</span>
+		</div>
+		<h2 class="display-l sheet-header-title">Featured<br>Instruments</h2>
+		<div class="specimen-layout">
 			<?php
-			foreach ( $featured as $product ) :
-				$model   = get_post_meta( $product->ID, 'model_number', true );
-				$thumb   = get_post_thumbnail_id( $product->ID );
-				$excerpt = get_the_excerpt( $product );
-				$tags    = wp_get_post_terms( $product->ID, 'products', array( 'fields' => 'names' ) );
-				?>
-				<article class="chamber reveal" data-product="<?php echo esc_attr( $product->ID ); ?>">
-					<div class="chamber-media">
-						<?php if ( $thumb ) : ?>
-							<?php
-							echo wp_get_attachment_image(
-								$thumb,
-								'ei-chamber',
-								false,
-								array( 'decoding' => 'async' )
-							);
-							?>
-						<?php else : ?>
-							<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--titanium-dim);font-family:'IBM Plex Mono',monospace;font-size:0.6rem;">No image</div>
-						<?php endif; ?>
-						<div class="chamber-specs">
-							<span class="chamber-model">EI-<?php echo esc_html( $model ?: '—' ); ?></span>
-							<div class="chamber-tags">
-								<?php foreach ( (array) $tags as $term_name ) : ?>
-									<span class="chamber-tag"><?php echo esc_html( $term_name ); ?></span>
-								<?php endforeach; ?>
-							</div>
-						</div>
-					</div>
-					<div class="chamber-body">
-						<h3 class="chamber-title"><a href="<?php echo esc_url( get_permalink( $product ) ); ?>"><?php echo esc_html( $product->post_title ); ?></a></h3>
-						<?php if ( $excerpt ) : ?>
-							<p class="chamber-desc"><?php echo esc_html( wp_trim_words( $excerpt, 22 ) ); ?></p>
-						<?php endif; ?>
-						<a class="btn btn-glass" href="<?php echo esc_url( get_permalink( $product ) ); ?>">View Specifications</a>
-					</div>
-				</article>
-			<?php endforeach; ?>
+			if ( ! empty( $featured ) ) {
+				$feature  = array_shift( $featured );
+				$stacked  = array_splice( $featured, 0, 2 );
+				$stripped = $featured;
+				ei_specimen_panel( $feature, 'ei-product', true );
+				foreach ( $stacked as $product ) {
+					ei_specimen_panel( $product, 'ei-card' );
+				}
+			}
+			?>
 		</div>
+		<?php if ( ! empty( $stripped ) ) : ?>
+			<div class="table-footer">
+				<a class="btn btn-ghost" href="<?php echo esc_url( home_url( '/products/' ) ); ?>">View full index</a>
+			</div>
+		<?php endif; ?>
 	</div>
 </section>
 
-<!-- TRACE — Oscilloscope panel -->
-<section class="sheet reveal" id="s3" style="background: var(--obsidian); border-top: 1px solid var(--glass-border);">
+<!-- Sheet 03 — Index -->
+<section class="sheet" id="s3">
 	<div class="container">
-		<header class="sheet-head">
-			<span class="sheet-index">03 · Trace</span>
-			<h2 class="sheet-title">Live Oscilloscope</h2>
-		</header>
-		<div class="trace-panel">
-			<canvas id="scopeCanvas" width="1280" height="280" aria-hidden="true"></canvas>
-			<div class="trace-readouts mono">
-				<span>CH1 · ±0.012%</span>
-				<span>RANGE · FULL SCALE</span>
-				<span>TIMEBASE · 2ms/div</span>
-				<span class="led">STABLE</span>
-			</div>
+		<div class="sheet-meta">
+			<span class="sheet-index">03 — Index</span>
+			<span class="sheet-tag">Instrument catalogue</span>
 		</div>
-		<p class="trace-facts mono">
-			EST. 1983 · ISO 9001 CERTIFIED · 90+ INSTRUMENTS IN PRODUCTION · 150+ COUNTRIES SERVED
-		</p>
+		<h2 class="display-l sheet-header-title">Instrument<br>Index</h2>
+		<div class="catalog-table-wrap reveal">
+			<table class="catalog-table">
+				<thead>
+					<tr>
+						<th>No.</th>
+						<th>Model</th>
+						<th>Instrument</th>
+						<th>Family</th>
+						<th><span style="visibility:hidden;">Go</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $row_n = 1; ?>
+					<?php foreach ( $index_products as $product ) : ?>
+						<?php
+						$model   = get_post_meta( $product->ID, 'model_number', true );
+						$terms   = wp_get_post_terms( $product->ID, 'products', array( 'fields' => 'names' ) );
+						$primary = ! empty( $terms ) ? $terms[0] : '';
+						?>
+						<tr>
+							<td class="col-num"><?php echo esc_html( str_pad( (string) $row_n, 2, '0', STR_PAD_LEFT ) ); ?></td>
+							<td class="col-model">EI-<?php echo esc_html( $model ? $model : '—' ); ?></td>
+							<td class="col-name"><a href="<?php echo esc_url( get_permalink( $product ) ); ?>"><?php echo esc_html( get_the_title( $product ) ); ?></a></td>
+							<td class="col-family"><?php echo esc_html( $primary ); ?></td>
+							<td class="col-action"><a href="<?php echo esc_url( get_permalink( $product ) ); ?>" aria-label="<?php echo esc_attr( sprintf( 'View %s', get_the_title( $product ) ) ); ?>">&rarr;</a></td>
+						</tr>
+						<?php $row_n++; ?>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+		<div class="table-footer">
+			<a class="btn-text" href="<?php echo esc_url( home_url( '/products/' ) ); ?>">View full catalogue &rarr;</a>
+		</div>
 	</div>
 </section>
 
-<!-- COLOPHON -->
-<section class="sheet sheet-colophon reveal" id="s5">
-	<div class="container colophon-inner">
-		<h2 class="colophon-title">Instrument up<span class="accent">.</span></h2>
-		<div class="colophon-row">
-			<div class="colophon-contact mono">
-				<span><?php esc_html_e( '+91 172 5033251', 'ei' ); ?></span>
-				<span><?php esc_html_e( 'info@electronicsindia.co.in', 'ei' ); ?></span>
-				<span><?php esc_html_e( 'PARWANOO, HIMACHAL PRADESH, INDIA', 'ei' ); ?></span>
+<!-- Sheet 04 — Method -->
+<section class="sheet" id="s4">
+	<div class="container">
+		<div class="sheet-meta">
+			<span class="sheet-index">04 — Method</span>
+			<span class="sheet-tag">How we build</span>
+		</div>
+		<div class="narrative-grid reveal">
+			<p class="narrative-statement">
+				Designed in-house.<br>
+				Tested to tolerance.<br>
+				<span class="serif-accent">Documented for life.</span>
+			</p>
+			<div class="narrative-copy">
+				<p>Every instrument is engineered, calibrated and verified against its published specification before it leaves the works. Datasheets, calibration certificates and spare-part schedules ship with each unit — for the life of the instrument.</p>
+				<a class="btn-text" href="<?php echo esc_url( home_url( '/quality-control/' ) ); ?>">Read about quality control &rarr;</a>
 			</div>
-			<a class="btn btn-primary" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Request Quotation</a>
+		</div>
+	</div>
+</section>
+
+<!-- Sheet 05 — Colophon -->
+<section class="sheet colophon-section" id="s5">
+	<div class="container colophon-wrap">
+		<h2 class="colophon-headline">Instrument up<span class="dot">.</span></h2>
+		<div class="colophon-row">
+			<div class="colophon-contact-stack">
+				<a href="tel:+911725033251">+91 172 5033251</a>
+				<a href="mailto:info@electronicsindia.co.in">info@electronicsindia.co.in</a>
+				<span>111, Industrial Area, Phase 2, Panchkula, India</span>
+			</div>
+			<a class="btn btn-solid" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Request quotation</a>
 		</div>
 	</div>
 </section>
