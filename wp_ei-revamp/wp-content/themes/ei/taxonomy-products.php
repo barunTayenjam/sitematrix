@@ -70,6 +70,9 @@ $products = new WP_Query(
 				$products->the_post();
 				?>
 				<article class="product-card">
+					<?php if ( has_post_thumbnail() ) : ?>
+						<a class="card-media" href="<?php echo esc_url( get_permalink() ); ?>"><?php the_post_thumbnail( 'ei-card', array( 'loading' => 'lazy' ) ); ?></a>
+					<?php endif; ?>
 					<div class="model mono" style="font-size:0.65rem;letter-spacing:0.1em;color:var(--stone);text-transform:uppercase;">
 						<?php echo esc_html( get_post_meta( get_the_ID(), 'model_number', true ) ?: '' ); ?>
 					</div>

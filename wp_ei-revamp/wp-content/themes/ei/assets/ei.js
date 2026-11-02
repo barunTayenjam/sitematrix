@@ -310,3 +310,43 @@
 		}
 	});
 })();
+
+/* --- live trace canvas (sheet 04) --- */
+(function () {
+	const canvas = document.getElementById('scopeCanvas');
+	if (!canvas || !canvas.getContext) return;
+	const ctx = canvas.getContext('2d');
+	const dpr = window.devicePixelRatio || 1;
+	let w, h, noise = [];
+
+	function size() {
+		const box = canvas.parentElement.getBoundingClientRect();
+		w = Math.max(280, Math.round(box.width - 2));
+		h = Math.round(w * 0.25);
+		canvas.width = w * dpr; canvas.height = h * dpr;
+		canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+		noise = Array.from({ length: w + 1 }, () => Math.random() * 2 - 1);
+	}
+
+	function trace(phase) {
+		ctx.clearRect(0, 0, w, h);
+		ctx.strokeStyle = 'rgba(28, 25, 23, 0.07)'; ctx.lineWidth = 1;
+		for (let gx = 0; gx <= w; gx += 60) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke(); }
+		for (let gy = 0; gy <= h; gy += 40) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke(); }
+		ctx.strokeStyle = 'rgba(174, 16, 16, 0.9)'; ctx.lineWidth = 2;
+		ctx.beginPath();
+		const cy = h / 2, amp = h * 0.22;
+		for (let x = 0; x <= w; x++) {
+			const y = cy + Math.sin((x + phase * 28) * 0.022) * amp * (0.55 + 0.45 * Math.sin(x * 0.003)) + noise[x] * 2.5;
+			if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+		}
+		ctx.stroke();
+	}
+
+	size();
+	const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	if (reduced) { trace(0); return; }
+	let phase = 0;
+	(function animate() { phase += 0.055; trace(phase); requestAnimationFrame(animate); })();
+})();
