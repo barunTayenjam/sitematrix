@@ -23,7 +23,7 @@
 				<span class="mono-micro"><?php esc_html_e( 'Navigate', 'ei' ); ?></span>
 				<a href="<?php echo esc_url( home_url( '/#s1' ) ); ?>"><?php esc_html_e( 'Manifesto', 'ei' ); ?></a>
 				<a href="<?php echo esc_url( home_url( '/#s2' ) ); ?>"><?php esc_html_e( 'Specimens', 'ei' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/products/' ) ); ?>"><?php esc_html_e( 'Index', 'ei' ); ?></a>
+				<a href="<?php echo esc_url( home_url( '/products/' ) ); ?>"><?php esc_html_e( 'Products', 'ei' ); ?></a>
 				<a href="<?php echo esc_url( home_url( '/quality-control/' ) ); ?>"><?php esc_html_e( 'Quality', 'ei' ); ?></a>
 				<a href="<?php echo esc_url( home_url( '/research-and-development/' ) ); ?>"><?php esc_html_e( 'R&D', 'ei' ); ?></a>
 				<a href="<?php echo esc_url( home_url( '/about-us/' ) ); ?>"><?php esc_html_e( 'About', 'ei' ); ?></a>

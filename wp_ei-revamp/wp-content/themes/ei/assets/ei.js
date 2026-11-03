@@ -37,7 +37,7 @@
 		setInterval(tick, 1000);
 	}
 
-	// --- Mobile nav
+	// --- Mobile nav + mega menu
 	const navToggle = document.querySelector('.nav-toggle');
 	const navMenu = document.querySelector('.nav-menu');
 	if (navToggle && navMenu) {
@@ -45,11 +45,27 @@
 			const open = navMenu.classList.toggle('open');
 			navToggle.setAttribute('aria-expanded', String(open));
 		});
-		navMenu.querySelectorAll('a').forEach((link) => {
-			link.addEventListener('click', () => {
-				navMenu.classList.remove('open');
-				navToggle.setAttribute('aria-expanded', 'false');
-			});
+		navMenu.querySelectorAll(':scope > li').forEach((li) => {
+			const parentLink = li.querySelector(':scope > a');
+			if (!parentLink) return;
+			if (li.classList.contains('has-children')) {
+				parentLink.addEventListener('click', (ev) => {
+					ev.preventDefault();
+					const open = li.classList.toggle('open');
+					parentLink.setAttribute('aria-expanded', String(open));
+				});
+				li.querySelectorAll('.mega-menu a').forEach((sub) => {
+					sub.addEventListener('click', () => {
+						navMenu.classList.remove('open');
+						navToggle.setAttribute('aria-expanded', 'false');
+					});
+				});
+			} else {
+				parentLink.addEventListener('click', () => {
+					navMenu.classList.remove('open');
+					navToggle.setAttribute('aria-expanded', 'false');
+				});
+			}
 		});
 		// Escape closes the mobile menu
 		document.addEventListener('keydown', (ev) => {
