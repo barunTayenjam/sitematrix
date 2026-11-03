@@ -1,5 +1,5 @@
 // 10K Agency — Warm Editorial Light interactions.
-// Scroll reveals (JS-gated), header clock, mobile nav.
+// Scroll reveals (JS-gated), header clock, scroll-spy, mobile nav.
 // Zero dependencies.
 
 (() => {
@@ -51,5 +51,40 @@
 				navToggle.setAttribute('aria-expanded', 'false');
 			});
 		});
+		// Escape closes the mobile menu
+		document.addEventListener('keydown', (ev) => {
+			if (ev.key === 'Escape' && navMenu.classList.contains('open')) {
+				navMenu.classList.remove('open');
+				navToggle.setAttribute('aria-expanded', 'false');
+			}
+		});
 	}
+
+	// --- Scroll-spy: highlight nav link for the section in view
+	const spySections = ['s1', 's2', 's3', 's4', 's5a', 's5']
+		.map((id) => document.getElementById(id))
+		.filter(Boolean);
+	const navSpies = Array.from(document.querySelectorAll('.nav-menu a'));
+	const spyThreshold = 0.38;
+	function onScrollSpy() {
+		const line = document.documentElement.clientHeight * spyThreshold;
+		let current = null;
+		for (const sec of spySections) {
+			if (sec.getBoundingClientRect().top <= line) current = sec.id;
+		}
+		navSpies.forEach((a) => {
+			const href = a.getAttribute('href') || '';
+			const id = href.indexOf('#') !== -1 ? href.split('#')[1] : null;
+			if (id && current === id) {
+				a.setAttribute('aria-current', 'page');
+				a.classList.add('active');
+			} else {
+				a.removeAttribute('aria-current');
+				a.classList.remove('active');
+			}
+		});
+	}
+	document.addEventListener('scroll', onScrollSpy, { passive: true });
+	window.addEventListener('scroll', onScrollSpy, { passive: true });
+	onScrollSpy();
 })();

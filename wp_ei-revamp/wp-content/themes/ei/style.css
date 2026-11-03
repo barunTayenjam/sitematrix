@@ -323,6 +323,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 	transform-origin: left;
 }
 .nav-menu a[aria-current="page"] { color: var(--ink); }
+.nav-menu a.active { color: var(--ink); }
+.nav-menu a.active::after { transform: scaleX(1); transform-origin: left; }
 
 .header-clock {
 	font-family: 'IBM Plex Mono', monospace;
@@ -392,6 +394,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 	border-top: 1px solid var(--rule);
 	position: relative;
 }
+section[id] { scroll-margin-top: 76px; }
 .sheet-meta {
 	display: flex;
 	justify-content: space-between;
