@@ -114,6 +114,9 @@ ssl-certs/**/*.pem
 ssl-certs/**/*.p12
 ssl-certs/**/*.jks
 ssl-certs/**/*.keystore
+# Apache/nginx site keys (per-site private keys, never commit)
+config/docker/wp-apache/**/*.key
+config/docker/wp-apache/**/*.crt
 # Belt-and-braces: any unexpected non-template file under a cert dir.
 # *.conf templates at the top level stay tracked.
 ssl-certs/*/*
