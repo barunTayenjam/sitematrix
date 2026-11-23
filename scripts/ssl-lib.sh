@@ -30,10 +30,10 @@ compute_https_port() {
 # Otherwise falls back to openssl self-signed certificate.
 # Idempotent: overwrites existing cert only when --force is given.
 generate_site_cert() {
-    local site="${1:-}"
+    local site=""
     local force=false
 
-    # Parse --force flag
+    # Parse args: the site name may come before or after --force.
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --force)
@@ -41,7 +41,10 @@ generate_site_cert() {
                 shift
                 ;;
             *)
-                break
+                if [[ -z "$site" ]]; then
+                    site="$1"
+                fi
+                shift
                 ;;
         esac
     done
@@ -60,9 +63,16 @@ generate_site_cert() {
     mkdir -p "$cert_dir"
 
     if command -v mkcert >/dev/null 2>&1; then
+        # Include the LAN IP: sites are browsed as https://<lan-ip>:<https_port>.
+        local lan_ip=""
+        lan_ip=$(get_lan_ip 2>/dev/null || true)
+        local names=("localhost" "127.0.0.1" "${site}.test" "*.${site}.test")
+        if [[ -n "$lan_ip" && "$lan_ip" != "localhost" ]]; then
+            names+=("$lan_ip")
+        fi
+
         # Use mkcert to generate a trusted certificate
-        mkcert -cert-file "$server_cert" -key-file "$server_key" \
-            "localhost" "127.0.0.1" "${site}.test" "*.${site}.test" 2>/dev/null || \
+        mkcert -cert-file "$server_cert" -key-file "$server_key" "${names[@]}" 2>/dev/null || \
             # Fallback if mkcert fails for any reason
             generate_openssl_cert "${site}"
     else
@@ -85,6 +95,15 @@ generate_openssl_cert() {
     local server_cert="$cert_dir/server.crt"
     local server_key="$cert_dir/server.key"
 
+    # SAN must cover the LAN IP: sites are browsed as https://<lan-ip>:<https_port>
+    # (mkcert is optional; the openssl fallback is the common path).
+    local lan_ip=""
+    lan_ip=$(get_lan_ip 2>/dev/null || true)
+    local san="DNS:localhost,DNS:${site}.test,IP:127.0.0.1,IP:::1"
+    if [[ -n "$lan_ip" && "$lan_ip" != "localhost" ]]; then
+        san="${san},IP:${lan_ip}"
+    fi
+
     # Generate RSA 2048 key and self-signed cert with SAN
     openssl req -x509 \
         -newkey rsa:2048 \
@@ -92,7 +111,7 @@ generate_openssl_cert() {
         -keyout "$server_key" \
         -out "$server_cert" \
         -subj "/C=US/ST=Development/L=Local/O=WordPress Dev/CN=${site}" \
-        -addext "subjectAltName=DNS:localhost,DNS:${site}.test,IP:127.0.0.1,IP:::1" 2>/dev/null || \
+        -addext "subjectAltName=${san}" 2>/dev/null || \
         return 1
 
     log_info "Generated openssl self-signed certificate for '$site'"
@@ -111,7 +130,8 @@ site_cert_fingerprint() {
     local site="${1:-}"
     local cert="$PROJECT_ROOT/ssl-certs/${site}/server.crt"
     if [[ -f "$cert" ]]; then
-        openssl x509 -fingerprint -noout -sha256 "$cert" 2>/dev/null | sed 's/SHA256 Fingerprint=//' || true
+        # LibreSSL prefixes "sha256 Fingerprint=", OpenSSL "SHA256 Fingerprint=".
+        openssl x509 -in "$cert" -fingerprint -noout -sha256 2>/dev/null | sed 's/^[^=]*=//' || true
     fi
 }
 
@@ -195,6 +215,209 @@ remove_hostname_from_etc() {
     fi
 }
 
+# --- nginx / compose wiring ------------------------------------------------
+# matrix ssl <site> historically only minted a certificate: the nginx conf kept
+# a single `listen 80` block and compose published no 443 port, so https://
+# never answered. These helpers close that gap.
+
+MATRIX_TLS_BEGIN='# BEGIN Matrix TLS (managed by ./matrix ssl — do not edit by hand)'
+MATRIX_TLS_END='# END Matrix TLS'
+
+# ssl_nginx_enable <site> — append a TLS server block to config/nginx/<site>.conf
+# The block is derived from the existing HTTP block so root, fastcgi_pass and
+# location rules stay identical; only the listener and cert directives differ.
+ssl_nginx_enable() {
+    local site="${1:-}"
+    local conf="$PROJECT_ROOT/config/nginx/${site}.conf"
+
+    if [[ ! -f "$conf" ]]; then
+        log_error "No nginx config for '$site' at $conf (apache-stack sites have none)."
+        return 1
+    fi
+
+    if grep -qF "$MATRIX_TLS_BEGIN" "$conf"; then
+        log_info "TLS server block already present in $conf"
+        return 0
+    fi
+
+    if ! grep -qE '^[[:space:]]*listen[[:space:]]+80;' "$conf"; then
+        log_error "No 'listen 80' found in $conf — cannot derive a TLS block."
+        return 1
+    fi
+
+    local cert="/etc/nginx/ssl/server.crt"
+    local key="/etc/nginx/ssl/server.key"
+
+    # Build the block in a temp file: reading $conf with awk while appending to
+    # $conf makes awk consume its own output.
+    local tmp
+    tmp=$(mktemp)
+    {
+        printf '\n%s\n' "$MATRIX_TLS_BEGIN"
+        awk -v cert="$cert" -v key="$key" '
+            !done && /^[[:space:]]*listen[[:space:]]+80;/ {
+                print "    listen 443 ssl;"
+                print "    ssl_certificate " cert ";"
+                print "    ssl_certificate_key " key ";"
+                print "    ssl_protocols TLSv1.2 TLSv1.3;"
+                done = 1
+                next
+            }
+            { print }
+        ' "$conf"
+        printf '%s\n' "$MATRIX_TLS_END"
+    } > "$tmp"
+
+    cat "$tmp" >> "$conf"
+    rm -f "$tmp"
+
+    log_info "Added TLS server block to $conf"
+    return 0
+}
+
+# ssl_nginx_disable <site> — drop the marker block from config/nginx/<site>.conf
+ssl_nginx_disable() {
+    local site="${1:-}"
+    local conf="$PROJECT_ROOT/config/nginx/${site}.conf"
+
+    [[ -f "$conf" ]] || return 0
+    grep -qF "$MATRIX_TLS_BEGIN" "$conf" || return 0
+
+    local tmp
+    tmp=$(mktemp)
+    awk -v begin="$MATRIX_TLS_BEGIN" -v end="$MATRIX_TLS_END" '
+        $0 == begin { skip = 1; next }
+        $0 == end   { skip = 0; next }
+        !skip       { print }
+    ' "$conf" > "$tmp"
+    cat "$tmp" > "$conf"
+    rm -f "$tmp"
+
+    log_info "Removed TLS server block from $conf"
+    return 0
+}
+
+# ssl_compose_enable <site> <https_port> — publish 443 and mount the cert pair
+# on the nginx_<site> service. Idempotent; validates through compose_atomic_write
+# when available (standalone sourcing in tests does not define it).
+ssl_compose_enable() {
+    local site="${1:-}"
+    local https_port="${2:-}"
+
+    if [[ -z "$https_port" ]]; then
+        log_error "ssl_compose_enable: missing https port"
+        return 1
+    fi
+
+    if [[ ! -f "${COMPOSE_FILE:-}" ]]; then
+        log_error "docker-compose.yml not found at ${COMPOSE_FILE:-<unset>}"
+        return 1
+    fi
+
+    local port_line="      - \"${https_port}:443\""
+    local volume_line="      - ./ssl-certs/${site}:/etc/nginx/ssl:ro"
+
+    if ! grep -qE "^  nginx_${site}:[[:space:]]*$" "$COMPOSE_FILE"; then
+        log_error "No nginx_${site} service in docker-compose.yml (apache-stack site?)."
+        return 1
+    fi
+
+    if grep -qF "\"${https_port}:443\"" "$COMPOSE_FILE" && \
+       grep -qF "./ssl-certs/${site}:/etc/nginx/ssl" "$COMPOSE_FILE"; then
+        log_info "nginx_${site} already publishes ${https_port}:443"
+        return 0
+    fi
+
+    local tmp
+    tmp=$(mktemp)
+    awk -v site="$site" -v port_line="$port_line" -v volume_line="$volume_line" '
+        BEGIN { inblk = 0; sect = "" }
+
+        $0 ~ ("^  nginx_" site ":[[:space:]]*$") { inblk = 1; sect = ""; print; next }
+
+        inblk && /^  [^[:space:]]/ { inblk = 0; sect = "" }
+
+        inblk && sect == "" && /^    ports:[[:space:]]*$/   { sect = "ports";   print; next }
+        inblk && sect == "" && /^    volumes:[[:space:]]*$/ { sect = "volumes"; print; next }
+
+        inblk && sect == "ports"   && /^      - / { print; next }
+        inblk && sect == "volumes" && /^      - / { print; next }
+
+        inblk && sect == "ports"   { print port_line;   sect = "" }
+        inblk && sect == "volumes" { print volume_line; sect = "" }
+
+        { print }
+    ' "$COMPOSE_FILE" > "$tmp"
+
+    if declare -F compose_atomic_write >/dev/null 2>&1; then
+        compose_atomic_write "$tmp" "$COMPOSE_FILE"
+        local rc=$?
+        rm -f "$tmp"
+        [[ $rc -eq 0 ]] || return $rc
+    else
+        cat "$tmp" > "$COMPOSE_FILE"
+        rm -f "$tmp"
+    fi
+
+    log_info "nginx_${site} publishes ${https_port}:443 with certs from ./ssl-certs/${site}"
+    return 0
+}
+
+# ssl_compose_disable <site> <https_port> — remove the port mapping + cert mount
+ssl_compose_disable() {
+    local site="${1:-}"
+    local https_port="${2:-}"
+
+    [[ -f "${COMPOSE_FILE:-}" ]] || return 0
+
+    local tmp
+    tmp=$(mktemp)
+    awk -v https_port="$https_port" -v site="$site" '
+        $0 ~ ("^      - \"" https_port ":443\"[[:space:]]*$") { next }
+        index($0, "./ssl-certs/" site ":/etc/nginx/ssl") { next }
+        { print }
+    ' "$COMPOSE_FILE" > "$tmp"
+
+    if declare -F compose_atomic_write >/dev/null 2>&1; then
+        compose_atomic_write "$tmp" "$COMPOSE_FILE"
+        local rc=$?
+        rm -f "$tmp"
+        [[ $rc -eq 0 ]] || return $rc
+    else
+        cat "$tmp" > "$COMPOSE_FILE"
+        rm -f "$tmp"
+    fi
+
+    log_info "Removed ${https_port}:443 and cert mount from nginx_${site}"
+    return 0
+}
+
+# ssl_enable <site> [--force] — cert + nginx block + compose wiring
+ssl_enable() {
+    local site="${1:-}"
+    local force="${2:-false}"
+
+    if [[ "$force" == "true" ]]; then
+        generate_site_cert "$site" --force || return 1
+    else
+        generate_site_cert "$site" || return 1
+    fi
+
+    local http_port https_port
+    http_port=$(get_site_port "$site")
+    https_port=$(compute_https_port "$http_port")
+    if [[ -z "$https_port" ]]; then
+        log_error "Could not compute the HTTPS port for '$site'."
+        return 1
+    fi
+
+    ssl_nginx_enable "$site" || return 1
+    ssl_compose_enable "$site" "$https_port" || return 1
+
+    log_info "TLS enabled for '$site': HTTP ${http_port}, HTTPS ${https_port}"
+    return 0
+}
+
 # --- matrix command wrappers ---
 
 # matrix ssl <site> [--force] [--revoke] [--json]
@@ -206,7 +429,8 @@ cmd_ssl() {
     local site="${1:-}"
     local force=false
     local revoke=false
-    local json=false
+    # main() strips --json before dispatch, so honour the global flag too.
+    local json="${JSON_OUTPUT:-false}"
 
     # Parse flags
     while [[ $# -gt 0 ]]; do
@@ -236,12 +460,22 @@ cmd_ssl() {
         return 1
     fi
 
+    if [[ ! -d "$PROJECT_ROOT/wp_${site}" ]]; then
+        error_json "SSL_SITE_NOT_FOUND" "No site named '${site}'."
+        return 1
+    fi
+
     # Remove the cert + nginx ssl config when --revoke given.
     local cert_dir="$PROJECT_ROOT/ssl-certs/${site}"
     local server_cert="$cert_dir/server.crt"
     local server_key="$cert_dir/server.key"
 
     if [[ "$revoke" == "true" ]]; then
+        local http_port https_port
+        http_port=$(get_site_port "$site")
+        https_port=$(compute_https_port "$http_port")
+        ssl_nginx_disable "$site"
+        [[ -n "$https_port" ]] && ssl_compose_disable "$site" "$https_port"
         rm -f "$server_cert" "$server_key"
         # Remove nginx ssl block from the per-site conf (repair will regenerate)
         log_info "Revoked TLS certificate for '$site'."
@@ -251,8 +485,8 @@ cmd_ssl() {
         return 0
     fi
 
-    # Generate the certificate
-    generate_site_cert "$site" "$force"
+    # Generate the certificate and wire nginx + compose
+    ssl_enable "$site" "$force" || return 1
 
     # Compute the HTTPS port
     local http_port
@@ -270,9 +504,10 @@ cmd_ssl() {
     if [[ "$json" == "true" ]]; then
         local cert_source="openssl"
         command -v mkcert >/dev/null 2>&1 && cert_source="mkcert"
-        local fingerprint
+        local fingerprint lan_ip
         fingerprint=$(site_cert_fingerprint "${site}")
-        output_json "{\"success\":true,\"site\":\"${site}\",\"http_port\":${http_port},\"https_port\":${https_port},\"cert_source\":\"${cert_source}\",\"fingerprint\":\"${fingerprint}\"}"
+        lan_ip=$(get_lan_ip 2>/dev/null || echo "localhost")
+        output_json "{\"success\":true,\"site\":\"${site}\",\"http_port\":${http_port},\"https_port\":${https_port},\"https_url\":\"https://${lan_ip}:${https_port}\",\"cert_source\":\"${cert_source}\",\"fingerprint\":\"${fingerprint}\"}"
     fi
 
     return 0
@@ -283,7 +518,7 @@ cmd_domain() {
     local site="${1:-}"
     local hostname="${2:-${site}.test}"
     local force=false
-    local json=false
+    local json="${JSON_OUTPUT:-false}"
 
     # Parse --yes flag
     while [[ $# -gt 0 ]]; do

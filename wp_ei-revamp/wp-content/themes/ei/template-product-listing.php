@@ -10,12 +10,12 @@
 
 get_header(); ?>
 
-<section class="ei-section">
+<section class="sheet ei-section reveal">
 	<div class="container">
-		<p class="ei-eyebrow reveal"><?php esc_html_e( 'Product catalogue', 'ei' ); ?></p>
-		<h1 class="ei-section-title reveal"><?php echo esc_html( get_the_title() ); ?></h1>
-		<p class="ei-section-lede reveal"><?php echo esc_html( get_the_content() ); ?></p>
-		<div class="ei-grid">
+		<p class="mono-micro reveal"><?php esc_html_e( 'Product catalogue', 'ei' ); ?></p>
+		<h1 class="display-l reveal"><?php echo esc_html( get_the_title() ); ?></h1>
+		<div class="body-l reveal"><?php echo apply_filters( 'the_content', get_the_content() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
+		<div class="specimen-layout reveal" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));">
 			<?php
 			$products = get_posts(
 				array(

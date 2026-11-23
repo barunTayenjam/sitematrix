@@ -37,52 +37,87 @@
 				array(
 					'name' => 'Blood Testing Instruments',
 					'slug' => 'blood_testing_instruments',
-					'subs' => array( 'Photo Colorimeter', 'Haemoglobin Meter', 'Differential Blood Cell Counter' ),
+					'subs' => array(
+						array( 'Photo Colorimeter', 'photo_colorimeter' ),
+						array( 'Haemoglobin Meter', 'haemoglobin_meter' ),
+						array( 'Differential Blood Cell Counter', 'differential_blood_cell_counter' ),
+					),
 				),
 				array(
 					'name' => 'Spectrophotometers',
 					'slug' => 'spectrophotometer',
-					'subs' => array( 'Double Beam Spectrophotometer', 'Single Beam Spectrophotometer', 'Visible Spectrophotometer' ),
+					'subs' => array(
+						array( 'Double Beam Spectrophotometer', 'double_beam_spectrophotometer' ),
+						array( 'Single Beam Spectrophotometer', 'single_beam_spectrophotometer' ),
+						array( 'Visible Spectrophotometer', 'visible_spectrophotometer' ),
+					),
 				),
 				array(
 					'name' => 'Electrochemistry Instruments',
 					'slug' => 'electrochemistry_instruments',
-					'subs' => array( 'pH Meter', 'Conductivity Meter', 'TDS Meter', 'Salinity Meter', 'Turbidity Meter', 'DO Meter', 'Potentiometer', 'Colony Counter' ),
+					'subs' => array(
+						array( 'pH Meter', 'ph_meter' ),
+						array( 'Conductivity Meter', 'conductivity_meter' ),
+						array( 'TDS Meter', 'tds-meter' ),
+						array( 'Salinity Meter', 'salinity_meter' ),
+						array( 'Turbidity Meter', 'turbidity_meter' ),
+						array( 'DO Meter', 'do_meter' ),
+						array( 'Potentiometer', 'potentio_meter' ),
+						array( 'Colony Counter', 'colony_counter' ),
+					),
 				),
 				array(
 					'name' => 'Pharmaceutical Instruments',
 					'slug' => 'pharmaceutical_instruments',
-					'subs' => array( 'Dissolution Apparatus', 'Disintegration Apparatus', 'Friability Apparatus', 'Melting Point Apparatus', 'Tablet Hardness Tester', 'Leak Test Apparatus', 'Viscometer' ),
+					'subs' => array(
+						array( 'Dissolution Apparatus', 'dissolution_test_apparatus' ),
+						array( 'Disintegration Apparatus', 'disintegration_test_apparatus' ),
+						array( 'Friability Apparatus', 'friability_test_apparatus' ),
+						array( 'Melting Point Apparatus', 'melting_point_apparatus' ),
+						array( 'Tablet Hardness Tester', 'tablet-hardness-tester' ),
+						array( 'Leak Test Apparatus', 'leak_test_apparatus' ),
+						array( 'Viscometer', 'viscometer-pharmaceutical_instruments' ),
+					),
 				),
 				array(
 					'name' => 'Flame Photometers',
 					'slug' => 'flame_photometer',
-					'subs' => array( 'Microprocessor Flame Photometer 1385 & 1382', 'Dual Channel Flame Photometer' ),
+					'subs' => array(
+						array( 'Microprocessor Flame Photometer 1385 & 1382', 'flame_photometer' ),
+						array( 'Dual Channel Flame Photometer', 'flame_photometer' ),
+					),
 				),
 				array(
 					'name' => 'Water Analysis Kits',
 					'slug' => 'water-analysis-kit',
-					'subs' => array( 'Water & Soil Analysis Kit', 'Water Proof Meter 7200' ),
+					'subs' => array(
+						array( 'Water & Soil Analysis Kit', 'water-analysis-kit' ),
+						array( 'Water Proof Meter 7200', 'water-analysis-kit' ),
+					),
 				),
 				array(
 					'name' => 'Flocculator / Jar Test Apparatus',
 					'slug' => 'flocculatorjar_test_apparatus',
-					'subs' => array( 'Jar Test Apparatus 1922, 1924 & 1926' ),
+					'subs' => array(
+						array( 'Jar Test Apparatus 1922, 1924 & 1926', 'flocculatorjar_test_apparatus' ),
+					),
 				),
 			);
+			$request_path = trailingslashit( (string) ( wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/', PHP_URL_PATH ) ?: '/' ) );
 			foreach ( $nav_items as $item ) :
 				if ( ! empty( $item['mega'] ) ) :
+					$products_current = is_page( 'products' ) || is_singular( 'product' ) || is_tax( 'products' );
 					?>
 					<li class="nav-item has-children">
-						<a href="<?php echo esc_url( $item['url'] ); ?>" aria-haspopup="true" aria-expanded="false"><?php echo esc_html( $item['label'] ); ?></a>
+						<a href="<?php echo esc_url( $item['url'] ); ?>" aria-haspopup="true" aria-expanded="false"<?php echo $products_current ? ' aria-current="page"' : ''; ?>><?php echo esc_html( $item['label'] ); ?></a>
 						<ul class="mega-menu">
 							<?php foreach ( $products_mega as $fam ) : ?>
 								<li class="mega-col">
 									<span class="mega-eyebrow">Family</span>
-									<a class="mega-family" href="<?php echo esc_url( home_url( '/products/' ) ); ?>"><?php echo esc_html( $fam['name'] ); ?></a>
+									<a class="mega-family" href="<?php echo esc_url( home_url( '/products/' . $fam['slug'] . '/' ) ); ?>"><?php echo esc_html( $fam['name'] ); ?></a>
 									<ul class="mega-sub">
 										<?php foreach ( $fam['subs'] as $sub ) : ?>
-											<li><a href="<?php echo esc_url( home_url( '/products/' ) ); ?>"><?php echo esc_html( $sub ); ?></a></li>
+											<li><a href="<?php echo esc_url( home_url( '/products/' . $sub[1] . '/' ) ); ?>"><?php echo esc_html( $sub[0] ); ?></a></li>
 										<?php endforeach; ?>
 									</ul>
 								</li>
@@ -93,7 +128,12 @@
 						</ul>
 					</li>
 				<?php else :
-					$current = ( '/' === parse_url( $item['url'], PHP_URL_PATH ) ) && is_front_page();
+					$item_path = trailingslashit( (string) ( wp_parse_url( $item['url'], PHP_URL_PATH ) ?: '/' ) );
+					$item_hash = (string) wp_parse_url( $item['url'], PHP_URL_FRAGMENT );
+					$current   = ! $item_hash && $item_path === $request_path;
+					if ( is_front_page() && 's1' === $item_hash ) {
+						$current = true;
+					}
 					?>
 					<li class="nav-item">
 						<a href="<?php echo esc_url( $item['url'] ); ?>"<?php echo $current ? ' aria-current="page"' : ''; ?>><?php echo esc_html( $item['label'] ); ?></a>

@@ -5,6 +5,18 @@
 (() => {
 	const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+	document.querySelectorAll('img').forEach((img) => {
+		const fail = () => {
+			if (!img.isConnected) return;
+			const note = document.createElement('span');
+			note.className = 'mono-micro';
+			note.textContent = '10K / No specimen image';
+			img.replaceWith(note);
+		};
+		if (img.complete && img.naturalWidth === 0) fail();
+		else img.addEventListener('error', fail, { once: true });
+	});
+
 	// --- Scroll reveals
 	if ('IntersectionObserver' in window && !reduced) {
 		const ro = new IntersectionObserver(
@@ -40,6 +52,7 @@
 	// --- Mobile nav + mega menu
 	const navToggle = document.querySelector('.nav-toggle');
 	const navMenu = document.querySelector('.nav-menu');
+	const isMobileNav = () => window.matchMedia('(max-width: 900px)').matches;
 	if (navToggle && navMenu) {
 		navToggle.addEventListener('click', () => {
 			const open = navMenu.classList.toggle('open');
@@ -50,12 +63,16 @@
 			if (!parentLink) return;
 			if (li.classList.contains('has-children')) {
 				parentLink.addEventListener('click', (ev) => {
+					// Mobile: toggle the accordion panel. Desktop: let the link navigate.
+					if (!isMobileNav()) return;
 					ev.preventDefault();
 					const open = li.classList.toggle('open');
 					parentLink.setAttribute('aria-expanded', String(open));
 				});
 				li.querySelectorAll('.mega-menu a').forEach((sub) => {
 					sub.addEventListener('click', () => {
+						li.classList.remove('open');
+						li.querySelector(':scope > a').setAttribute('aria-expanded', 'false');
 						navMenu.classList.remove('open');
 						navToggle.setAttribute('aria-expanded', 'false');
 					});
@@ -67,12 +84,17 @@
 				});
 			}
 		});
-		// Escape closes the mobile menu
+		// Escape closes the open overlay / clears expanded state
 		document.addEventListener('keydown', (ev) => {
-			if (ev.key === 'Escape' && navMenu.classList.contains('open')) {
+			if (ev.key !== 'Escape') return;
+			if (navMenu.classList.contains('open')) {
 				navMenu.classList.remove('open');
 				navToggle.setAttribute('aria-expanded', 'false');
 			}
+			document.querySelectorAll('li.has-children').forEach((li) => {
+				const link = li.querySelector(':scope > a');
+				if (link) link.setAttribute('aria-expanded', 'false');
+			});
 		});
 	}
 

@@ -1,0 +1,1840 @@
+{
+ "url": "http://192.168.31.207:8209",
+ "at": "2026-10-29T11:58:52.762Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 4,
+   "filled": [
+    0.76,
+    0.62,
+    0.57,
+    1
+   ],
+   "motion": {
+    "elements": 19,
+    "css": 19,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 1,
+    "playingVideos": 1
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 3487,
+     "screens": 3.9,
+     "words": 286,
+     "img": 6,
+     "video": 1,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 5,
+     "videoCount": 1,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "model-1760-new-400x280.jpg",
+      "model-2375Nw-400x280.jpg",
+      "model-1385-400x280.jpg",
+      "model-1951-400x280.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Precision Instruments",
+     "words": 2,
+     "chars": 21,
+     "lines": 1,
+     "size": 64,
+     "vw": 4.4,
+     "font": "Gambarino",
+     "weight": 400,
+     "tracking": -0.02,
+     "leading": 1.15,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "center",
+     "position": "center",
+     "widthRatio": 0.39,
+     "top": 226,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Precision Instruments",
+     "words": 2,
+     "lines": 1,
+     "size": 64,
+     "font": "Gambarino"
+    },
+    "headings": [
+     {
+      "text": "Precision Instruments",
+      "words": 2,
+      "chars": 21,
+      "lines": 1,
+      "size": 64,
+      "vw": 4.4,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": -0.02,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.39,
+      "top": 226,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "40+",
+      "words": 1,
+      "chars": 3,
+      "lines": 1,
+      "size": 56,
+      "vw": 3.9,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.6,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "left",
+      "widthRatio": 0.19,
+      "top": 685,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "90+",
+      "words": 1,
+      "chars": 3,
+      "lines": 1,
+      "size": 56,
+      "vw": 3.9,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.6,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "left",
+      "widthRatio": 0.19,
+      "top": 685,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "7",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 56,
+      "vw": 3.9,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.6,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "right",
+      "widthRatio": 0.19,
+      "top": 685,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "ISO",
+      "words": 1,
+      "chars": 3,
+      "lines": 1,
+      "size": 56,
+      "vw": 3.9,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.6,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "right",
+      "widthRatio": 0.19,
+      "top": 685,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Need help choosing an instrument?",
+      "words": 5,
+      "chars": 33,
+      "lines": 1,
+      "size": 40,
+      "vw": 2.8,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.79,
+      "top": 2206,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 6,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 6,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "General Sans",
+       "share": 0.79,
+       "mono": false
+      },
+      {
+       "family": "Gambarino",
+       "share": 0.21,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      13,
+      14,
+      16,
+      22,
+      40,
+      56,
+      64
+     ],
+     "sizeCount": 7,
+     "notLoaded": [],
+     "body": {
+      "font": "General Sans",
+      "size": 16,
+      "leading": 1.6,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 7.9
+     },
+     "measureChars": 61,
+     "max": {
+      "size": 64,
+      "vw": 4.4,
+      "font": "Gambarino",
+      "text": "Precision Instruments"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.02,
+     "centerShare": 0.21,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#fafaf9",
+     "bodyBgHsl": {
+      "h": 60,
+      "s": 0.09,
+      "l": 0.98
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#1c1917",
+       "top": 114,
+       "hsl": {
+        "h": 24,
+        "s": 0.1,
+        "l": 0.1
+       }
+      },
+      {
+       "color": "#f4f4f2",
+       "top": 1354,
+       "hsl": {
+        "h": 60,
+        "s": 0.08,
+        "l": 0.95
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#4a5260",
+       "share": 0.31
+      },
+      {
+       "color": "#d6d3d1",
+       "share": 0.24
+      },
+      {
+       "color": "#111827",
+       "share": 0.18
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.12
+      },
+      {
+       "color": "#ae1010",
+       "share": 0.07
+      }
+     ],
+     "button": {
+      "bg": "#ae1010",
+      "hsl": {
+       "h": 0,
+       "s": 0.83,
+       "l": 0.37
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 7,
+     "inHero": 2,
+     "radius": 8,
+     "height": 62,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Get a Quote",
+      "Browse the Catalogue"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 4,
+     "boxRadius": 12,
+     "squareMedia": 1,
+     "roundedMedia": 4,
+     "mediaRadius": 12,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 4,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 1522
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "video",
+      "ratio": 0.57
+     }
+    ],
+    "nav": {
+     "links": 10,
+     "fixed": true,
+     "height": 78,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "gambarino",
+     "general sans"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 3487,
+    "margins": {
+     "left": 142,
+     "right": 190
+    },
+    "sections": [
+     {
+      "sel": "section.ei-hero",
+      "tag": "section",
+      "top": 114,
+      "height": 522,
+      "words": 28,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Precision Instruments",
+       "size": 64,
+       "tag": "h1"
+      },
+      "left": 401,
+      "right": 425,
+      "textLeft": 401,
+      "textRight": 425,
+      "fullBleed": true,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-proof",
+      "tag": "section",
+      "top": 637,
+      "height": 215,
+      "words": 14,
+      "media": 0,
+      "middle": 127,
+      "heading": {
+       "text": "40+",
+       "size": 56,
+       "tag": "div"
+      },
+      "left": 194,
+      "right": 211,
+      "textLeft": 194,
+      "textRight": 211,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 852,
+      "height": 502,
+      "words": 42,
+      "media": 0,
+      "middle": 99,
+      "heading": {
+       "text": "Instrument Families",
+       "size": 16,
+       "tag": "h2"
+      },
+      "left": 142,
+      "right": 285,
+      "textLeft": 142,
+      "textRight": 285,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section.ei-section--alt",
+      "tag": "section",
+      "top": 1354,
+      "height": 756,
+      "words": 83,
+      "media": 4,
+      "middle": 24,
+      "heading": {
+       "text": "Featured Instruments",
+       "size": 16,
+       "tag": "h2"
+      },
+      "left": 142,
+      "right": 166,
+      "textLeft": 142,
+      "textRight": 190,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-cta",
+      "tag": "section",
+      "top": 2110,
+      "height": 399,
+      "words": 19,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Need help choosing an instrument?",
+       "size": 40,
+       "tag": "h2"
+      },
+      "left": 414,
+      "right": 438,
+      "textLeft": 414,
+      "textRight": 438,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.ei-footer",
+      "tag": "footer",
+      "top": 2509,
+      "height": 978,
+      "words": 82,
+      "media": 0,
+      "middle": 30,
+      "heading": {
+       "text": "Product Categories",
+       "size": 16,
+       "tag": "h4"
+      },
+      "left": 142,
+      "right": 648,
+      "textLeft": 142,
+      "textRight": 648,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Precision Instruments",
+      "size": 64,
+      "top": 226,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 166,
+      "n": 4
+     },
+     {
+      "x": 744,
+      "n": 4
+     },
+     {
+      "x": 1033,
+      "n": 4
+     },
+     {
+      "x": 142,
+      "n": 2
+     },
+     {
+      "x": 455,
+      "n": 2
+     }
+    ],
+    "leftBlocks": 16,
+    "bodySize": 16,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0.07,
+    "voidBox": {
+     "x": 0,
+     "y": 840,
+     "w": 1440,
+     "h": 60
+    }
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 5,
+   "filled": [
+    0.69,
+    0.46,
+    0.96,
+    0.73,
+    0.96
+   ],
+   "motion": {
+    "elements": 19,
+    "css": 19,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 1,
+    "playingVideos": 1
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 4487,
+     "screens": 4.4,
+     "words": 283,
+     "img": 6,
+     "video": 1,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 5,
+     "videoCount": 1,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "model-1760-new-400x280.jpg",
+      "model-2375Nw-400x280.jpg",
+      "model-1385-400x280.jpg",
+      "model-1951-400x280.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "40+",
+     "words": 1,
+     "chars": 3,
+     "lines": 1,
+     "size": 55,
+     "vw": 7.2,
+     "font": "Gambarino",
+     "weight": 400,
+     "tracking": 0,
+     "leading": 1.6,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "center",
+     "position": "left",
+     "widthRatio": 0.29,
+     "top": 706,
+     "tag": "div",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Precision Instruments",
+     "words": 2,
+     "lines": 1,
+     "size": 54.7,
+     "font": "Gambarino"
+    },
+    "headings": [
+     {
+      "text": "Precision Instruments",
+      "words": 2,
+      "chars": 21,
+      "lines": 1,
+      "size": 54.7,
+      "vw": 7.1,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": -0.02,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.63,
+      "top": 268,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "40+",
+      "words": 1,
+      "chars": 3,
+      "lines": 1,
+      "size": 55,
+      "vw": 7.2,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.6,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "left",
+      "widthRatio": 0.29,
+      "top": 706,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "90+",
+      "words": 1,
+      "chars": 3,
+      "lines": 1,
+      "size": 55,
+      "vw": 7.2,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.6,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.29,
+      "top": 706,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "7",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 55,
+      "vw": 7.2,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.6,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "right",
+      "widthRatio": 0.29,
+      "top": 706,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "ISO",
+      "words": 1,
+      "chars": 3,
+      "lines": 1,
+      "size": 55,
+      "vw": 7.2,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.6,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "left",
+      "widthRatio": 0.29,
+      "top": 856,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Need help choosing an instrument?",
+      "words": 5,
+      "chars": 33,
+      "lines": 1,
+      "size": 32.3,
+      "vw": 4.2,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.91,
+      "top": 3157,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 6,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 6,
+     "medianWords": 2,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "General Sans",
+       "share": 0.79,
+       "mono": false
+      },
+      {
+       "family": "Gambarino",
+       "share": 0.21,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      13,
+      14,
+      16,
+      20,
+      32,
+      55
+     ],
+     "sizeCount": 6,
+     "notLoaded": [],
+     "body": {
+      "font": "General Sans",
+      "size": 16,
+      "leading": 1.6,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 7.9
+     },
+     "measureChars": 36,
+     "max": {
+      "size": 55,
+      "vw": 7.2,
+      "font": "Gambarino",
+      "text": "40+"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.02,
+     "centerShare": 0.21,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#fafaf9",
+     "bodyBgHsl": {
+      "h": 60,
+      "s": 0.09,
+      "l": 0.98
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#1c1917",
+       "top": 156,
+       "hsl": {
+        "h": 24,
+        "s": 0.1,
+        "l": 0.1
+       }
+      },
+      {
+       "color": "#fafaf9",
+       "top": 658,
+       "hsl": {
+        "h": 60,
+        "s": 0.09,
+        "l": 0.98
+       }
+      },
+      {
+       "color": "#f4f4f2",
+       "top": 1773,
+       "hsl": {
+        "h": 60,
+        "s": 0.08,
+        "l": 0.95
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#4a5260",
+       "share": 0.31
+      },
+      {
+       "color": "#d6d3d1",
+       "share": 0.24
+      },
+      {
+       "color": "#111827",
+       "share": 0.18
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.12
+      },
+      {
+       "color": "#ae1010",
+       "share": 0.06
+      }
+     ],
+     "button": {
+      "bg": "#ae1010",
+      "hsl": {
+       "h": 0,
+       "s": 0.83,
+       "l": 0.37
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 6,
+     "inHero": 1,
+     "radius": 8,
+     "height": 62,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Browse the Catalogue"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 4,
+     "boxRadius": 12,
+     "squareMedia": 1,
+     "roundedMedia": 4,
+     "mediaRadius": 12,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 4,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 1941
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "video",
+      "ratio": 0.48
+     }
+    ],
+    "nav": {
+     "links": 9,
+     "fixed": true,
+     "height": 120,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "gambarino",
+     "general sans"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 4487,
+    "margins": {
+     "left": 24,
+     "right": 48
+    },
+    "sections": [
+     {
+      "sel": "section.ei-hero",
+      "tag": "section",
+      "top": 156,
+      "height": 502,
+      "words": 28,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Precision Instruments",
+       "size": 55,
+       "tag": "h1"
+      },
+      "left": 95,
+      "right": 119,
+      "textLeft": 95,
+      "textRight": 119,
+      "fullBleed": true,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-proof",
+      "tag": "section",
+      "top": 658,
+      "height": 363,
+      "words": 14,
+      "media": 0,
+      "middle": 78,
+      "heading": {
+       "text": "40+",
+       "size": 55,
+       "tag": "div"
+      },
+      "left": 44,
+      "right": 89,
+      "textLeft": 44,
+      "textRight": 89,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 1022,
+      "height": 752,
+      "words": 42,
+      "media": 0,
+      "middle": 160,
+      "heading": {
+       "text": "Instrument Families",
+       "size": 16,
+       "tag": "h2"
+      },
+      "left": 24,
+      "right": 170,
+      "textLeft": 24,
+      "textRight": 170,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section.ei-section--alt",
+      "tag": "section",
+      "top": 1773,
+      "height": 1288,
+      "words": 83,
+      "media": 4,
+      "middle": 24,
+      "heading": {
+       "text": "Featured Instruments",
+       "size": 16,
+       "tag": "h2"
+      },
+      "left": 24,
+      "right": 48,
+      "textLeft": 24,
+      "textRight": 89,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-cta",
+      "tag": "section",
+      "top": 3061,
+      "height": 390,
+      "words": 19,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Need help choosing an instrument?",
+       "size": 32,
+       "tag": "h2"
+      },
+      "left": 134,
+      "right": 158,
+      "textLeft": 134,
+      "textRight": 158,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.ei-footer",
+      "tag": "footer",
+      "top": 3451,
+      "height": 1035,
+      "words": 82,
+      "media": 0,
+      "middle": 24,
+      "heading": {
+       "text": "Product Categories",
+       "size": 16,
+       "tag": "h4"
+      },
+      "left": 24,
+      "right": 346,
+      "textLeft": 24,
+      "textRight": 346,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Precision Instruments",
+      "size": 55,
+      "top": 268,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 48,
+      "n": 8
+     },
+     {
+      "x": 408,
+      "n": 6
+     },
+     {
+      "x": 24,
+      "n": 2
+     }
+    ],
+    "leftBlocks": 16,
+    "bodySize": 16,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 8,
+   "filled": [
+    0.96,
+    0.16,
+    0.16,
+    0.89,
+    0.96,
+    0.79,
+    0.73,
+    0.96
+   ],
+   "motion": {
+    "elements": 19,
+    "css": 19,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 1,
+    "playingVideos": 1
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 6419,
+     "screens": 7.6,
+     "words": 283,
+     "img": 6,
+     "video": 1,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 5,
+     "videoCount": 1,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "model-1760-new-400x280.jpg",
+      "model-2375Nw-400x280.jpg",
+      "model-1385-400x280.jpg",
+      "model-1951-400x280.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Precision Instruments",
+     "words": 2,
+     "chars": 21,
+     "lines": 2,
+     "size": 39.6,
+     "vw": 10.2,
+     "font": "Gambarino",
+     "weight": 400,
+     "tracking": -0.02,
+     "leading": 1.15,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "center",
+     "position": "center",
+     "widthRatio": 0.82,
+     "top": 385,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Precision Instruments",
+     "words": 2,
+     "lines": 2,
+     "size": 39.6,
+     "font": "Gambarino"
+    },
+    "headings": [
+     {
+      "text": "Precision Instruments",
+      "words": 2,
+      "chars": 21,
+      "lines": 2,
+      "size": 39.6,
+      "vw": 10.2,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": -0.02,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.82,
+      "top": 385,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "40+",
+      "words": 1,
+      "chars": 3,
+      "lines": 1,
+      "size": 43.7,
+      "vw": 11.2,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.6,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.82,
+      "top": 897,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "90+",
+      "words": 1,
+      "chars": 3,
+      "lines": 1,
+      "size": 43.7,
+      "vw": 11.2,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.6,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.82,
+      "top": 1028,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "7",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 43.7,
+      "vw": 11.2,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.6,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.82,
+      "top": 1160,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "ISO",
+      "words": 1,
+      "chars": 3,
+      "lines": 1,
+      "size": 43.7,
+      "vw": 11.2,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.6,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.82,
+      "top": 1291,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Need help choosing an instrument?",
+      "words": 5,
+      "chars": 33,
+      "lines": 2,
+      "size": 26.7,
+      "vw": 6.8,
+      "font": "Gambarino",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.82,
+      "top": 4947,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 6,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 6,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "General Sans",
+       "share": 0.79,
+       "mono": false
+      },
+      {
+       "family": "Gambarino",
+       "share": 0.21,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      13,
+      14,
+      16,
+      18,
+      27,
+      40,
+      44
+     ],
+     "sizeCount": 7,
+     "notLoaded": [],
+     "body": {
+      "font": "General Sans",
+      "size": 16,
+      "leading": 1.6,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 7.9
+     },
+     "measureChars": 45,
+     "max": {
+      "size": 43.7,
+      "vw": 11.2,
+      "font": "Gambarino",
+      "text": "40+"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.02,
+     "centerShare": 0.21,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#fafaf9",
+     "bodyBgHsl": {
+      "h": 60,
+      "s": 0.09,
+      "l": 0.98
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#1c1917",
+       "top": 273,
+       "hsl": {
+        "h": 24,
+        "s": 0.1,
+        "l": 0.1
+       }
+      },
+      {
+       "color": "#fafaf9",
+       "top": 849,
+       "hsl": {
+        "h": 60,
+        "s": 0.09,
+        "l": 0.98
+       }
+      },
+      {
+       "color": "#f4f4f2",
+       "top": 2575,
+       "hsl": {
+        "h": 60,
+        "s": 0.08,
+        "l": 0.95
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 2743,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#4a5260",
+       "share": 0.31
+      },
+      {
+       "color": "#d6d3d1",
+       "share": 0.24
+      },
+      {
+       "color": "#111827",
+       "share": 0.18
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.12
+      },
+      {
+       "color": "#ae1010",
+       "share": 0.06
+      }
+     ],
+     "button": {
+      "bg": "#ae1010",
+      "hsl": {
+       "h": 0,
+       "s": 0.83,
+       "l": 0.37
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 6,
+     "inHero": 1,
+     "radius": 8,
+     "height": 62,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Browse the Catalogue"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 4,
+     "boxRadius": 12,
+     "squareMedia": 1,
+     "roundedMedia": 4,
+     "mediaRadius": 12,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 4,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 2743
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "video",
+      "ratio": 0.64
+     }
+    ],
+    "nav": {
+     "links": 4,
+     "fixed": false,
+     "height": 216,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "gambarino",
+     "general sans"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 6419,
+    "margins": {
+     "left": 24,
+     "right": 48
+    },
+    "sections": [
+     {
+      "sel": "header.ei-header",
+      "tag": "header",
+      "top": 58,
+      "height": 216,
+      "words": 13,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 24,
+      "right": 139,
+      "textLeft": 24,
+      "textRight": 139,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-hero",
+      "tag": "section",
+      "top": 273,
+      "height": 576,
+      "words": 28,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Precision Instruments",
+       "size": 40,
+       "tag": "h1"
+      },
+      "left": 0,
+      "right": 23,
+      "textLeft": 38,
+      "textRight": 62,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-proof",
+      "tag": "section",
+      "top": 849,
+      "height": 590,
+      "words": 14,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "40+",
+       "size": 44,
+       "tag": "div"
+      },
+      "left": 93,
+      "right": 117,
+      "textLeft": 93,
+      "textRight": 117,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 1439,
+      "height": 1136,
+      "words": 42,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Instrument Families",
+       "size": 16,
+       "tag": "h2"
+      },
+      "left": 24,
+      "right": 142,
+      "textLeft": 24,
+      "textRight": 142,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section.ei-section--alt",
+      "tag": "section",
+      "top": 2575,
+      "height": 2276,
+      "words": 83,
+      "media": 4,
+      "middle": 0,
+      "heading": {
+       "text": "Featured Instruments",
+       "size": 16,
+       "tag": "h2"
+      },
+      "left": 24,
+      "right": 48,
+      "textLeft": 24,
+      "textRight": 72,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-cta",
+      "tag": "section",
+      "top": 4851,
+      "height": 414,
+      "words": 19,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Need help choosing an instrument?",
+       "size": 27,
+       "tag": "h2"
+      },
+      "left": 43,
+      "right": 67,
+      "textLeft": 43,
+      "textRight": 67,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.ei-footer",
+      "tag": "footer",
+      "top": 5265,
+      "height": 1153,
+      "words": 82,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Product Categories",
+       "size": 16,
+       "tag": "h4"
+      },
+      "left": 24,
+      "right": 48,
+      "textLeft": 24,
+      "textRight": 58,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Precision Instruments",
+      "size": 40,
+      "top": 385,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 48,
+      "n": 14
+     },
+     {
+      "x": 24,
+      "n": 2
+     }
+    ],
+    "leftBlocks": 16,
+    "bodySize": 16,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "WARN",
+   "id": "off-centre",
+   "width": 1440,
+   "message": "The margins differ: 142px on the left, 190px on the right, at 1440px.",
+   "fix": "Put the navigation and the content on one pair of margins; check for padding on one side only, a scrollbar gutter, or a header on another inset than the page.",
+   "alsoAt": [
+    768
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "off-centre",
+   "width": 390,
+   "message": "The page sits off-centre: its content comes to 24px from the left edge but only to 48px from the right, at 390px.",
+   "fix": "Give the page one pair of equal margins. Check the wrapper for a max-width without margin-inline: auto, a grid with an empty last column, or padding on one side only. If one side is meant to hold air, it must still be closed by something that reaches the margin (a picture, the navigation's last item, a figure)."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/after5/desktop-fold.jpg",
+   "pages": [
+    "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/after5/desktop-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/after5/tablet-fold.jpg",
+   "pages": [
+    "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/after5/tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/after5/mobile-fold.jpg",
+   "pages": [
+    "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/after5/mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

@@ -33,42 +33,6 @@ $products = new WP_Query(
 		),
 	)
 );
-
-/**
- * Render a specimen panel (featured or stacked).
- *
- * @param WP_Post $product  Product post.
- * @param string  $size     Image size slug.
- * @param bool    $featured Whether this is the large feature panel.
- */
-function ei_specimen_panel( $product, $size, $featured = false ) {
-	$model   = get_post_meta( $product->ID, 'model_number', true );
-	$thumb   = get_post_thumbnail_id( $product->ID );
-	$excerpt = get_the_excerpt( $product );
-	?>
-	<article class="specimen-panel reveal<?php echo $featured ? ' featured-hero' : ''; ?>">
-		<div class="panel-media">
-			<?php if ( $thumb ) : ?>
-				<?php echo wp_get_attachment_image( $thumb, $size, false, array( 'decoding' => 'async' ) ); ?>
-			<?php else : ?>
-				<span class="mono-micro">10K — No specimen image</span>
-			<?php endif; ?>
-		</div>
-		<div class="panel-body">
-			<div class="panel-model-row">
-				<span class="panel-model">Model EI-<?php echo esc_html( $model ? $model : '—' ); ?></span>
-			</div>
-			<h3 class="panel-title"><a href="<?php echo esc_url( get_permalink( $product ) ); ?>"><?php echo esc_html( get_the_title( $product ) ); ?></a></h3>
-			<?php if ( $excerpt ) : ?>
-				<p class="panel-excerpt"><?php echo esc_html( wp_trim_words( $excerpt, $featured ? 24 : 14 ) ); ?></p>
-			<?php endif; ?>
-			<div class="panel-actions">
-				<a class="btn-text" href="<?php echo esc_url( get_permalink( $product ) ); ?>">View datasheet &rarr;</a>
-			</div>
-		</div>
-	</article>
-	<?php
-}
 ?>
 
 <section class="sheet family-sheet">

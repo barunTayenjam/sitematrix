@@ -1,0 +1,2108 @@
+{
+ "url": "http://192.168.31.207:8209/",
+ "at": "2026-10-29T09:27:40.388Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 9,
+   "filled": [
+    0.37,
+    0.49,
+    0.44,
+    0.38,
+    0.48,
+    0.38,
+    0.31,
+    0.27,
+    0.51
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 7453,
+     "screens": 8.3,
+     "words": 931,
+     "img": 52,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [
+      "http://192.168.31.207:8209/wp-content/uploads/2016/08/model-671Nw-1-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/08/model-951Nw-1-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/08/products_0053_model_831-150x150.png",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/08/model-912Nw-1-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/10/model-461Nw-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/08/model-122Nw-1-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/07/model-368Nw-1-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/08/model_131-1-150x150.png"
+     ],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Electronics India — Scientific Instruments",
+     "words": 5,
+     "chars": 42,
+     "lines": 1,
+     "size": 32,
+     "vw": 2.2,
+     "font": "Archivo Narrow",
+     "weight": 700,
+     "tracking": 0,
+     "leading": 1.25,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.5,
+     "top": 851,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Electronics India — Scientific Instruments",
+     "words": 5,
+     "lines": 1,
+     "size": 32,
+     "font": "Archivo Narrow"
+    },
+    "headings": [
+     {
+      "text": "Electronics India — Scientific Instruments",
+      "words": 5,
+      "chars": 42,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.5,
+      "top": 851,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Popular Categories",
+      "words": 2,
+      "chars": 18,
+      "lines": 1,
+      "size": 29.6,
+      "vw": 2.1,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.79,
+      "top": 1164,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Featured Products",
+      "words": 2,
+      "chars": 17,
+      "lines": 1,
+      "size": 29.6,
+      "vw": 2.1,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.79,
+      "top": 5573,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "What our customers say",
+      "words": 4,
+      "chars": 22,
+      "lines": 1,
+      "size": 29.6,
+      "vw": 2.1,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.79,
+      "top": 6670,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Trusted by",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 29.6,
+      "vw": 2.1,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.79,
+      "top": 6899,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 5,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 2,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Archivo Narrow",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      12,
+      13,
+      14,
+      16,
+      17,
+      19,
+      30,
+      32
+     ],
+     "sizeCount": 8,
+     "notLoaded": [],
+     "body": {
+      "font": "Archivo Narrow",
+      "size": 14.4,
+      "leading": 1.6,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.7
+     },
+     "measureChars": 78,
+     "max": {
+      "size": 32,
+      "vw": 2.2,
+      "font": "Archivo Narrow",
+      "text": "Electronics India — Scientific Instrumen"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 4,
+     "microLabelShare": 0.007,
+     "microSamples": [
+      "Products by category",
+      "Featured",
+      "Testimonials",
+      "Clients"
+     ],
+     "upperShare": 0.01,
+     "centerShare": 0,
+     "smallText": 8
+    },
+    "eyebrows": [
+     {
+      "text": "Products by category",
+      "above": "Popular Categories",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 1137
+     },
+     {
+      "text": "Featured",
+      "above": "Featured Products",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 5546
+     },
+     {
+      "text": "Testimonials",
+      "above": "What our customers say",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 6643
+     },
+     {
+      "text": "Clients",
+      "above": "Trusted by",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 6872
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#ffffff",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 1
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ae1010",
+       "top": 795,
+       "hsl": {
+        "h": 0,
+        "s": 0.83,
+        "l": 0.37
+       }
+      },
+      {
+       "color": "#1e1e1e",
+       "top": 7094,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 0.12
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#666666",
+       "share": 0.42
+      },
+      {
+       "color": "#1e1e1e",
+       "share": 0.24
+      },
+      {
+       "color": "#ae1010",
+       "share": 0.16
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.11
+      },
+      {
+       "color": "#f0f0f0",
+       "share": 0.04
+      }
+     ],
+     "button": {
+      "bg": "#ae1010",
+      "hsl": {
+       "h": 0,
+       "s": 0.83,
+       "l": 0.37
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 51,
+     "inHero": 1,
+     "radius": 4,
+     "height": 35,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Get a Quote"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 1,
+     "hairlineSamples": [
+      "div.ei-footer-bottom 1140px"
+     ],
+     "outlinedBoxes": 42,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 36,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 1309
+      },
+      {
+       "count": 6,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 5616
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 5,
+     "fixed": false,
+     "height": 761,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 7453,
+    "margins": {
+     "left": 150,
+     "right": 182
+    },
+    "sections": [
+     {
+      "sel": "header.ei-header",
+      "tag": "header",
+      "top": 34,
+      "height": 761,
+      "words": 92,
+      "media": 0,
+      "middle": 110,
+      "heading": {
+       "text": "Blood Testing Instruments",
+       "size": 19,
+       "tag": "h3"
+      },
+      "left": 150,
+      "right": 172,
+      "textLeft": 495,
+      "textRight": 172,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-hero",
+      "tag": "section",
+      "top": 795,
+      "height": 294,
+      "words": 24,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Electronics India — Scientific Instruments",
+       "size": 32,
+       "tag": "h1"
+      },
+      "left": 150,
+      "right": 673,
+      "textLeft": 150,
+      "textRight": 673,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 1089,
+      "height": 4409,
+      "words": 636,
+      "media": 36,
+      "middle": 39,
+      "heading": {
+       "text": "Popular Categories",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 150,
+      "right": 168,
+      "textLeft": 150,
+      "textRight": 168,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 5498,
+      "height": 1097,
+      "words": 126,
+      "media": 6,
+      "middle": 62,
+      "heading": {
+       "text": "Featured Products",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 150,
+      "right": 168,
+      "textLeft": 150,
+      "textRight": 168,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 6595,
+      "height": 228,
+      "words": 9,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "What our customers say",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 150,
+      "right": 955,
+      "textLeft": 150,
+      "textRight": 955,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 6824,
+      "height": 222,
+      "words": 3,
+      "media": 0,
+      "middle": 24,
+      "heading": {
+       "text": "Trusted by",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 150,
+      "right": 634,
+      "textLeft": 150,
+      "textRight": 1144,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.ei-footer",
+      "tag": "footer",
+      "top": 7094,
+      "height": 359,
+      "words": 62,
+      "media": 0,
+      "middle": 204,
+      "heading": {
+       "text": "Product Categories",
+       "size": 16,
+       "tag": "h4"
+      },
+      "left": 150,
+      "right": 186,
+      "textLeft": 150,
+      "textRight": 186,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Electronics India — Scientific Instruments",
+      "size": 32,
+      "top": 851,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 167,
+      "n": 17
+     },
+     {
+      "x": 457,
+      "n": 17
+     },
+     {
+      "x": 1037,
+      "n": 15
+     },
+     {
+      "x": 747,
+      "n": 13
+     },
+     {
+      "x": 150,
+      "n": 6
+     }
+    ],
+    "leftBlocks": 68,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0.13,
+    "voidBox": {
+     "x": 0,
+     "y": 480,
+     "w": 480,
+     "h": 360
+    }
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 12,
+   "filled": [
+    0.48,
+    0.47,
+    0.49,
+    0.52,
+    0.57,
+    0.43,
+    0.5,
+    0.52,
+    0.54,
+    0.43,
+    0.36,
+    0.75
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 11872,
+     "screens": 11.6,
+     "words": 968,
+     "img": 52,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [
+      "http://192.168.31.207:8209/wp-content/uploads/2016/11/Model_381-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/07/mopel-304-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/07/model-1313Nw-1-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2017/12/model-352-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2017/03/model-2901-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2020/01/Model-3935-y2019-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/08/model-alpha06Nw-1-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/08/model_131-1-150x150.png"
+     ],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Electronics India — Scientific Instruments",
+     "words": 5,
+     "chars": 42,
+     "lines": 1,
+     "size": 32,
+     "vw": 4.2,
+     "font": "Archivo Narrow",
+     "weight": 700,
+     "tracking": 0,
+     "leading": 1.25,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.94,
+     "top": 892,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Electronics India — Scientific Instruments",
+     "words": 5,
+     "lines": 1,
+     "size": 32,
+     "font": "Archivo Narrow"
+    },
+    "headings": [
+     {
+      "text": "Electronics India — Scientific Instruments",
+      "words": 5,
+      "chars": 42,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.94,
+      "top": 892,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Popular Categories",
+      "words": 2,
+      "chars": 18,
+      "lines": 1,
+      "size": 29.6,
+      "vw": 3.9,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.95,
+      "top": 1204,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Featured Products",
+      "words": 2,
+      "chars": 17,
+      "lines": 1,
+      "size": 29.6,
+      "vw": 3.9,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.95,
+      "top": 9390,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "What our customers say",
+      "words": 4,
+      "chars": 22,
+      "lines": 1,
+      "size": 29.6,
+      "vw": 3.9,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.95,
+      "top": 10851,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Trusted by",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 29.6,
+      "vw": 3.9,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.95,
+      "top": 11079,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 5,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 2,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Archivo Narrow",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      12,
+      13,
+      14,
+      16,
+      17,
+      19,
+      30,
+      32
+     ],
+     "sizeCount": 8,
+     "notLoaded": [],
+     "body": {
+      "font": "Archivo Narrow",
+      "size": 14.4,
+      "leading": 1.6,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.7
+     },
+     "measureChars": 44,
+     "max": {
+      "size": 32,
+      "vw": 4.2,
+      "font": "Archivo Narrow",
+      "text": "Electronics India — Scientific Instrumen"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 4,
+     "microLabelShare": 0.007,
+     "microSamples": [
+      "Products by category",
+      "Featured",
+      "Testimonials",
+      "Clients"
+     ],
+     "upperShare": 0.01,
+     "centerShare": 0,
+     "smallText": 8
+    },
+    "eyebrows": [
+     {
+      "text": "Products by category",
+      "above": "Popular Categories",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 1177
+     },
+     {
+      "text": "Featured",
+      "above": "Featured Products",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 9363
+     },
+     {
+      "text": "Testimonials",
+      "above": "What our customers say",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 10823
+     },
+     {
+      "text": "Clients",
+      "above": "Trusted by",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 11052
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#ffffff",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 1
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#1e1e1e",
+       "top": 11274,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 0.12
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#666666",
+       "share": 0.42
+      },
+      {
+       "color": "#1e1e1e",
+       "share": 0.23
+      },
+      {
+       "color": "#ae1010",
+       "share": 0.17
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.11
+      },
+      {
+       "color": "#f0f0f0",
+       "share": 0.04
+      }
+     ],
+     "button": {
+      "bg": "#ae1010",
+      "hsl": {
+       "h": 0,
+       "s": 0.83,
+       "l": 0.37
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 51,
+     "inHero": 2,
+     "radius": 4,
+     "height": 35,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Get a Quote",
+      "View catalogue"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 1,
+     "hairlineSamples": [
+      "div.ei-footer-bottom 728px"
+     ],
+     "outlinedBoxes": 42,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 36,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 1393
+      },
+      {
+       "count": 6,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 9433
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 1,
+     "fixed": false,
+     "height": 778,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 11872,
+    "margins": {
+     "left": 20,
+     "right": 45
+    },
+    "sections": [
+     {
+      "sel": "header.ei-header",
+      "tag": "header",
+      "top": 58,
+      "height": 778,
+      "words": 92,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Blood Testing Instruments",
+       "size": 19,
+       "tag": "h3"
+      },
+      "left": 20,
+      "right": 35,
+      "textLeft": 20,
+      "textRight": 35,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-hero",
+      "tag": "section",
+      "top": 836,
+      "height": 294,
+      "words": 24,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Electronics India — Scientific Instruments",
+       "size": 32,
+       "tag": "h1"
+      },
+      "left": 20,
+      "right": 131,
+      "textLeft": 20,
+      "textRight": 131,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 1129,
+      "height": 8185,
+      "words": 674,
+      "media": 36,
+      "middle": 0,
+      "heading": {
+       "text": "Popular Categories",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 43,
+      "textLeft": 20,
+      "textRight": 43,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 9315,
+      "height": 1461,
+      "words": 126,
+      "media": 6,
+      "middle": 70,
+      "heading": {
+       "text": "Featured Products",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 40,
+      "textLeft": 20,
+      "textRight": 40,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 10775,
+      "height": 228,
+      "words": 9,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "What our customers say",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 413,
+      "textLeft": 20,
+      "textRight": 413,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 11004,
+      "height": 222,
+      "words": 3,
+      "media": 0,
+      "middle": 24,
+      "heading": {
+       "text": "Trusted by",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 56,
+      "textLeft": 20,
+      "textRight": 602,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.ei-footer",
+      "tag": "footer",
+      "top": 11274,
+      "height": 598,
+      "words": 62,
+      "media": 0,
+      "middle": 52,
+      "heading": {
+       "text": "Product Categories",
+       "size": 16,
+       "tag": "h4"
+      },
+      "left": 20,
+      "right": 152,
+      "textLeft": 20,
+      "textRight": 152,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Electronics India — Scientific Instruments",
+      "size": 32,
+      "top": 892,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 37,
+      "n": 30
+     },
+     {
+      "x": 411,
+      "n": 30
+     },
+     {
+      "x": 20,
+      "n": 6
+     }
+    ],
+    "leftBlocks": 66,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 12,
+   "filled": [
+    0.5,
+    0.6,
+    0.55,
+    0.45,
+    0.6,
+    0.56,
+    0.6,
+    0.58,
+    0.51,
+    0.41,
+    0.55,
+    0.46
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 21964,
+     "screens": 26,
+     "words": 976,
+     "img": 52,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [
+      "http://192.168.31.207:8209/wp-content/uploads/2016/08/model-641Nw-1-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/07/model-2306Nw-1-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/07/model-1311Nw-1-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/08/model-alpha05Nw-1-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/08/model-1385-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/07/model-3375Nw-1-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/08/model-181Nw-1-150x150.jpg",
+      "http://192.168.31.207:8209/wp-content/uploads/2016/08/model-1935Nw-1-150x150.jpg"
+     ],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Blood Testing Instruments",
+     "words": 3,
+     "chars": 25,
+     "lines": 1,
+     "size": 18.7,
+     "vw": 4.8,
+     "font": "Archivo Narrow",
+     "weight": 700,
+     "tracking": 0,
+     "leading": 1.25,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.9,
+     "top": 216,
+     "tag": "h3",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Electronics India — Scientific Instruments",
+     "words": 5,
+     "lines": 2,
+     "size": 25.6,
+     "font": "Archivo Narrow"
+    },
+    "headings": [
+     {
+      "text": "Electronics India — Scientific Instruments",
+      "words": 5,
+      "chars": 42,
+      "lines": 2,
+      "size": 25.6,
+      "vw": 6.6,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 1406,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Popular Categories",
+      "words": 2,
+      "chars": 18,
+      "lines": 1,
+      "size": 29.6,
+      "vw": 7.6,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 1737,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Featured Products",
+      "words": 2,
+      "chars": 17,
+      "lines": 1,
+      "size": 29.6,
+      "vw": 7.6,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 17848,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "What our customers say",
+      "words": 4,
+      "chars": 22,
+      "lines": 1,
+      "size": 29.6,
+      "vw": 7.6,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 20589,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Trusted by",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 29.6,
+      "vw": 7.6,
+      "font": "Archivo Narrow",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 20785,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 5,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 2,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Archivo Narrow",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      12,
+      13,
+      14,
+      16,
+      17,
+      19,
+      26,
+      30
+     ],
+     "sizeCount": 8,
+     "notLoaded": [],
+     "body": {
+      "font": "Archivo Narrow",
+      "size": 14.4,
+      "leading": 1.6,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.7
+     },
+     "measureChars": 44,
+     "max": {
+      "size": 29.6,
+      "vw": 7.6,
+      "font": "Archivo Narrow",
+      "text": "Popular Categories"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 4,
+     "microLabelShare": 0.007,
+     "microSamples": [
+      "Products by category",
+      "Featured",
+      "Testimonials",
+      "Clients"
+     ],
+     "upperShare": 0.01,
+     "centerShare": 0,
+     "smallText": 6
+    },
+    "eyebrows": [
+     {
+      "text": "Products by category",
+      "above": "Popular Categories",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 1709
+     },
+     {
+      "text": "Featured",
+      "above": "Featured Products",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 17820
+     },
+     {
+      "text": "Testimonials",
+      "above": "What our customers say",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 20561
+     },
+     {
+      "text": "Clients",
+      "above": "Trusted by",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 20758
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#ffffff",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 1
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ae1010",
+       "top": 1366,
+       "hsl": {
+        "h": 0,
+        "s": 0.83,
+        "l": 0.37
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 2054,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      },
+      {
+       "color": "#1e1e1e",
+       "top": 21044,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 0.12
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#666666",
+       "share": 0.43
+      },
+      {
+       "color": "#1e1e1e",
+       "share": 0.23
+      },
+      {
+       "color": "#ae1010",
+       "share": 0.15
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.11
+      },
+      {
+       "color": "#f0f0f0",
+       "share": 0.04
+      }
+     ],
+     "button": {
+      "bg": "#ae1010",
+      "hsl": {
+       "h": 0,
+       "s": 0.83,
+       "l": 0.37
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 51,
+     "inHero": 0,
+     "radius": 4,
+     "height": 35,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": []
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 1,
+     "hairlineSamples": [
+      "div.ei-footer-bottom 350px"
+     ],
+     "outlinedBoxes": 42,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 36,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 2054
+      },
+      {
+       "count": 6,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 17891
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 1,
+     "fixed": false,
+     "height": 1279,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 21964,
+    "margins": {
+     "left": 20,
+     "right": 38
+    },
+    "sections": [
+     {
+      "sel": "header.ei-header",
+      "tag": "header",
+      "top": 87,
+      "height": 1279,
+      "words": 92,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Blood Testing Instruments",
+       "size": 19,
+       "tag": "h3"
+      },
+      "left": 20,
+      "right": 27,
+      "textLeft": 20,
+      "textRight": 27,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-hero",
+      "tag": "section",
+      "top": 1366,
+      "height": 311,
+      "words": 24,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Electronics India — Scientific Instruments",
+       "size": 26,
+       "tag": "h1"
+      },
+      "left": 20,
+      "right": 27,
+      "textLeft": 20,
+      "textRight": 27,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 1677,
+      "height": 16111,
+      "words": 688,
+      "media": 36,
+      "middle": 0,
+      "heading": {
+       "text": "Popular Categories",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 38,
+      "textLeft": 20,
+      "textRight": 38,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 17788,
+      "height": 2741,
+      "words": 126,
+      "media": 6,
+      "middle": 0,
+      "heading": {
+       "text": "Featured Products",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 39,
+      "textLeft": 20,
+      "textRight": 39,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 20529,
+      "height": 196,
+      "words": 9,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "What our customers say",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 35,
+      "textLeft": 20,
+      "textRight": 35,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.ei-section",
+      "tag": "section",
+      "top": 20726,
+      "height": 270,
+      "words": 3,
+      "media": 0,
+      "middle": 24,
+      "heading": {
+       "text": "Trusted by",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 37,
+      "textLeft": 20,
+      "textRight": 224,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.ei-footer",
+      "tag": "footer",
+      "top": 21044,
+      "height": 920,
+      "words": 62,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Product Categories",
+       "size": 16,
+       "tag": "h4"
+      },
+      "left": 20,
+      "right": 35,
+      "textLeft": 20,
+      "textRight": 35,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Electronics India — Scientific Instruments",
+      "size": 26,
+      "top": 1406,
+      "firstScreen": false
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 37,
+      "n": 67
+     },
+     {
+      "x": 20,
+      "n": 6
+     }
+    ],
+    "leftBlocks": 73,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "FAIL",
+   "id": "eyebrow",
+   "width": 1440,
+   "message": "4 eyebrow/kicker label(s) above headings: \"Products by category\" above \"Popular Categories\"; \"Featured\" above \"Featured Products\"; \"Testimonials\" above \"What our customers say\"; \"Clients\" above \"Trusted by\"",
+   "fix": "Delete them. If the label carried real information, fold it into the headline or the supporting sentence.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "micro-label",
+   "width": 1440,
+   "message": "4 tiny uppercase letter-spaced labels (e.g. \"Products by category\", \"Featured\", \"Testimonials\", \"Clients\").",
+   "fix": "Use sentence-case text at a readable size, or delete the label.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "hairline",
+   "width": 1440,
+   "message": "1 thin rule(s)/divider line(s): div.ei-footer-bottom 1140px",
+   "fix": "Delete. Separate with space, a tone change, or scale. Lines are only for real tables and form fields.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "outlined-box",
+   "width": 1440,
+   "message": "42 boxes drawn with a 1px outline.",
+   "fix": "Define a surface by its fill (one tone step from the page) or leave the content unboxed.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "card-rows",
+   "width": 1440,
+   "message": "2 rows of identical boxed cards.",
+   "fix": "Vary the composition; not every section is a card grid.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "body-size",
+   "width": 1440,
+   "message": "Body text is 14.4px (the size most of the running text is set in).",
+   "fix": "Body copy 16–20px. Map small sizes from blueprints onto your body step.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "grey-body",
+   "width": 1440,
+   "message": "The running text is a soft grey on its ground (5.7:1).",
+   "fix": "Set body copy in the full ink (7:1 or more). Keep the muted ink for secondary notes; pages read thin and unfinished when everything is grey.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "few-pictures",
+   "width": 1440,
+   "message": "Only 0 picture(s) on the page (0 photographs, footage or raster images, 0 interface fragments). Drawings in SVG do not count.",
+   "fix": "Find real pictures of the subject's world with scripts/assets.mjs (photographs, archival images, maps, engravings, footage), download them to assets/ and give them room: a hero picture, one per section that has a subject, a full-width band. At least four, usually six to twelve."
+  },
+  {
+   "level": "WARN",
+   "id": "no-footage",
+   "width": 1440,
+   "message": "No video anywhere on the page.",
+   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
+  },
+  {
+   "level": "FAIL",
+   "id": "small-text",
+   "width": 1440,
+   "message": "8 text blocks under 13px.",
+   "fix": "Nothing meant to be read goes below 13px.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "broken-image",
+   "width": 1440,
+   "message": "Broken image(s): http://192.168.31.207:8209/wp-content/uploads/2016/08/model-671Nw-1-150x150.jpg, http://192.168.31.207:8209/wp-content/uploads/2016/08/model-951Nw-1-150x150.jpg, http://192.168.31.207:8209/wp-content/uploads/2016/08/products_0053_model_831-150x150.png, http://192.168.31.207:8209/wp-content/uploads/2016/08/model-912Nw-1-150x150.jpg",
+   "fix": "Fix the URL or replace the asset.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "focal-point",
+   "width": 1440,
+   "message": "The first screen has no dominant element: the largest type is 32px (2.2vw) and no single picture holds a third of the viewport.",
+   "fix": "Make one thing lead: the headline at display size, or one large picture. A grid of many small pictures is not one thing; in blind tests jurors marked a first screen without a headline down every time. On the strongest studied sites the largest type has a median of 8.4vw.",
+   "alsoAt": [
+    768
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "off-centre",
+   "width": 1440,
+   "message": "The margins differ: 150px on the left, 182px on the right, at 1440px.",
+   "fix": "Put the navigation and the content on one pair of margins; check for padding on one side only, a scrollbar gutter, or a header on another inset than the page.",
+   "alsoAt": [
+    768
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "lopsided",
+   "width": 1440,
+   "message": "A section keeps its content on one side and leaves 673px of the width empty: \"Electronics India — Scientific Instruments\".",
+   "fix": "Fill the other side with what the section has (its picture, a second column, the figure), or defend the void in one sentence."
+  },
+  {
+   "level": "FAIL",
+   "id": "still-page",
+   "width": 1440,
+   "message": "Only 0 element(s) moved while the page loaded and scrolled.",
+   "fix": "Build the motion layer (SKILL.md step 9, references/motion.md): the signature move, an entrance for the parts of every section, feedback on every control, and one moving picture. Transform and opacity only, with a reduced-motion fallback."
+  },
+  {
+   "level": "WARN",
+   "id": "first-action",
+   "width": 390,
+   "message": "No visible button in the first phone screen.",
+   "fix": "On a phone the first screen still holds the headline, the supporting sentence and the action; move navigation into one row or a menu so it does not push them down."
+  },
+  {
+   "level": "FAIL",
+   "id": "off-centre",
+   "width": 390,
+   "message": "The page sits off-centre: its content comes to 20px from the left edge but only to 38px from the right, at 390px.",
+   "fix": "Give the page one pair of equal margins. Check the wrapper for a max-width without margin-inline: auto, a grid with an empty last column, or padding on one side only. If one side is meant to hold air, it must still be closed by something that reaches the margin (a picture, the navigation's last item, a figure)."
+  },
+  {
+   "level": "FAIL",
+   "id": "no-title",
+   "width": 390,
+   "message": "The h1 (\"Electronics India — Scientific Instruments\") is not on the first screen (it starts 1406px down).",
+   "fix": "The title belongs on the first screen, where a visitor decides whether to stay."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/before/desktop-fold.jpg",
+   "pages": [
+    "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/before/desktop-page-01.jpg",
+    "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/before/desktop-page-02.jpg",
+    "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/before/desktop-page-03.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/before/tablet-fold.jpg",
+   "pages": [
+    "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/before/tablet-page-01.jpg",
+    "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/before/tablet-page-02.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/before/mobile-fold.jpg",
+   "pages": [
+    "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/before/mobile-page-01.jpg",
+    "/Users/barun.tayenjam/Documents/Code/wordpress-matrix/.taste-skill/before/mobile-page-02.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

@@ -61,6 +61,74 @@ check_docker_json() {
     fi
 }
 
+# Bring the container daemon up if it is not already. A reboot leaves Docker
+# Desktop (and podman machine) stopped unless the user enabled autostart, which
+# made `./matrix start` die on "failed to connect to the docker API". Launch the
+# runtime we can and wait for the socket instead.
+# A cold Docker Desktop boot can take minutes on a loaded machine, so the
+# default ceiling is generous and the wait reports progress.
+# MATRIX_DOCKER_START_TIMEOUT (seconds, default 300) bounds the wait.
+# MATRIX_DOCKER_NO_LAUNCH=1 disables launching (used to assert the error path).
+ensure_docker_daemon() {
+    local timeout="${MATRIX_DOCKER_START_TIMEOUT:-300}"
+
+    if $CONTAINER_RUNTIME info >/dev/null 2>&1; then
+        return 0
+    fi
+
+    if [[ "${MATRIX_DOCKER_NO_LAUNCH:-}" == "1" ]]; then
+        log_error "Container daemon is not running"
+        log_info "Start it, then re-run this command"
+        return 1
+    fi
+
+    local launch_cmd=()
+
+    if [[ "$CONTAINER_RUNTIME" == "podman" ]] && command -v podman >/dev/null 2>&1; then
+        # podman on macOS runs in a VM; boot it when present.
+        launch_cmd=(podman machine start)
+    elif [[ "$CONTAINER_RUNTIME" == "docker" ]] && command -v open >/dev/null 2>&1; then
+        if [[ -d "/Applications/Docker.app" ]]; then
+            launch_cmd=(open -a /Applications/Docker.app)
+        elif [[ -d "$HOME/Applications/Docker.app" ]]; then
+            launch_cmd=(open -a "$HOME/Applications/Docker.app")
+        fi
+    fi
+
+    if [[ ${#launch_cmd[@]} -eq 0 ]]; then
+        log_error "Container daemon is not running and could not be launched automatically"
+        log_info "Start Docker (or podman machine), then re-run this command"
+        return 1
+    fi
+
+    log_warning "Container daemon is not running — starting it (up to ${timeout}s)"
+    if ! "${launch_cmd[@]}" >/dev/null 2>&1; then
+        log_error "Failed to launch the container runtime"
+        log_info "Start it manually, then re-run this command"
+        return 1
+    fi
+
+    local waited=0
+    local next_report=15
+    while (( waited < timeout )); do
+        if $CONTAINER_RUNTIME info >/dev/null 2>&1; then
+            log_success "Container daemon ready (${waited}s)"
+            return 0
+        fi
+        sleep 2
+        waited=$((waited + 2))
+        # A cold Docker Desktop boot is slow; say so instead of looking hung.
+        if (( waited >= next_report )); then
+            log_info "Still waiting for the container daemon... (${waited}s)"
+            next_report=$((next_report + 15))
+        fi
+    done
+
+    log_error "Container daemon did not become ready within ${timeout}s"
+    log_info "Check Docker Desktop, then re-run this command"
+    return 1
+}
+
 # sanitize_sql_identifier, validate_site_name now sourced from config/validation.sh
 
 # Helper functions
@@ -960,6 +1028,7 @@ cmd_start_site() {
     local site_name="$1"
 
     log_info "Starting site '$site_name'..."
+    ensure_docker_daemon || return 1
 
     local present
     present=$(site_state "$site_name" | sed -n 's/^present=//p')
@@ -996,6 +1065,7 @@ cmd_start_site() {
 # Start environment
 start_env() {
     log_info "Starting environment..."
+    ensure_docker_daemon || exit 1
     $DOCKER_COMPOSE up -d db redis phpmyadmin 2>/dev/null || true
     sleep 3
 
@@ -1080,6 +1150,12 @@ show_status_json() {
 # Whole-environment status: compose table when the compose file exists,
 # live container table otherwise.
 show_compose_or_live_status() {
+    if ! $CONTAINER_RUNTIME info >/dev/null 2>&1; then
+        log_warning "Container daemon is not running — nothing can be listed"
+        log_info "Start it with: ./matrix start"
+        return 0
+    fi
+
     if [[ -f "$COMPOSE_FILE" ]]; then
         $DOCKER_COMPOSE ps
     else
@@ -2130,6 +2206,9 @@ show_urls() {
                 return 1
             fi
             echo "Access: http://$HOST_IP:$port"
+            if site_cert_exists "$site_name"; then
+                echo "Secure: https://$HOST_IP:$(compute_https_port "$port")"
+            fi
             echo "Database: http://$HOST_IP:8200"
         else
             log_error "Site '$site_name' not found"

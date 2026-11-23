@@ -64,6 +64,46 @@ add_action(
 	}
 );
 
+
+
+/* Product card used by the catalogue page (referenced by template-product-listing.php). */
+if ( ! function_exists( 'ei_product_card' ) ) {
+	function ei_product_card( $product_id ) {
+		$product   = get_post( $product_id );
+		if ( ! $product ) {
+			return;
+		}
+		setup_postdata( $product );
+		$model   = get_post_meta( $product->ID, 'model_number', true );
+		$thumb   = get_post_thumbnail_id( $product->ID );
+		$excerpt = get_the_excerpt( $product );
+		?>
+		<article class="specimen-panel reveal">
+			<div class="panel-media">
+				<?php if ( $thumb ) : ?>
+					<?php echo wp_get_attachment_image( $thumb, 'ei-card', false, array( 'decoding' => 'async' ) ); ?>
+				<?php else : ?>
+					<span class="mono-micro">10K &mdash; No specimen image</span>
+				<?php endif; ?>
+			</div>
+			<div class="panel-body">
+				<div class="panel-model-row">
+					<span class="panel-model">Model EI-<?php echo esc_html( $model ? $model : '&mdash;' ); ?></span>
+				</div>
+				<h3 class="panel-title"><a href="<?php echo esc_url( get_permalink( $product->ID ) ); ?>"><?php echo esc_html( get_the_title( $product->ID ) ); ?></a></h3>
+				<?php if ( $excerpt ) : ?>
+					<p class="panel-excerpt"><?php echo esc_html( wp_trim_words( $excerpt, 14 ) ); ?></p>
+				<?php endif; ?>
+				<div class="panel-actions">
+					<a class="btn-text" href="<?php echo esc_url( get_permalink( $product->ID ) ); ?>">View datasheet &rarr;</a>
+				</div>
+			</div>
+		</article>
+		<?php
+		wp_reset_postdata();
+	}
+}
+
 add_action(
 	'wp_enqueue_scripts',
 	function () {
@@ -71,6 +111,21 @@ add_action(
 		wp_enqueue_script( 'ei-script', get_template_directory_uri() . '/assets/ei.js', array(), null, true );
 	}
 );
+
+/**
+ * Legacy pages still store Visual Composer markup. Unwrap text shortcodes
+ * and drop builder-only tags so the rendered page has no raw [vc_ strings.
+ */
+function ei_strip_legacy_builder( $content ) {
+	if ( is_admin() ) {
+		return $content;
+	}
+	$content = preg_replace( '/\[vc_raw_html\b[\s\S]*?\[\/vc_raw_html\]/', '', $content );
+	$content = preg_replace( '/\[(?:vc_gmaps|heading|contactboxphone|contact-form-7)\b[\s\S]*?\]/', '', $content );
+	$content = preg_replace( '/\[\/?vc_(?:row|column|column_text|row_inner|column_inner)\b[^\]]*\]/', '', $content );
+	return $content;
+}
+add_filter( 'the_content', 'ei_strip_legacy_builder', 7 );
 
 /* Contact Form 7: ensure submission stays in-page */
 add_filter( 'wpcf7_mail_sent', 'ei_cf7_redirect_on_success' );

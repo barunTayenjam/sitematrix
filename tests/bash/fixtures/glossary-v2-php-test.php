@@ -73,6 +73,11 @@ glosv2_assert(su_glosv2_letter_from_title('AI Agents') === 'A', 'letter AI Agent
 glosv2_assert(su_glosv2_letter_from_title('9 Lives') === '#', 'letter 9 Lives => #');
 glosv2_assert(su_glosv2_letter_from_title('') === '#', 'empty title => #');
 glosv2_assert(su_glosv2_letter_from_title('Øre') === '#', 'non-ascii lead => #');
+glosv2_assert(su_glosv2_letter_for_term('Agentic RAG', '') === 'A', 'empty override uses title');
+glosv2_assert(su_glosv2_letter_for_term('Agentic RAG', 's') === 'S', 'override letter wins');
+glosv2_assert(su_glosv2_letter_for_term('Agentic RAG', '#') === '#', 'override hash wins');
+glosv2_assert(su_glosv2_letter_for_term('Agentic RAG', 'nope') === 'A', 'invalid override uses title');
+glosv2_assert(su_glosv2_normalize_index_letter(' b ') === 'B', 'normalize trims and uppercases');
 
 $letters = su_glosv2_index_letters();
 glosv2_assert(count($letters) === 27, 'index letters count 27');

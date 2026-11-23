@@ -121,6 +121,16 @@ run_wp_cli() {
         return 1
     fi
 
+    # A site may pin a PHP-matched WP-CLI image via wp_<site>/.matrix-cli-image
+    # (legacy cores fatals on the PHP 8 wordpress:cli default).
+    local cli_image="wordpress:cli"
+    local marker="$PROJECT_ROOT/wp_$site/.matrix-cli-image"
+    if [[ -f "$marker" ]]; then
+        local pinned
+        pinned=$(tr -d '[:space:]' < "$marker")
+        [[ -n "$pinned" ]] && cli_image="$pinned"
+    fi
+
     $CONTAINER_RUNTIME run --rm \
         -v "$PROJECT_ROOT":/var/www/html:rw \
         -w /var/www/html \
@@ -129,7 +139,7 @@ run_wp_cli() {
         -e WORDPRESS_DB_USER="${MYSQL_USER:-wp_user}" \
         -e WORDPRESS_DB_PASSWORD="${MYSQL_PASSWORD:-wp_password}" \
         -e WORDPRESS_DB_NAME="${site}_db" \
-        wordpress:cli --path="/var/www/html/wp_$site" "$@"
+        "$cli_image" --path="/var/www/html/wp_$site" "$@"
 }
 
 # --- Site stack helpers (nginx + PHP-FPM vs Apache + PHP-FPM) ---

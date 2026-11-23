@@ -57,7 +57,7 @@ wordpress-matrix/
 
 ### Environment Management
 ```bash
-./matrix start           # Start core services (db, redis, phpmyadmin, frontend)
+./matrix start           # Start core services (db, redis, phpmyadmin, frontend); boots the container daemon first if it is down
 ./matrix stop            # Stop all services and frontend
 ./matrix restart         # Restart all services and frontend
 ./matrix status          # Show system status
@@ -301,6 +301,12 @@ docker exec wp_mysite php -v
 - MySQL database creation/reset requires root credentials; routine WP access uses the configured WordPress DB user
 - `MATRIX_PHPCS_MEMORY_LIMIT` caps each PHP_CodeSniffer process (default `1G`)
 - `MATRIX_CRONTAB_FILE` overrides the crontab path used by `cron-install`/`cron-remove`
+- `MATRIX_DOCKER_START_TIMEOUT` bounds how long `./matrix start` waits for a
+  launched container daemon (default `300` seconds). On macOS, `./matrix start`
+  and `./matrix start <site>` launch Docker Desktop (or `podman machine start`)
+  when `docker info` fails, so a reboot without Docker autostart no longer
+  fails with "failed to connect to the docker API". `MATRIX_DOCKER_NO_LAUNCH=1`
+  disables the launch and fails fast instead.
 
 ### Code Quality
 - PHPStan configured at Level 9 (strictest)

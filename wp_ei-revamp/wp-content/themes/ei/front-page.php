@@ -206,7 +206,7 @@ $clients = array(
 		<h2 class="display-l sheet-header-title">What we<br>manufacture</h2>
 		<nav class="family-toc" aria-label="Instrument families">
 			<?php foreach ( $capabilities as $cap ) : ?>
-				<a class="family-toc-row reveal" href="<?php echo esc_url( home_url( '/products/' ) ); ?>">
+				<a class="family-toc-row reveal" href="<?php echo esc_url( home_url( '/products/' . $cap['slug'] . '/' ) ); ?>">
 					<span class="toc-name"><?php echo esc_html( $cap['name'] ); ?></span>
 					<span class="toc-meta">
 						<span class="toc-desc"><?php echo esc_html( $cap['desc'] ); ?></span>

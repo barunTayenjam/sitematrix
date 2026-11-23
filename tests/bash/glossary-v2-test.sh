@@ -72,6 +72,7 @@ assert_nogrep() {
 # ---- T1: module files ----
 assert_file "T1.1 bootstrap" "$GL_MODULE/bootstrap.php"
 assert_file "T1.2 cpt" "$GL_MODULE/glossary-v2-cpt.php"
+assert_file "T1.2b acf index letter" "$GL_MODULE/glossary-v2-acf.php"
 assert_file "T1.3 hooks" "$GL_MODULE/glossary-v2-hooks.php"
 assert_file "T1.4 enqueue" "$GL_MODULE/glossary-v2-enqueue.php"
 assert_file "T1.5 content" "$GL_MODULE/glossary-v2-content.php"
@@ -102,6 +103,14 @@ assert_grep "T3.3 glossary_topic tax" \
     "'glossary_topic'" "$GL_MODULE/glossary-v2-cpt.php"
 assert_grep "T3.4 post_tag on glossary" \
     "register_taxonomy_for_object_type[[:space:]]*\\([[:space:]]*'post_tag'" "$GL_MODULE/glossary-v2-cpt.php"
+assert_grep "T3.5 index letter meta name" \
+    "glossary_index_letter" "$GL_MODULE/glossary-v2-cpt.php"
+assert_grep "T3.6 bootstrap loads acf" \
+    "glossary-v2-acf.php" "$GL_MODULE/bootstrap.php"
+assert_grep "T3.7 index groups with override" \
+    "su_glosv2_letter_for_post" "$GL_MODULE/glossary-v2-content.php"
+assert_grep "T3.8 acf field on glossary_term" \
+    "field_su_glosv2_index_letter" "$GL_MODULE/glossary-v2-acf.php"
 
 # ---- T4: routing / chrome hooks ----
 assert_grep "T4.1 template_include glossary" \
@@ -210,6 +219,7 @@ for f in \
     "$GL_MODULE/glossary-v2-enqueue.php" \
     "$GL_MODULE/glossary-v2-content.php" \
     "$GL_MODULE/glossary-v2-cpt.php" \
+    "$GL_MODULE/glossary-v2-acf.php" \
     "$SINGLE_PART" \
     "$TERM_SHELL" \
     "$INDEX_SHELL"
